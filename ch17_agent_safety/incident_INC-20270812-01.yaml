@@ -1,0 +1,15 @@
+- id: INC-20270812-01
+  opened_at: 2027-08-12T14:07:00-04:00
+  closed_at: 2027-08-14T10:30:00-04:00
+  step: support_assistant
+  source: bz_support_tickets
+  class: security
+  summary: A hidden instruction in an indexed support ticket steered the assistant to a tool it was not allowed to use
+  symptom: agent_audit'te blocked_not_allowed (tool=sql_sorgu, agent=support_assistant)
+  root_cause: build_rag_index.py did not scan the text content; the ticket entered the index in Chapter 12
+  temp_fix: The ticket's chunks were removed from the index and the ticket was moved to quality.quarantine
+  permanent_fix: scan_for_instructions() + split_suspicious(); INJ scenarios added to the eval set
+  keywords: [prompt_injection, rag, belge_ara, guardrails]
+  related: []
+  impact: No data leaked; the customer got a normal answer
+  status: closed

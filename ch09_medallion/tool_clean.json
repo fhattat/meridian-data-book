@@ -1,0 +1,12 @@
+{
+  "name": "temizlik",
+  "description": "Rebuilds the silver tables from bronze and returns step durations, row counts and warnings. Writes only to the silver schema. If the warnings list is not empty, always report it to the user.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "env":  {"type": "string", "enum": ["local", "databricks"], "default": "local"},
+      "size": {"type": "string", "enum": ["small", "large"], "default": "small"}
+    },
+    "required": []
+  }
+}

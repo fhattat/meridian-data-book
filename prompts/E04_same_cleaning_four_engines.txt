@@ -1,0 +1,9 @@
+# Ek E — E.4 Aynı temizliği dört dilde (Bölüm 9.7)
+# Kaynak: AI-Assisted Data Engineering, Ek E
+
+Görev: Aşağıdaki silver temizlik kuralını SQL, pandas, Polars ve PySpark ile yaz.
+Girdi: Kural: <ör. eyalet adlarını ref/state_aliases.csv ile iki harfli koda çevir,
+       eşleşmeyeni NULL bırak ve say>.
+Çıktı: Dört kod bloğu ve her biri için aynı küçük örnek veriyle beklenen çıktı.
+Kural: Dört sürümün sonuç satır sayısı ve eşleşmeyen sayısı aynı olmalı.
+Sunum: Sonunda dört sürüm arasındaki davranış farklarını (NULL, büyük-küçük harf) listele.

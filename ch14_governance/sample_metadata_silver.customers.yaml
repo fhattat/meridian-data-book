@@ -1,0 +1,24 @@
+table: silver.customers
+row_count: 29400
+description: null
+description_source: null
+domain: customer
+owner: CRM and loyalty director
+steward: CRM analyst
+columns:
+  - name: customer_type
+    type: VARCHAR
+    null_pct: 0.0
+    approx_distinct: 3
+    sample_values: [member, user, account]
+    pii: null
+    description: null
+    description_source: null
+  - name: email_norm
+    type: VARCHAR
+    null_pct: 0.4
+    approx_distinct: 29100
+    sample_values: null
+    pii: direct
+    description: null
+    description_source: null

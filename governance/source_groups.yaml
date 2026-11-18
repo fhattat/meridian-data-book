@@ -1,0 +1,28 @@
+# governance/source_groups.yaml - Table 16.4: one sub-agent per source (fanout_metadata.py)
+# tables: schema.table or a pattern such as gold.dim_*; doc: the only text the sub-agent may use.
+mm_erp:
+  source: Meridian ERP
+  tables: [bronze.mm_stores, bronze.mm_products, bronze.mm_vendors, bronze.mm_inventory_monthly,
+           silver.stores, silver.products, silver.inventory_monthly]
+  doc: ref/docs/mm_erp_data_dictionary.md        # Meridian's old data dictionary (partial)
+mm_pos:
+  source: Store registers
+  tables: [bronze.mm_pos_raw, silver.pos_receipts, silver.pos_lines]
+  doc: contracts/mm_pos_raw.yaml
+mm_crm:
+  source: Loyalty and campaigns
+  tables: [bronze.mm_loyalty_members, bronze.mm_campaign_log, bronze.mm_campaign_products, silver.customers]
+  doc: ref/docs/marketing_notes.md
+bz_app:
+  source: Bazaarly application database
+  tables: [bronze.bz_users, bronze.bz_orders_2025, bronze.bz_orders_2026, bronze.bz_orders_2027,
+           bronze.bz_order_items, silver.invoices, silver.payments, silver.shipments, silver.bz_orders]
+  doc: ref/source_guide.yaml                      # from source_system_guide.pdf (OP01)
+bz_events:
+  source: Bazaarly event stream
+  tables: [bronze.bz_events]
+  doc: ref/docs/event_schema.md
+gold:
+  source: Gold model
+  tables: ["gold.dim_*", "gold.fact_*"]
+  doc: ch11_modeling/gold_grain.md                # and glossary.yaml

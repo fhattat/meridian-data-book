@@ -1,0 +1,8 @@
+{
+  "layer": "silver",
+  "env": "local",
+  "size": "small",
+  "steps": [{"step": "40_pos.sql", "seconds": 0.0}],
+  "row_counts": {"pos_lines": 0, "bz_orders": 0},
+  "warnings": ["inventory_monthly: 3 rows did not match a product"]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "yukleme",
+  "description": "Loads one source into the bronze layer without changing data. Skips duplicate files and rows, reports missing days and unreadable files.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "source": {"type": "string", "enum": ["mm_pos", "bazaarly_dump", "bz_tickets", "fx"]},
+      "since": {"type": "string", "format": "date", "description": "First day to load (inclusive)"},
+      "until": {"type": "string", "format": "date", "description": "Last day to load (inclusive)"}
+    },
+    "required": ["source"]
+  }
+}

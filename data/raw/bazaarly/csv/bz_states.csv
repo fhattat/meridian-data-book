@@ -1,0 +1,35 @@
+state_code,state_name,region,country
+NY,New York,Northeast,US
+MA,Massachusetts,Northeast,US
+PA,Pennsylvania,Northeast,US
+NJ,New Jersey,Northeast,US
+IL,Illinois,Midwest,US
+OH,Ohio,Midwest,US
+MI,Michigan,Midwest,US
+MN,Minnesota,Midwest,US
+MO,Missouri,Midwest,US
+WI,Wisconsin,Midwest,US
+IN,Indiana,Midwest,US
+TX,Texas,South,US
+FL,Florida,South,US
+GA,Georgia,South,US
+NC,North Carolina,South,US
+VA,Virginia,South,US
+TN,Tennessee,South,US
+MD,Maryland,South,US
+CA,California,West,US
+WA,Washington,West,US
+CO,Colorado,West,US
+AZ,Arizona,West,US
+OR,Oregon,West,US
+NV,Nevada,West,US
+UT,Utah,West,US
+ON,Ontario,Canada,CA
+BC,British Columbia,Canada,CA
+QC,Quebec,Canada,CA
+ENG,England,United Kingdom,GB
+SCT,Scotland,United Kingdom,GB
+BY,Bavaria,Europe,DE
+BE,Berlin,Europe,DE
+IDF,Ile-de-France,Europe,FR
+ARA,Auvergne-Rhone-Alpes,Europe,FR

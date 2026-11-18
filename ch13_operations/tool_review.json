@@ -1,0 +1,12 @@
+{
+  "name": "inceleme",
+  "description": "Analyses query history for the last N days: tables never queried, most expensive queries, slow repeated queries and cost by table. Returns suggestions only.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "days": {"type": "integer", "default": 90, "minimum": 7, "maximum": 365},
+      "top_n": {"type": "integer", "default": 5, "minimum": 1, "maximum": 20}
+    }
+  },
+  "returns": "JSON: unused_tables, top_queries, top_queries_cost_share, slow_repeated, cost_by_table"
+}

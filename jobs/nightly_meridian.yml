@@ -1,0 +1,45 @@
+# jobs/nightly_meridian.yml - Chapter 13.1 (the book shows a simplified form; this is the bundle form)
+# Every night at 02:00 New York time; each step is retried twice. A task starts only when the
+# tasks it depends on succeeded: quality_gate exits with code 1 on a critical rule -> no gold.
+resources:
+  jobs:
+    nightly_meridian:
+      name: nightly_meridian
+      schedule:
+        quartz_cron_expression: "0 0 2 * * ?"   # every night at 02:00 New York time
+        timezone_id: America/New_York           # without it the scheduler assumes UTC
+      run_as:
+        service_principal_name: pipeline_sp
+      tasks:
+        - task_key: ingest
+          max_retries: 2
+          spark_python_task:
+            python_file: ../ch08_ingestion/ingest_to_bronze.py
+            parameters: ["--env", "databricks", "--source", "all"]
+        - task_key: clean_silver
+          depends_on: [{task_key: ingest}]
+          max_retries: 2
+          spark_python_task:
+            python_file: ../ch09_medallion/clean_silver.py
+            parameters: ["--env", "databricks"]
+        - task_key: quality_gate
+          depends_on: [{task_key: clean_silver}]
+          spark_python_task:
+            python_file: ../ch10_quality/quality_checks.py      # exit code 1 = stop
+            parameters: ["--env", "databricks"]
+        - task_key: build_gold
+          depends_on: [{task_key: quality_gate}]
+          max_retries: 2
+          spark_python_task:
+            python_file: ../ch11_modeling/build_gold.py
+            parameters: ["--env", "databricks"]
+        - task_key: model_checks
+          depends_on: [{task_key: build_gold}]
+          spark_python_task:
+            python_file: ../ch11_modeling/model_checks.py       # read-only; a failure is reported
+            parameters: ["--env", "databricks"]
+        - task_key: refresh_dashboard
+          depends_on: [{task_key: build_gold}]
+          sql_task:
+            warehouse_id: ${var.warehouse_id}
+            query: {query_id: "<your dashboard refresh query>"}

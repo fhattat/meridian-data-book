@@ -1,0 +1,11 @@
+# Times are UTC.
+2027-04-30T06:04:27Z INFO  step=ingest source=mm_pos_raw msg="done rows=612" attempt=1
+2027-04-30T06:12:47Z WARN  step=ingest source=ref_fx_rates msg="TimeoutError: read timed out" attempt=1
+2027-04-30T06:13:17Z INFO  step=ingest source=ref_fx_rates msg="retry succeeded" attempt=2
+2027-04-30T06:21:55Z INFO  step=ingest source=bazaarly_dump msg="done rows=92" attempt=1
+2027-04-30T06:24:59Z INFO  step=ingest source=bz_events msg="done rows=225" attempt=1
+2027-04-30T06:32:15Z INFO  step=bronze_to_silver_orders msg="done rows=480" attempt=1
+2027-04-30T06:36:37Z INFO  step=clean_silver msg="done rows=425" attempt=1
+2027-04-30T06:44:18Z INFO  step=quality_gate msg="done rows=516" attempt=1
+2027-04-30T06:47:43Z INFO  step=build_gold msg="done rows=893" attempt=1
+2027-04-30T06:49:48Z INFO  step=model_checks msg="done rows=387" attempt=1

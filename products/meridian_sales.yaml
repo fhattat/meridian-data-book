@@ -1,0 +1,26 @@
+# products/meridian_sales.yaml - the YAML form of the data product card (Table 12.4)
+name: Meridian Sales
+purpose: "Combined sales of both companies; single source for the management dashboard, Bit's sales questions and campaign segments"
+contents: [gold.fact_sales, gold.v_daily_sales, gold.agg_sales_daily, gold.dim_date, gold.dim_store, gold.dim_product, gold.dim_customer]
+grain:
+  gold.fact_sales: "one row per sales line (Meridian receipt line or Bazaarly order item)"
+  gold.agg_sales_daily: "day x region x category x company"
+business_owner: "Marcus (finance)"
+technical_owner: "Deniz (data engineering)"
+refresh: {schedule: "daily 06:00 America/New_York", on_delay: "warning on the dashboard"}
+metrics: metrics/sales.yaml        # net_sales_usd, orders, active_customers
+quality:
+  - "Total sales match data/raw/control_totals.json (lib/reconcile.py)"
+  - "No test records"
+  - "Unmapped channel codes are shown as UNMAPPED and reported"
+  - "Freshness under 30 hours (ch10_quality/rules.yaml: pos_receipts_fresh)"
+access:
+  finance_and_management: all regions
+  regional_managers: own region (row filter, Chapter 11.6)
+  bit: read-only
+lineage: "Meridian POS and ERP, Bazaarly application database -> bronze -> silver -> gold (metadata/lineage.mmd)"
+ai_use: {text_to_sql: suitable, agents: suitable, personal_data_columns: none}
+known_limits:
+  - "Bazaarly data does not cover the years before 2025"
+  - "FX at the order date's rate; weekends use the last business day"
+support: {channel: "#data-sales", incidents: "Chapter 13 process"}

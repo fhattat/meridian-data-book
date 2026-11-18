@@ -1,0 +1,9 @@
+# Ek E — E.10 Metadata açıklama taslağı (Bölüm 14.2)
+# Kaynak: AI-Assisted Data Engineering, Ek E
+
+Görev: Açıklaması boş sütunlar için açıklama taslağı yaz.
+Girdi: Kaynak belge (source_guide), sütunların teknik metadata'sı.
+Çıktı: YAML: column_name, description, description_source: ai_draft.
+Kural: Belgede dayanağı olmayan sütunu boş bırak. Teknik alanları (tip, NULL oranı, tekil
+       sayı) asla değiştirme. Açıklamalar İngilizce, kısa ve iş diliyle.
+Sunum: Her açıklamanın yanına dayandığı belge cümlesini yaz.

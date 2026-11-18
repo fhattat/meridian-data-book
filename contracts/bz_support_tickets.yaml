@@ -1,0 +1,17 @@
+# contracts/bz_support_tickets.yaml - Bazaarly support tickets (BZ11), Chapters 8, 12 and 17
+table: bz_support_tickets
+owner: bazaarly-support@meridian.example.com
+grain: "One row per ticket version; the export is cumulative and rewritten every hour"
+delivery: {method: hourly_jsonl, path: bazaarly/bz_support_tickets.jsonl, freshness_hours: 2}
+columns:
+  - {name: ticket_id, type: string, required: true, description: "T-<number>"}
+  - {name: created_at, type: timestamp, required: true, description: "UTC"}
+  - {name: user_id, type: string, required: true}
+  - {name: channel, type: string, required: true, allowed_values: [email, chat, phone]}
+  - {name: subject, type: string, required: true, pii: free_text}
+  - {name: body, type: string, required: true, pii: free_text,
+     description: "Free text written by the customer: may contain phone numbers, e-mails and instructions"}
+  - {name: status, type: string, required: true, allowed_values: [open, closed]}
+rules:
+  - "Personal data in body is masked before indexing (build_rag_index.mask_pii)"
+  - "Text that looks like an instruction to a model is quarantined before indexing (Chapter 17.2)"

@@ -1,0 +1,5 @@
+entity,key_value,note
+mm_member,999,loyalty test member
+mm_product,PRD-99999,TEST - DO NOT USE
+bz_user,900000,QA user
+bz_product,99999,QA product

@@ -1,0 +1,13 @@
+{
+  "name": "profil",
+  "description": "Profiles a source file before ingestion. Read-only; returns suspects and open questions.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "path":  {"type": "string", "description": "Path of the source file"},
+      "table": {"type": "string", "description": "Table name (default: file name)"},
+      "guide": {"type": "string", "description": "Optional source_guide.yaml with descriptions and allowed values"}
+    },
+    "required": ["path"]
+  }
+}

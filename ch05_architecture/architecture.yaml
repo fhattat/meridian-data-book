@@ -1,0 +1,37 @@
+# architecture.yaml
+name: meridian-data-platform
+sources:
+  - {id: pos, name: "Store registers (POS)", datasets: [MM03]}
+  - {id: erp, name: "ERP", datasets: [MM01, MM02, MM04, MM05]}
+  - {id: crm, name: "Loyalty and campaigns", datasets: [MM06, MM07, MM08]}
+  - {id: hr_fin, name: "HR and finance", datasets: [MM09, MM10, MM11]}
+  - {id: bz_db, name: "Bazaarly database", datasets: [BZ01-BZ08, BZ10]}
+  - {id: bz_events, name: "Bazaarly events", datasets: [BZ09]}
+  - {id: bz_docs, name: "Support tickets and documents", datasets: [BZ11, BZ12]}
+  - {id: fx, name: "Exchange rates", datasets: [OP02]}
+layers:
+  - {id: bronze, name: "Bronze (raw)"}
+  - {id: silver, name: "Silver (clean)"}
+  - {id: gold, name: "Gold (model)"}
+  - {id: vector, name: "Vector store"}
+consumers:
+  - {id: dashboard, name: "Management dashboard"}
+  - {id: models, name: "Lena's models"}
+  - {id: assistant, name: "Sam's support assistant"}
+flows:
+  - {from: pos, to: bronze, mode: batch, schedule: "daily 02:00 ET", owner: Deniz}
+  - {from: erp, to: bronze, mode: batch, schedule: "daily 02:00 ET", owner: Deniz}
+  - {from: crm, to: bronze, mode: batch, schedule: "daily 02:00 ET", owner: Deniz}
+  - {from: hr_fin, to: bronze, mode: batch, schedule: "monthly", owner: Deniz}
+  - {from: bz_db, to: bronze, mode: micro-batch, schedule: "hourly", owner: Deniz}
+  - {from: bz_events, to: bronze, mode: stream, schedule: "continuous", owner: Deniz}
+  - {from: bz_docs, to: bronze, mode: batch, owner: Sam}
+  - {from: fx, to: bronze, mode: batch, schedule: "business days", owner: Deniz}
+  - {from: bronze, to: silver, mode: batch, schedule: "daily, after bronze", owner: Deniz}
+  - {from: silver, to: gold, mode: batch, schedule: "daily, after silver", owner: Deniz}
+  - {from: bronze, to: vector, mode: "chunk + embedding", schedule: "on change", owner: Sam}
+  - {from: gold, to: dashboard, mode: SQL, schedule: "every morning by 07:30 ET", owner: Marcus}
+  - {from: silver, to: models, mode: Python, schedule: "daily", owner: Lena}
+  - {from: gold, to: models, mode: Python, schedule: "daily", owner: Lena}
+  - {from: vector, to: assistant, mode: RAG, schedule: "on query", owner: Sam}
+  - {from: gold, to: assistant, mode: SQL, schedule: "on query", owner: Sam}

@@ -1,0 +1,11 @@
+# Ek E — E.3 Yükleme script’i iskeleti (Bölüm 8)
+# Kaynak: AI-Assisted Data Engineering, Ek E
+
+Görev: pipelines.yaml'daki bir kaynak satırını okuyup dosyayı bronze'a yükleyen
+bir Python fonksiyonu yaz.
+Girdi: Kaynak satırı (path, format, contract), hedef şema adı.
+Çıktı: run(**kwargs) -> dict döndüren tek bir fonksiyon ve küçük bir test.
+Kural: Bütün sütunları metin olarak yükle. _ingested_at (UTC), _source_file, _batch_id ve
+       _row_hash ekle. Aynı dosya ikinci kez gelirse yükleme yapılmasın (idempotency).
+       Okunamayan dosyayı _dead_letter klasörüne taşı, silme.
+Sunum: Fonksiyonun döndürdüğü sözlükte okunan, yazılan ve atlanan dosya sayıları olsun.

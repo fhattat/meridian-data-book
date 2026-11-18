@@ -1,0 +1,6 @@
+Soru   : Siparişim üç gündür "hazırlanıyor" görünüyor. Ne yapmalıyım?
+Adım 1 : belge_ara(query="sipariş durumu hazırlanıyor gecikme", k=4)
+         -> 4 parça, hepsi yardım belgelerinden, karantinadan parça yok
+Adım 2 : cevap yazıldı, iki kaynak parça anıldı
+Audit  : agent=support_assistant tool=belge_ara result_status=ok
+Toplam : 2 adım / 6, limit aşılmadı

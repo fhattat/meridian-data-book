@@ -1,0 +1,8 @@
+# readable form of PLAYBOOKS["new_source"] and the needs_human() rules in orchestrator_agent.py
+goal: "Bring the <source name> source onto the platform"
+steps: [profil, approve:contract, yukleme, temizlik, kalite, katalog, approve:publish]
+stop_and_ask_when:
+  - step_status in [fail, hold]
+  - profil.pii_columns or profil.open_questions
+  - not kalite.publish_allowed      # a critical rule failed
+max_steps: 30

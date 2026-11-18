@@ -1,0 +1,10 @@
+# Ek E — E.2 Veri sözleşmesi taslağı (Bölüm 7.4)
+# Kaynak: AI-Assisted Data Engineering, Ek E
+
+Görev: Bu kaynak için bir veri sözleşmesi taslağı yaz.
+Girdi: Profil raporu, kaynak belge, tüketicilerin ihtiyaç listesi.
+Çıktı: YAML: columns (name, type, required, allowed_values), delivery (sıklık, saat, saat dilimi),
+       owner, change_notice_days, pii.
+Kural: Teslim saatini, sahibi ve bildirim süresini doldurma; bunları "TBD: kaynak sahibiyle"
+       diye bırak. Bunlar müzakere konusudur, çıkarım değil.
+Sunum: Taslak olduğunu ilk satırda yorum olarak belirt.

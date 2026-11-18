@@ -1,0 +1,9 @@
+# Ek E — E.6 Bus matrix ve grain cümleleri (Bölüm 11)
+# Kaynak: AI-Assisted Data Engineering, Ek E
+
+Görev: Silver tablolarından gold için bir bus matrix ve her fact için grain cümlesi öner.
+Girdi: Silver şemaları, iş soruları listesi.
+Çıktı: Satırlar fact, sütunlar dimension olan bir tablo; altında her fact için
+       "Bu tabloda bir satır = ..." cümlesi.
+Kural: Başlık toplamını fact'e taşıma; tutarı kalemden hesapla. Fact'leri birbirine bağlama.
+Sunum: Emin olmadığın her ilişkiyi (bire çok mu, çoka çok mu) açık soru olarak yaz.

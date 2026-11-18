@@ -1,0 +1,8 @@
+# Ek E — E.7 JOIN ve mutabakat incelemesi (Bölüm 10.4, 11)
+# Kaynak: AI-Assisted Data Engineering, Ek E
+
+Görev: Bu SQL'deki her JOIN için beklenen kardinaliteyi ve satır sayısına etkisini yaz.
+Girdi: SQL dosyası, ilgili tabloların anahtarları.
+Çıktı: Tablo: JOIN | sol anahtar | sağ anahtar | beklenen kardinalite | risk.
+Kural: Sağ tarafın tekil olduğunu varsayma; tekil değilse fan-out riski olarak yaz.
+Sunum: Mutabakat için çalıştırılması gereken iki kontrol sorgusunu ekle.

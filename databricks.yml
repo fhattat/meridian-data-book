@@ -1,0 +1,26 @@
+# databricks.yml - Chapter 18.2: Databricks Asset Bundle (databricks bundle deploy -t dev)
+bundle:
+  name: meridian-platform
+
+include:
+  - jobs/*.yml          # nightly_meridian.yml lives here
+
+variables:
+  catalog:
+    default: meridian
+  warehouse_id:
+    description: SQL warehouse that refreshes the dashboard
+    default: "<your-warehouse-id>"
+
+targets:
+  dev:
+    mode: development
+    default: true
+    workspace:
+      host: https://<your-workspace>.cloud.databricks.com
+  prod:
+    mode: production
+    workspace:
+      host: https://<your-workspace>.cloud.databricks.com
+    run_as:
+      service_principal_name: pipeline_sp

@@ -1,0 +1,15 @@
+# jobs/morning_check.yml - Chapter 18.4: the morning agent as a Databricks job (07:00 New York time)
+resources:
+  jobs:
+    morning_check:
+      name: morning_check
+      schedule:
+        quartz_cron_expression: "0 0 7 * * ?"
+        timezone_id: America/New_York
+      run_as:
+        service_principal_name: pipeline_sp
+      tasks:
+        - task_key: morning_agent
+          spark_python_task:
+            python_file: ../ch16_agent_team/morning_agent.py
+            parameters: ["--env", "databricks"]

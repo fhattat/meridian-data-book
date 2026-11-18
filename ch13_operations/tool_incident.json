@@ -1,0 +1,13 @@
+{
+  "name": "ariza",
+  "description": "Reads one nightly pipeline log, separates healed transient errors from blocking errors, finds similar past incidents in incident_log.yaml and returns a draft incident report. Never fixes or reruns anything.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "log_path": {"type": "string", "description": "Path to the log file, e.g. pipeline_logs/2027-04-15.log"},
+      "append": {"type": "boolean", "default": true, "description": "If true, adds one new incident with status 'open'. Root cause stays empty for a human to fill."}
+    },
+    "required": ["log_path"]
+  },
+  "returns": "JSON: status, noise_count, blocking[] with class and similar incidents"
+}

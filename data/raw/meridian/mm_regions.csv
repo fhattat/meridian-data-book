@@ -1,0 +1,17 @@
+STATE,REGION_NAME,REGION_MANAGER
+AZ,West,rm.west@meridian.example.com
+CA,West,rm.west@meridian.example.com
+CO,West,rm.west@meridian.example.com
+FL,South,rm.south@meridian.example.com
+GA,South,rm.south@meridian.example.com
+IL,Midwest,rm.midwest@meridian.example.com
+MA,Northeast,rm.northeast@meridian.example.com
+MI,Midwest,rm.midwest@meridian.example.com
+MN,Midwest,rm.midwest@meridian.example.com
+NC,South,rm.south@meridian.example.com
+NJ,Northeast,rm.northeast@meridian.example.com
+NY,Northeast,rm.northeast@meridian.example.com
+OH,Midwest,rm.midwest@meridian.example.com
+PA,Northeast,rm.northeast@meridian.example.com
+TX,South,rm.south@meridian.example.com
+WA,West,rm.west@meridian.example.com

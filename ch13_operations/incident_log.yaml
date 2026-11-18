@@ -1,0 +1,55 @@
+- id: INC-20251129-01
+  opened_at: 2025-11-29T07:05:00Z
+  closed_at: 2025-11-29T11:20:00Z
+  step: ingest
+  source: mm_pos_raw
+  class: data
+  summary: The Black Friday POS file arrived a second time the next day
+  symptom: "November 28 sales showed up doubled"
+  root_cause: The store system resent the file with a `_resend` suffix
+  temp_fix: The rows of the second file were deleted by hand in the old warehouse
+  permanent_fix: Not written. The same error came back on the new platform in March 2027; fixed with idempotent loading via _row_hash (Chapter 8)
+  keywords: [duplicate, resend, pos, idempotency]
+  status: closed
+
+- id: INC-20270212-01
+  opened_at: 2027-02-12T08:20:00Z
+  closed_at: 2027-02-12T09:40:00Z
+  step: bazaarly_legacy_report
+  source: bz_orders_2027
+  class: data
+  summary: Orders with channel code 50 showed an empty channel in Bazaarly's legacy dashboard
+  root_cause: Bazaarly opened a new sales channel without updating the code table
+  temp_fix: The Bazaarly team showed the channel as "unknown" in the dashboard
+  permanent_fix: Not written; the code's meaning was never documented (open question in Chapter 7, unmapped-code rule in Chapter 10)
+  keywords: [channel_code, unmapped, mapping]
+  status: monitoring
+
+- id: INC-20260212-01
+  opened_at: 2026-02-12T08:15:00Z
+  step: ingest
+  source: mm_pos_raw
+  class: data
+  summary: The February 9 POS file was missing; it was found three days later in the wrong folder
+  root_cause: The delivery script wrote the wrong target folder
+  permanent_fix: Not written; added in 2027 as the missing-day report and backfill (Chapter 8)
+  keywords: [missing, late, backfill, pos]
+  status: closed
+
+- id: INC-20270416-07
+  opened_at: 2027-04-16T07:12:04Z
+  closed_at: 2027-04-16T11:50:00Z
+  step: bronze_to_silver_orders
+  source: bz_orders_2027
+  class: schema
+  summary: The status_code column was renamed to status at the source
+  symptom: "KeyError: 'status_code'"
+  root_cause: >
+    The Bazaarly app team renamed the column starting with the April 15 file;
+    schema_gate was attached only to the POS sources.
+  temp_fix: An alias was added to the contract and the DAG was re-run from the failed step
+  permanent_fix: schema_gate attached to every source in pipelines.yaml; two-week notice rule
+  keywords: [keyerror, status_code, schema, rename, drift]
+  related: [INC-20270212-01]
+  impact: "Dashboard current at 07:50; SLO missed, SLA kept"
+  status: closed

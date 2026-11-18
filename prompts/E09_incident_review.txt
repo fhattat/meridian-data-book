@@ -1,0 +1,10 @@
+# Ek E — E.9 Arıza incelemesi (Bölüm 13.4)
+# Kaynak: AI-Assisted Data Engineering, Ek E
+
+Görev: Bu log satırlarında asıl hatayı gürültüden ayır ve arıza günlüğünde benzer kayıtları bul.
+Girdi: Log satırları (OP05 biçimi), incident_log.yaml.
+Çıktı: (1) Engelleyen hata ve sınıfı (transient | schema | data | security | unknown),
+       (2) gürültü sayılan satırlar ve nedeni, (3) en fazla üç benzer kayıt ve benzerlik nedeni.
+Kural: Kök neden önerme ve hiçbir şeyi yeniden çalıştırmayı önerme; yalnızca kayıtlardaki
+       bilgiyi kullan.
+Sunum: Tüketicilere ve kaynak sahibine birer suçlamasız e-posta taslağı ekle; gönderme.

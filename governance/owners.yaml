@@ -1,0 +1,31 @@
+# governance/owners.yaml - the file form of Table 14.1 (Chapter 14.1).
+# Write the ROLE as owner/steward; who holds the role today is kept in people (a person, not a team).
+people:
+  commercial_director: "Commercial Director (Meridian)"
+  crm_director: "CRM and loyalty program director"
+  category_director: "Category management director"
+  support_manager: "Customer service manager"
+  hr_director: "HR director"
+  infosec_manager: "Information security manager"
+  marcus: "Marcus (finance)"
+  priya: "Priya (governance)"
+
+gold.fact_sales:          {domain: sales, owner: commercial_director, steward: marcus}
+gold.fact_order_process:  {domain: sales, owner: commercial_director, steward: marcus}
+gold.fact_sales_targets:  {domain: sales, owner: commercial_director, steward: marcus}
+gold.agg_sales_daily:     {domain: sales, owner: commercial_director, steward: marcus}
+gold.dim_store:           {domain: sales, owner: commercial_director, steward: marcus}
+gold.dim_date:            {domain: shared, owner: commercial_director, steward: marcus}
+silver.customers:         {domain: customer, owner: crm_director, steward: crm_analyst}
+gold.dim_customer:        {domain: customer, owner: crm_director, steward: crm_analyst}
+silver.products:          {domain: product, owner: category_director, steward: bazaarly_catalog_specialist}
+gold.dim_product:         {domain: product, owner: category_director, steward: bazaarly_catalog_specialist}
+gold.fact_inventory:      {domain: product, owner: category_director, steward: bazaarly_catalog_specialist}
+bronze.bz_support_tickets: {domain: support, owner: support_manager, steward: support_ops_analyst}
+gold.rag_chunks:          {domain: support, owner: support_manager, steward: support_ops_analyst}
+bronze.mm_hr_employees:   {domain: hr, owner: hr_director, steward: hr_systems_specialist}
+silver.security_user_region: {domain: access, owner: infosec_manager, steward: priya}
+gold.dim_campaign:        {domain: marketing, owner: crm_director, steward: crm_analyst}
+gold.fact_campaign_spend: {domain: marketing, owner: crm_director, steward: crm_analyst}
+gold.fact_promotion_coverage: {domain: marketing, owner: crm_director, steward: crm_analyst}
+gold.ml_fraud_features:   {domain: risk, owner: commercial_director, steward: lena}

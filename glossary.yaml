@@ -1,0 +1,26 @@
+terms:
+  customer:
+    definition: >
+      A person or a business that bought from Meridian Market or Bazaarly.
+      One customer can have several source records: a loyalty member (Meridian),
+      a marketplace user (Bazaarly) and/or a wholesale account (Meridian finance).
+    synonyms: [member, user, account]
+    owner: CRM and loyalty director
+    steward: CRM analyst
+    columns: [silver.customers.customer_id, silver.customer_xref.email_norm, gold.dim_customer.customer_id]
+  active_customer:
+    definition: >
+      A distinct customer (after matching records by normalized e-mail) with at least
+      one non-test, non-cancelled sale in the last 12 months.
+    calculation: >
+      COUNT(DISTINCT silver.customer_xref.email_norm) over customers with at least one
+      gold.fact_sales row (joined via gold.dim_customer.customer_key) in the last 365 days
+    excludes: [test records, cancelled orders, wholesale accounts]
+    owner: CRM and loyalty director
+    approved_on: 2027-06-15
+  net_sales:
+    definition: >
+      Sales amount in USD after discounts and returns, excluding test records,
+      cancelled orders, shipping and tax. Order-day FX rate; weekends use the last business day.
+    calculation: "SUM(amount_usd) FROM gold.fact_sales"
+    owner: Commercial director

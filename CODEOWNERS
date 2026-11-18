@@ -1,0 +1,9 @@
+# CODEOWNERS - files the AI assistant cannot change without a human review (Chapter 17.5)
+# (On GitHub this file also works from .github/CODEOWNERS; replace the handles with your own.)
+/RULES.md                           @fhattat
+/CLAUDE.md                          @fhattat
+/ch10_quality/rules.yaml            @fhattat
+/contracts/                         @fhattat
+/tests/                             @fhattat
+/ch17_agent_safety/guardrails.py    @fhattat
+/data/raw/                          @fhattat

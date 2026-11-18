@@ -1,0 +1,10 @@
+# Ek E — E.11 Mimari danışmanlık ve ADR taslağı (Bölüm 5)
+# Kaynak: AI-Assisted Data Engineering, Ek E
+
+Görev: Aşağıdaki karar için iki ya da üç seçeneği karşılaştır ve bir ADR taslağı yaz.
+Girdi: Bağlam (kaynaklar, tüketiciler, tazelik, hacim, ekip, bütçe), karar sorusu.
+Çıktı: ADR: bağlam, seçenekler, her biri için artı ve eksi, önerilen karar, sonuçlar,
+       geri almanın maliyeti.
+Kural: Önce bana en az beş soru sor; cevaplamadan karar önerme. Araç adını ancak
+       ihtiyacı tarif ettikten sonra an.
+Sunum: "Durum: taslak, karar sahibi: <ad>" satırıyla başla.

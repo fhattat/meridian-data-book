@@ -1,0 +1,26 @@
+# contracts/mm_pos_raw.yaml - Meridian POS daily export (MM03), agreed with Meridian IT (Chapter 7.4)
+table: mm_pos_raw
+owner: meridian-it@meridian.example.com
+grain: "One file per business day; H = receipt header, L = receipt line"
+delivery:
+  method: daily_file
+  path: meridian/pos/pos_YYYYMMDD.csv
+  ready_by: "01:30 America/New_York"
+format: {delimiter: ";", encoding: windows-1252, header: false, line_end: CRLF}
+records:
+  H: [rec_type, RECEIPT_NO, STORE_CD, RECEIPT_TS, REGISTER_NO, MEMBER_NO, TENDER_TYPE, RECEIPT_TOTAL]
+  L: [rec_type, RECEIPT_NO, LINE_NO, PROD_CD, QTY, UNIT_PRICE, DISC_AMT, LINE_AMT]
+columns:
+  - {name: RECEIPT_NO, type: string, required: true, description: "Store number (3) + date (8) + running number (4)"}
+  - {name: STORE_CD, type: string, required: true, description: "Store code MM-001 ... MM-048; may carry a trailing space"}
+  - {name: RECEIPT_TS, type: string, required: true, description: "Local store time, MM/DD/YYYY hh:mm AM/PM"}
+  - {name: MEMBER_NO, type: string, required: false, description: "Loyalty card; empty for anonymous sales; 999 = test card"}
+  - {name: TENDER_TYPE, type: string, required: true}
+  - {name: RECEIPT_TOTAL, type: money_text, required: true, description: "Total including sales tax, e.g. $1,299.00"}
+  - {name: QTY, type: integer, required: true, description: "Negative for a return"}
+  - {name: UNIT_PRICE, type: money_text, required: true}
+  - {name: DISC_AMT, type: money_text, required: true}
+  - {name: LINE_AMT, type: money_text, required: true, description: "QTY x UNIT_PRICE - DISC_AMT, excluding tax"}
+quality:
+  - "RECEIPT_TOTAL is not always the sum of the lines (tax, rounding at the register); net sales use the lines"
+change_policy: "A missing day is reported by 08:00; a resent file keeps the same content (_resend suffix)"

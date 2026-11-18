@@ -1,0 +1,33 @@
+# pipelines.yaml (shortened)
+defaults:
+  freshness_hours: 26        # for the freshness SLI in 13.3
+  owner: data-platform
+
+sources:
+  - name: mm_pos_raw
+    mode: file
+    path: meridian/pos/pos_*.csv   # root: data/raw/ (local) or /Volumes/meridian/raw/landing/
+    format: {delimiter: ";", encoding: cp1252, header: false}
+    contract: contracts/mm_pos_raw.yaml
+    schedule: nightly
+    owner: meridian-it
+  - name: bz_orders_2027
+    mode: file
+    path: bazaarly/bz_orders_2027/*.csv
+    format: {delimiter: ",", encoding: utf-8, header: true}
+    contract: contracts/bz_orders.yaml
+    schedule: nightly
+    owner: bazaarly-app
+  - name: bz_support_tickets
+    mode: file
+    path: bazaarly/bz_support_tickets.jsonl   # cumulative export, rewritten every hour
+    format: {type: jsonl, encoding: utf-8}
+    contract: contracts/bz_support_tickets.yaml
+    schedule: hourly
+    freshness_hours: 2
+    owner: bazaarly-support
+  - name: ref_fx_rates
+    mode: api
+    endpoint: fx_api_mock
+    schedule: nightly
+    freshness_hours: 72      # no rates on weekends

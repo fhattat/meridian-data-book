@@ -1,0 +1,6 @@
+# Ek E — E.15 Manşet kontrolü (Bölüm 19.5)
+# Kaynak: AI-Assisted Data Engineering, Ek E
+
+Görev: Bu haberdeki her iddiayı ayır.
+Çıktı: Tablo: iddia | konuşan ve ne sattığı | tarih veriyor mu | birincil kaynak.
+Kural: Birincil kaynağını bulamadığın iddiayı "kaynaksız" diye işaretle; tahmin yürütme.

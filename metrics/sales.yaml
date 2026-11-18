@@ -1,0 +1,22 @@
+# metrics/sales.yaml
+metric: net_sales_usd
+description: Sales in USD, excluding test records and cancelled orders, net of returns, excluding shipping and tax.
+source: gold.fact_sales
+expression: SUM(amount_usd)
+grain_note: fact_sales is at line level; use COUNT(DISTINCT order_id) for order counts.
+currency_rule: Rate of the order date (silver.fx_rates); for weekends, the last business day.
+owner: Marcus (finans)
+---
+metric: orders
+description: Number of orders (Bazaarly) and receipts (Meridian) with at least one net sales line.
+source: gold.fact_sales
+expression: COUNT(DISTINCT order_id)
+grain_note: Never COUNT(*) on fact_sales; that counts lines.
+owner: Marcus (finans)
+---
+metric: active_customers
+description: Customers with at least one net sales line in the period (anonymous store receipts excluded).
+source: gold.fact_sales
+expression: COUNT(DISTINCT customer_key) FILTER (WHERE customer_key <> sha256('UNKNOWN'))
+definition_status: "Draft; the CRM director approves the definition (Chapter 14.1)"
+owner: CRM and loyalty program director

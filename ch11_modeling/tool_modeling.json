@@ -1,0 +1,14 @@
+{
+  "name": "modelleme",
+  "description": "Checks the health of the gold model: grain, key uniqueness, fact-to-fact joins, naming standard and reconciliation with control totals.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "env":    {"type": "string", "enum": ["local", "databricks"], "default": "local"},
+      "tables": {"type": "array", "items": {"type": "string"},
+                 "description": "Check only these tables (all if empty)"}
+    }
+  },
+  "returns": "status (pass|fail), failed (count), results (list of checks)",
+  "permissions": "Read-only. Never writes to gold or silver, never drops tables."
+}

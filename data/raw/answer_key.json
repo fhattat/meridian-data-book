@@ -1,0 +1,28 @@
+{
+  "q01": 9592939.53,
+  "q02": 1372,
+  "q03": [
+    "Electronics",
+    "Sports",
+    "Home"
+  ],
+  "q04": "South",
+  "q05": 5.7,
+  "q06": 2170,
+  "q07": 194881.21,
+  "q08": "web",
+  "q09": 192875.32,
+  "q10": 6,
+  "_definitions": {
+    "q01": "SUM(gold.fact_sales.amount_usd) for 2026, both companies",
+    "q02": "COUNT(DISTINCT order_id) in gold.fact_sales, source_company='BZ', March 2027 (ET date)",
+    "q03": "top 3 dim_product.category by 2026 net sales, highest first",
+    "q04": "Census region with the largest (sales - target) in USD for 2026 (Meridian stores)",
+    "q05": "average days from order_ts_utc to last delivery, delivered non-test orders",
+    "q06": "distinct normalized e-mails present as both a Meridian member and a Bazaarly user",
+    "q07": "Meridian net sales, local dates 2025-11-24 .. 2025-11-30",
+    "q08": "channel name with the largest Bazaarly net sales (all periods)",
+    "q09": "Bazaarly 2026 net sales shipped to Canada, USD",
+    "q10": "Meridian products listed in a campaign that never appear in gold.fact_sales"
+  }
+}

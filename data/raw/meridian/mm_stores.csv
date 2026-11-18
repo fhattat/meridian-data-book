@@ -1,0 +1,49 @@
+STORE_CD,STORE_NAME,CITY,STATE,REGION,TIME_ZONE,OPEN_DATE
+MM-001,New York Mall,New York,NY,Northeast,ET,2009-02-01
+MM-002,Buffalo Plaza,Buffalo,NY,Northeast,ET,2010-03-01
+MM-003,Rochester Crossing,Rochester,NY,Northeast,ET,2011-04-01
+MM-004,Boston Square,Boston,MA,Northeast,ET,2012-05-01
+MM-005,Worcester Commons,Worcester,MA,Northeast,ET,2013-06-01
+MM-006,Springfield Center,Springfield,MA,Northeast,ET,2014-07-01
+MM-007,Philadelphia Downtown,Philadelphia,PA,Northeast,ET,2015-08-01
+MM-008,Pittsburgh Mall,Pittsburgh,PA,Northeast,ET,2016-09-01
+MM-009,Allentown Plaza,Allentown,PA,Northeast,ET,2017-10-01
+MM-010,Newark Crossing,Newark,NJ,Northeast,ET,2018-11-01
+MM-011,Jersey City Square,Jersey City,NJ,Northeast,ET,2019-12-01
+MM-012,Trenton Commons,Trenton,NJ,Northeast,ET,2020-01-01
+MM-013,Chicago Center,Chicago,IL,Mid-West,CT,2021-02-01
+MM-014,Naperville Downtown,Naperville,IL,Midwest,CT,2022-03-01
+MM-015,Peoria Mall,Peoria,IL,Mid-West,CT,2008-04-01
+MM-016,Cleveland Plaza,Cleveland,OH,Midwest,ET,2009-05-01
+MM-017,Columbus Crossing,Columbus,OH,Mid-West,ET,2010-06-01
+MM-018,Cincinnati Square,Cincinnati,OH,Midwest,ET,2011-07-01
+MM-019,Detroit Commons,Detroit,MI,Mid-West,ET,2012-08-01
+MM-020,Grand Rapids Center,Grand Rapids,MI,Midwest,ET,2013-09-01
+MM-021,Ann Arbor Downtown,Ann Arbor,MI,Mid-West,ET,2014-10-01
+MM-022,Minneapolis Mall,Minneapolis,MN,Midwest,CT,2015-11-01
+MM-023,St. Paul Plaza,St. Paul,MN,Mid-West,CT,2016-12-01
+MM-024,Duluth Crossing,Duluth,MN,Midwest,CT,2017-01-01
+MM-025,Houston Square,Houston,TX,South,CT,2018-02-01
+MM-026,Dallas Commons,Dallas,TX,South,CT,2019-03-01
+MM-027,Austin Center,Austin,TX,South,CT,2020-04-01
+MM-028,Miami Downtown,Miami,FL,South,ET,2021-05-01
+MM-029,Orlando Mall,Orlando,FL,South,ET,2022-06-01
+MM-030,Tampa Plaza,Tampa,FL,South,ET,2008-07-01
+MM-031,Atlanta Crossing,Atlanta,GA,South,ET,2009-08-01
+MM-032,Savannah Square,Savannah,GA,South,ET,2010-09-01
+MM-033,Augusta Commons,Augusta,GA,South,ET,2011-10-01
+MM-034,Charlotte Center,Charlotte,NC,South,ET,2012-11-01
+MM-035,Raleigh Downtown,Raleigh,NC,South,ET,2013-12-01
+MM-036,Durham Mall,Durham,NC,South,ET,2014-01-01
+MM-037,Los Angeles Plaza,Los Angeles,CA,West,PT,2015-02-01
+MM-038,San Diego Crossing,San Diego,CA,West,PT,2016-03-01
+MM-039,San Jose Square,San Jose,CA,West,PT,2017-04-01
+MM-040,Seattle Commons,Seattle,WA,West,PT,2018-05-01
+MM-041,Spokane Center,Spokane,WA,West,PT,2019-06-01
+MM-042,Tacoma Downtown,Tacoma,WA,West,PT,2020-07-01
+MM-043,Denver Mall,Denver,CO,West,MT,2021-08-01
+MM-044,Boulder Plaza,Boulder,CO,West,MT,2022-09-01
+MM-045,Colorado Springs Crossing,Colorado Springs,CO,West,MT,2008-10-01
+MM-046,Phoenix Square,Phoenix,AZ,West,MT,2009-11-01
+MM-047,Tucson Commons,Tucson,AZ,West,MT,2010-12-01
+MM-048,Mesa Center,Mesa,AZ,West,MT,2011-01-01

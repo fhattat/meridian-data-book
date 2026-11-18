@@ -1,0 +1,32 @@
+# ch11_modeling/questions.yaml
+- id: q01
+  question: "What were the two companies' total net sales in 2026, in USD?"
+  traps: [currency, returns, test records]
+  tolerance: 0.01          # 1%
+- id: q02
+  question: "How many orders were placed on Bazaarly in March 2027?"
+  traps: [COUNT vs COUNT DISTINCT, tables split by year]
+- id: q03
+  question: "What were the three best-selling product categories in 2026?"
+  traps: [twin products, category path in one column]
+- id: q04
+  question: "Which Census region beat its target by the largest margin in 2026?"
+  traps: [different grain, drill-across]
+- id: q05
+  question: "On Bazaarly, how many days on average pass between order and delivery?"
+  traps: [double shipments, UTC]
+- id: q06
+  question: "How many customers are both Meridian members and Bazaarly users?"
+  traps: [email case, three different names for a customer]
+- id: q07
+  question: "How much did Meridian stores sell in Black Friday week 2025?"
+  traps: [resent file, local time]
+- id: q08
+  question: "Which channel takes the largest share of Bazaarly revenue?"
+  traps: [encoded channel code, unmapped code 50]
+- id: q09
+  question: "What is the USD value of sales to Canada in 2026?"
+  traps: [exchange rate, weekend rates]
+- id: q10
+  question: "How many products were put in a campaign but never sold?"
+  traps: [list in one cell, factless fact, anti-join]

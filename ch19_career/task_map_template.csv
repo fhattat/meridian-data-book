@@ -1,0 +1,5 @@
+task,hours_per_week,mark,deciding_question,review_date
+"Example: write the weekly sales summary e-mail",2,reduce,"Could a template + a query do it?",2027-09-01
+"Example: decide what 'active customer' means with the CRM director",1,keep,"Does it need a person to be accountable?",2027-09-01
+"Example: design the ingestion of a new source",4,grow,"Will this skill matter more next year?",2027-09-01
+,,,,

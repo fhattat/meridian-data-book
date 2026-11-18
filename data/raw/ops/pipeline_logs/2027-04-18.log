@@ -1,0 +1,10 @@
+# Times are UTC.
+2027-04-19T06:07:56Z INFO  step=ingest source=mm_pos_raw msg="done rows=830" attempt=1
+2027-04-19T06:16:16Z INFO  step=ingest source=ref_fx_rates msg="done rows=745" attempt=1
+2027-04-19T06:21:18Z INFO  step=ingest source=bazaarly_dump msg="done rows=773" attempt=1
+2027-04-19T06:27:37Z INFO  step=ingest source=bz_events msg="done rows=801" attempt=1
+2027-04-19T06:33:23Z INFO  step=bronze_to_silver_orders msg="done rows=412" attempt=1
+2027-04-19T06:39:37Z INFO  step=clean_silver msg="done rows=848" attempt=1
+2027-04-19T06:46:37Z INFO  step=quality_gate msg="done rows=823" attempt=1
+2027-04-19T06:50:21Z INFO  step=build_gold msg="done rows=782" attempt=1
+2027-04-19T06:54:28Z INFO  step=model_checks msg="done rows=565" attempt=1

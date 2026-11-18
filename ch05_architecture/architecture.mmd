@@ -1,0 +1,29 @@
+flowchart LR
+  subgraph sources["Sources"]
+    pos["Store registers (POS)<br/>MM03"]
+    erp["ERP<br/>MM01, MM02, MM04, MM05"]
+    crm["Loyalty and campaigns<br/>MM06, MM07, MM08"]
+    hr_fin["HR and finance<br/>MM09, MM10, MM11"]
+    bz_db["Bazaarly database<br/>BZ01-BZ08, BZ10"]
+    bz_events["Bazaarly events<br/>BZ09"]
+    bz_docs["Support tickets and documents<br/>BZ11, BZ12"]
+    fx["Exchange rates<br/>OP02"]
+  end
+  subgraph layers["Platform"]
+    bronze["Bronze (raw)"]
+    silver["Silver (clean)"]
+    gold["Gold (model)"]
+    vector["Vector store"]
+  end
+  subgraph consumers["Consumers"]
+    dashboard["Management dashboard"]
+    models["Lena's models"]
+    assistant["Sam's support assistant"]
+  end
+  pos -- "batch / Deniz" --> bronze
+  bz_events -- "stream / Deniz" --> bronze
+  bronze -- "batch / Deniz" --> silver
+  silver -- "batch / Deniz" --> gold
+  bronze -- "chunk + embedding / Sam" --> vector
+  gold -- "SQL / Marcus" --> dashboard
+  vector -- "RAG / Sam" --> assistant

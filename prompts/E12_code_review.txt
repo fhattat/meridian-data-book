@@ -1,0 +1,10 @@
+# Ek E — E.12 Kod incelemesi (Bölüm 17.5)
+# Kaynak: AI-Assisted Data Engineering, Ek E
+
+Görev: Bu değişikliği (diff) bir kıdemli veri mühendisi gibi incele.
+Girdi: Diff, kurallar dosyası, ilgili testler.
+Çıktı: Bulgular listesi: dosya, satır, sorun, ciddiyet.
+Kural: Özellikle şunları ara: fazladan dosya, kopya fonksiyon, sessiz davranış değişikliği,
+       susturulmuş hata, değiştirilmiş test ya da gevşetilmiş eşik, silen ya da para harcatan kod.
+       Düzeltilmiş kodu yazma; yalnızca bulguları söyle.
+Sunum: Bulgu yoksa "bulgu yok" de ve hangi kontrolleri yaptığını listele.

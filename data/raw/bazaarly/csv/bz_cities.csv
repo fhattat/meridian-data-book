@@ -1,0 +1,61 @@
+city_id,city_name,state,country,region
+city_id,city_name,state,country,region
+1,New York,NY,US,Northeast
+2,Buffalo,N.Y.,US,Northeast
+3,Boston,Massachusetts,US,Northeast
+4,Worcester,MA,US,Northeast
+5,Philadelphia,Pa.,US,Northeast
+6,Pittsburgh,Pennsylvania,US,Northeast
+7,Newark,NJ,US,Northeast
+8,Jersey City,N.J.,US,Northeast
+9,Chicago,Illinois,US,Midwest
+10,Naperville,IL,US,Midwest
+11,Cleveland,Ohio,US,Midwest
+12,Columbus,Ohio,US,Midwest
+13,Detroit,MI,US,Midwest
+14,Grand Rapids,Mich.,US,Midwest
+15,Minneapolis,Minnesota,US,Midwest
+16,St. Paul,MN,US,Midwest
+17,Houston,Tex.,US,South
+18,Dallas,Texas,US,South
+19,Miami,FL,US,South
+20,Orlando,Fla.,US,South
+21,Atlanta,Georgia,US,South
+22,Savannah,GA,US,South
+23,Charlotte,N.C.,US,South
+24,Raleigh,North Carolina,US,South
+25,Los Angeles,CA,US,West
+26,San Diego,Calif.,US,West
+27,Seattle,Washington,US,West
+28,Spokane,WA,US,West
+29,Denver,Colo.,US,West
+30,Boulder,Colorado,US,West
+31,Phoenix,AZ,US,West
+32,Tucson,Ariz.,US,West
+33,St. Louis,Missouri,US,Midwest
+34,Kansas City,MO,US,Midwest
+35,Milwaukee,Wis.,US,Midwest
+36,Madison,Wisconsin,US,Midwest
+37,Indianapolis,IN,US,Midwest
+38,Richmond,Va.,US,South
+39,Arlington,Virginia,US,South
+40,Nashville,TN,US,South
+41,Memphis,Tenn.,US,South
+42,Baltimore,Maryland,US,South
+43,Portland,OR,US,West
+44,Eugene,Ore.,US,West
+45,Las Vegas,Nevada,US,West
+46,Reno,NV,US,West
+47,Salt Lake City,Utah,US,West
+48,Provo,Utah,US,West
+49,Toronto,ON,CA,Canada
+50,Ottawa,ON,CA,Canada
+51,Vancouver,BC,CA,Canada
+52,Montreal,QC,CA,Canada
+53,London,ENG,GB,United Kingdom
+54,Manchester,ENG,GB,United Kingdom
+55,Edinburgh,SCT,GB,United Kingdom
+56,Munich,BY,DE,Europe
+57,Berlin,BE,DE,Europe
+58,Paris,IDF,FR,Europe
+59,Lyon,ARA,FR,Europe

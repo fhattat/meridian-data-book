@@ -1,0 +1,53 @@
+# Runs the whole book pipeline on every push (Chapter 13.2: Git, CI and environments).
+name: book-pipeline
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      PYTHONPATH: .
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install
+        run: pip install -r requirements.txt
+      - name: Data generator is deterministic (same seed -> same control totals)
+        run: |
+          python data/generate_data.py --size small --seed 2027 --out /tmp/raw_check
+          cmp /tmp/raw_check/control_totals.json data/raw/control_totals.json
+          cmp /tmp/raw_check/answer_key.json data/raw/answer_key.json
+          git diff --exit-code ref/
+      - name: Chapter 3 - first load
+        run: python ch03_toolkit/load_sample.py
+      - name: Chapters 7-11 - the whole night (run_pipeline.py)
+        run: python run_pipeline.py --env local --size small
+      - name: Chapter 12 - ML features and RAG index
+        run: |
+          python ch12_serving/export_features.py --env local
+          python ch12_serving/build_rag_index.py --env local
+      - name: Chapters 13-14 - operations and governance
+        run: |
+          python ch13_operations/check_pipeline_logs.py data/raw/ops/pipeline_logs/2027-04-15.log --no-append
+          python ch13_operations/big_review.py
+          python ch14_governance/extract_metadata.py --env local --schema gold
+          python ch14_governance/rls_test.py
+      - name: Tests
+        run: python -m pytest -q tests
+      - name: Keep the run report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: reports
+          path: |
+            reports/
+            metadata/
+          if-no-files-found: ignore

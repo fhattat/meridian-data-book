@@ -1,0 +1,8 @@
+flowchart LR
+  bronze_mm_pos_raw["bronze.mm_pos_raw"] --> bronze_mm_pos_named["bronze.mm_pos_named"]
+  bronze_mm_pos_named["bronze.mm_pos_named"] --> silver_pos_lines["silver.pos_lines"]
+  bronze_bz_order_items["bronze.bz_order_items"] --> silver_bz_order_items["silver.bz_order_items"]
+  silver_pos_lines["silver.pos_lines"] --> gold_fact_sales["gold.fact_sales"]
+  silver_bz_order_items["silver.bz_order_items"] --> gold_fact_sales["gold.fact_sales"]
+  silver_product_xref["silver.product_xref"] --> gold_dim_product["gold.dim_product"]
+  gold_fact_sales["gold.fact_sales"] --> gold_v_daily_sales["gold.v_daily_sales"]

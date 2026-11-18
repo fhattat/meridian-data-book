@@ -1,0 +1,12 @@
+Kime: Marcus, finans raporlama ekibi
+Konu: Yönetim paneli bu sabah 20 dakika gecikti, rakamlar güncel
+Özet: 15 Nisan'ın Bazaarly siparişleri gece işlenemedi. 07:50 itibarıyla pano
+15 Nisan dahil güncel. Rakamlarda bir değişiklik yok; yalnızca saat gecikti.
+Neden: Kaynak sistemde bir sütunun adı değişti. Bir sonraki gecede aynı durumun
+panoyu durdurmaması için kontrolü genişletiyoruz.
+
+Kime: Bazaarly uygulama ekibi (bz_orders sahibi)
+Konu: bz_orders günlük dosyasında 'status_code' → 'status' değişikliği
+15 Nisan dosyasından itibaren sütun adı değişmiş. Veri sözleşmesinde (contracts/bz_orders.yaml)
+bu sütun 'status_code' olarak tanımlı. Değişiklik kalıcı mı? Kalıcıysa sözleşmeyi
+güncelleyelim. Bundan sonraki değişiklikler için iki haftalık bildirim süresi öneriyoruz.

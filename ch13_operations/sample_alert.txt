@@ -1,0 +1,4 @@
+[CRITICAL] freshness: gold.fact_sales is 2 days behind (expected: 1)
+Impact: the management dashboard and agg_sales_daily show yesterday's data.
+Owner: data-platform (on call: Deniz)
+First step: runbooks/freshness.md · last run: nightly_meridian, 2027-04-16 03:12

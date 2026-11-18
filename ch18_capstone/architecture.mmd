@@ -1,0 +1,43 @@
+flowchart LR
+  subgraph SRC[Sources]
+    POS[MM POS files - daily batch]
+    MMREF[MM stores, products, loyalty]
+    BZO[BZ orders and items]
+    BZE[BZ events - stream]
+    BZR[BZ returns - new Jul 2027]
+    REF[FX rates, channel codes]
+    TIX[Support tickets and docs]
+  end
+  subgraph LH[Lakehouse - catalog meridian]
+    RAW[raw / landing]
+    BR[bronze]
+    SI[silver]
+    GO[gold]
+    QA[quality schema]
+  end
+  subgraph USE[Consumers]
+    BI[Finance dashboard 07:30]
+    ML[Fraud features]
+    T2S[Text-to-SQL]
+    RAG[Support assistant]
+  end
+  subgraph AG[Agent team]
+    MA[Morning agent 07:00]
+    PA[pipeline_agent]
+    SA[support_assistant]
+  end
+  POS --> RAW
+  MMREF --> RAW
+  BZO --> RAW
+  BZE --> RAW
+  BZR --> RAW
+  REF --> RAW
+  RAW --> BR --> SI --> GO
+  SI --> QA
+  GO --> BI
+  GO --> ML
+  GO --> T2S
+  TIX --> RAG
+  RAG --> SA
+  QA --> MA
+  GO --> PA

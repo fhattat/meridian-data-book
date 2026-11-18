@@ -1,0 +1,110 @@
+# ch10_quality/rules.yaml
+version: 1
+rules:
+  - name: products_id_unique
+    table: silver.products
+    type: unique
+    columns: [product_id]
+    max_bad_rows: 0
+    severity: critical
+    owner: data-eng@meridian.example.com
+    action: stop_publish
+
+  - name: pos_lines_keys_not_null
+    table: silver.pos_lines
+    type: not_null
+    columns: [receipt_no, product_id]
+    max_bad_rows: 0
+    severity: critical
+    owner: data-eng@meridian.example.com
+    action: quarantine
+
+  - name: bz_orders_status_accepted
+    table: silver.bz_orders
+    type: accepted_values
+    column: status_code
+    values: [placed, shipped, delivered, cancelled, returned]
+    max_bad_rows: 0
+    severity: warning
+    owner: bazaarly-app@meridian.example.com
+    action: report
+
+  - name: bz_items_have_order
+    table: silver.bz_order_items
+    type: referential
+    column: order_id
+    ref_table: silver.bz_orders
+    ref_column: order_id
+    max_bad_rows: 0
+    severity: critical
+    owner: data-eng@meridian.example.com
+    action: quarantine
+
+  - name: bz_channel_code_mapped
+    table: silver.bz_orders
+    type: referential
+    column: channel_code
+    ref_table: silver.channel_codes
+    ref_column: channel_code
+    max_bad_rows: 0
+    severity: warning
+    owner: bazaarly-app@meridian.example.com
+    action: report
+
+  - name: bz_order_total_matches_lines
+    table: silver.bz_orders
+    type: header_detail
+    key: order_id
+    header_amount: order_total_original
+    detail_table: silver.bz_order_items
+    detail_amount: amount_original
+    tolerance: 0.01
+    max_bad_rows: 0
+    severity: warning
+    owner: finance@meridian.example.com
+    action: report
+
+  - name: pos_negative_qty_only_returns
+    table: silver.pos_lines
+    type: expression
+    bad_rows_where: "qty < 0 AND NOT is_return"
+    max_bad_rows: 0
+    severity: warning
+    owner: store-ops@meridian.example.com
+    action: report
+
+  - name: bz_orders_no_future_dates
+    table: silver.bz_orders
+    type: expression
+    bad_rows_where: "order_ts_utc > CAST(now() AS TIMESTAMP)"
+    max_bad_rows: 0
+    severity: critical
+    owner: data-eng@meridian.example.com
+    action: quarantine
+
+  - name: pos_receipts_ts_resolved   # ambiguous times at the DST switch stay NULL (Chapter 9)
+    table: silver.pos_receipts
+    type: not_null
+    columns: [receipt_ts_utc]
+    max_bad_rows: 0
+    severity: warning
+    owner: store-ops@meridian.example.com
+    action: report
+
+  - name: pos_receipts_fresh
+    table: silver.pos_receipts
+    type: freshness
+    column: receipt_ts_utc
+    max_age_hours: 30
+    severity: critical
+    owner: data-eng@meridian.example.com
+    action: stop_publish
+
+  - name: pos_lines_volume_stable
+    table: silver.pos_lines
+    type: volume
+    date_column: receipt_local_date
+    max_change_pct: 40
+    severity: warning
+    owner: data-eng@meridian.example.com
+    action: report

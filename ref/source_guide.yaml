@@ -1,0 +1,81 @@
+# ref/source_guide.yaml
+# Machine-readable extract of OP01 (data/raw/ops/source_system_guide.pdf) and of Meridian's ERP notes.
+# Rule (Chapters 7 and 14): descriptions come only from the source documents. A column that the
+# documents do not explain has no description here; profile_source.py and extract_metadata.py leave
+# it empty and list it as an open question. Do not fill gaps by guessing.
+version: 3.2
+tables:
+  bz_orders_2027:
+    description: "Bazaarly orders, one row per order; daily incremental file since January 2027."
+    columns:
+      order_id: {description: "Unique order number."}
+      user_id: {description: "Buyer (bz_users.user_id)."}
+      order_date: {description: "Order time in UTC (ISO 8601)."}
+      channel_code:
+        description: "Sales channel code."
+        allowed_values: ["10", "20", "30", "40"]   # 10 web, 20 iOS app, 30 Android app, 40 partner API
+      status_code:
+        description: "Order status."
+        allowed_values: [placed, shipped, delivered, cancelled, returned]
+      currency:
+        description: "ISO currency of the order."
+        allowed_values: [USD, CAD, GBP, EUR]
+      # order_total, notes: not described in the guide
+  bz_orders_2025:
+    description: "Bazaarly orders placed in 2025 (yearly table of the application database)."
+    columns:
+      order_id: {description: "Unique order number."}
+      user_id: {description: "Buyer (bz_users.user_id)."}
+      order_date: {description: "Order time in UTC (ISO 8601)."}
+      channel_code: {description: "Sales channel code.", allowed_values: ["10", "20", "30", "40"]}
+      status_code: {description: "Order status.", allowed_values: [placed, shipped, delivered, cancelled, returned]}
+      currency: {description: "ISO currency of the order.", allowed_values: [USD, CAD, GBP, EUR]}
+  bz_orders_2026:
+    description: "Bazaarly orders placed in 2026 (yearly table of the application database)."
+    columns:
+      order_id: {description: "Unique order number."}
+      user_id: {description: "Buyer (bz_users.user_id)."}
+      order_date: {description: "Order time in UTC (ISO 8601)."}
+      channel_code: {description: "Sales channel code.", allowed_values: ["10", "20", "30", "40"]}
+      status_code: {description: "Order status.", allowed_values: [placed, shipped, delivered, cancelled, returned]}
+      currency: {description: "ISO currency of the order.", allowed_values: [USD, CAD, GBP, EUR]}
+  bz_order_items:
+    description: "One row per ordered item."
+    columns:
+      product_name: {description: "Name of the product at order time."}
+      qty: {description: "Quantity."}
+      unit_price: {description: "Unit price in the order currency."}
+      amount: {description: "Line amount in the order currency."}
+  bz_users:
+    description: "Bazaarly user accounts."
+    columns:
+      user_id: {description: "User id."}
+      email: {description: "Login e-mail (personal data)."}
+      created_at: {description: "Account creation time (UTC)."}
+  bz_products:
+    description: "Bazaarly product catalogue."
+    columns:
+      product_code: {description: "Catalogue id."}
+      upc: {description: "Barcode when the seller provided one."}
+      hash_key: {description: "Technical column of the catalogue service; no business meaning."}
+      source_id: {description: "Technical column of the catalogue service; no business meaning."}
+  bz_shipments:
+    description: "One row per package; an order can have more than one package."
+  # Silver and gold tables (Chapter 14): descriptions written by the data team and reviewed by the steward
+  customers:
+    description: "One row per source customer record (member, user or account); not de-duplicated."
+    columns:
+      customer_id: {description: "Source-prefixed id: MM-M-<member no>, BZ-U-<user id>, MM-A-<account id>."}
+      customer_type: {description: "member | user | account.", allowed_values: [member, user, account]}
+      email_norm: {description: "LOWER(TRIM(email)); used only for matching (silver.customer_xref)."}
+      is_test: {description: "TRUE for the records listed in ref/test_records.csv."}
+  pos_lines:
+    description: "Meridian POS receipt lines; returns are negative lines."
+    columns:
+      amount_usd: {description: "Line amount after discount, excluding tax."}
+      receipt_local_date: {description: "Sale date in the store's local time."}
+  bz_orders:
+    description: "Bazaarly orders of all years in one table, typed; times in UTC, order_local_date in New York time."
+    columns:
+      order_total_usd: {description: "Header total in USD at the order date's rate; not used for net sales."}
+      fx_rate_date: {description: "Date of the rate used (last business day on or before the order date)."}

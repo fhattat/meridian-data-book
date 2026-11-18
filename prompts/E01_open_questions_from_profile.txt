@@ -1,0 +1,11 @@
+# Ek E — E.1 Kaynak profilinden açık sorular (Bölüm 7)
+# Kaynak: AI-Assisted Data Engineering, Ek E
+
+Görev: Ekteki profil raporunu oku ve bu kaynağa bağlanmadan önce kaynak sahibine
+sorulması gereken soruların listesini çıkar.
+Girdi: profile_source.py çıktısı (sütun tipleri, NULL oranları, tekil sayılar, örnek değerler)
+       ve varsa kaynak belge (source_guide).
+Çıktı: Tablo: sütun | gözlem | soru | aciliyet (yüksek/orta/düşük).
+Kural: Belgede olmayan bir kodun ya da sütunun anlamını tahmin etme; "anlamı belgede yok" yaz.
+       Kişisel veri şüphesi olan sütunları ayrıca işaretle: direct, indirect, free_text.
+Sunum: Her satırda gözlemin dayandığı profil değerini yaz.

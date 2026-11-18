@@ -1,0 +1,13 @@
+{
+  "name": "katalog",
+  "description": "Extracts technical metadata for the tables in a schema directly from the data, takes descriptions only from the source guide, and writes YAML files, a lineage diagram and a catalog page to the metadata/ folder. Never invents descriptions; unknown fields stay empty.",
+  "input_schema": {
+    "type": "object",
+    "properties": {
+      "schema": {"type": "string", "enum": ["bronze", "silver", "gold", "quality"]},
+      "tables": {"type": "array", "items": {"type": "string"}, "description": "Optional list; all tables in the schema when omitted."},
+      "env": {"type": "string", "enum": ["local", "databricks"], "default": "local"}
+    },
+    "required": ["schema"]
+  }
+}

@@ -10,7 +10,7 @@ Runnable files are in this folder; for scripts printed as "(shortened)" in the b
 **Code F.1**
 
 ```bash
-git clone <repo-url> meridian-data-book && cd meridian-data-book
+git clone https://github.com/fhattat/meridian-data-book && cd meridian-data-book
 pip install -r requirements.txt
 python data/generate_data.py --size small --seed 2027 --out data/raw   # or: make data
 python run_pipeline.py --env local --size small                      # or: make all
@@ -22,10 +22,10 @@ python run_pipeline.py --env local --size small                      # or: make 
 
 ```text
 meridian-data-book/
-├── README.md  CLAUDE.md  Makefile  requirements.txt
+├── README.md  REFERENCES.md  CLAUDE.md  RULES.md  Makefile  requirements.txt
 ├── run_pipeline.py  databricks.yml  pipelines.yaml  glossary.yaml  CODEOWNERS
 ├── data/        generate_data.py, raw/, layers/
 ├── ref/  contracts/  governance/  metadata/  metrics/  products/
-├── jobs/  runbooks/  lib/  prompts/  reports/  tests/
-└── ch03_toolkit/ … ch19_career/   (chapter folders)
+├── jobs/  runbooks/  lib/  prompts/  reports/  tests/  appendices/
+└── ch01_what_is_de/ … ch20_future/   (chapter folders: README.md, BOOK_CODE.md, scripts)
 ```

@@ -1,14 +1,11 @@
-# Bölüm 3 — Araç çantası: çalışma ortamı, SQL ve Python
+# Chapter 3 — Toolkit: environment, SQL and Python
 
 ## Code from the book
 
-Every code block of this chapter, in book order, under the book's section headings (Turkish, as printed).
-Runnable files are in this folder; for scripts printed as "(shortened)" the full version is the file here.
-Bu dosya bölümdeki bütün kod bloklarını kitaptaki sırasıyla ve alt bölüm başlıklarıyla verir.
+Every code block of this chapter, in book order, under the book's section headings.
+Runnable files are in this folder; for scripts printed as "(shortened)" in the book, the full version is the file here.
 
-### 3.1 Ana ortam Databricks: ilk kurulum, notebook, SQL warehouse, Unity Catalog
-
-> Kitap boyunca şu adlandırmayı kullanacağız: meridian adlı bir katalog, içinde bronze, silver, gold şemaları ve ham dosyalar için meridian.raw.landing volume’ü.
+### 3.1 Main environment Databricks: first setup, notebook, SQL warehouse, Unity Catalog
 
 **Code 3.1**
 
@@ -22,9 +19,7 @@ CREATE SCHEMA IF NOT EXISTS meridian.silver;
 CREATE SCHEMA IF NOT EXISTS meridian.gold;
 ```
 
-### 3.2 Ücretsiz alternatif laboratuvar: Colab, Google Drive ve DuckDB
-
-> load_sample.py. Kitabın veri seti iki boyda geliyor. Küçük sürüm 50 MB’ın altında ve dizüstü bilgisayarda rahat çalışır. QR’daki klasörü indirip data/raw altına açın, sonra şu script’i çalıştırın. Script, Meridian’ın ve Bazaarly’nin bu bölümde…
+### 3.2 A free alternative lab: Colab, Google Drive and DuckDB
 
 **Code 3.2**
 
@@ -60,9 +55,7 @@ for table, path in files.items():
     print(f"{table}: {n} rows")
 ```
 
-### 3.3 Notebook mu script mi? Git ve terminalin minimumu
-
-> Git’in minimumu. Sürüm kontrolü, kodunuzun her değişikliğini adıyla ve tarihiyle saklar; bir şey bozulunca geri dönebilirsiniz. Başlangıç için altı komut yeter:
+### 3.3 Notebook or script? The minimum of Git and the terminal
 
 **Code 3.3**
 
@@ -75,9 +68,7 @@ git commit -m "Add script that loads the sample data into DuckDB"
 git push -u origin ch03-first-queries
 ```
 
-### 3.4 Gerçek projelerde en çok kullanılan SQL
-
-> Listenin başında her gün kullanılan altı kavram var: WHERE, JOIN, GROUP BY, ORDER BY, CTE ve CASE WHEN. Bunları rahatça yazabiliyorsanız, veri mühendisliğinin SQL’inin büyük bölümünü yazabiliyorsunuz demektir. Altısını tek bir sorguda görelim. Soru:…
+### 3.4 The SQL used most in real projects
 
 **Code 3.4**
 
@@ -113,9 +104,7 @@ GROUP BY 1, 2                                      -- GROUP BY: summarize
 ORDER BY total_amount DESC;                        -- ORDER BY: sort
 ```
 
-### 3.5 Veri mühendisine özgü SQL kalıpları
-
-> 1. Anti-join: Karşılığı olmayan satırları bulmak. Test kullanıcısı 900000’i Silver katmanında silmeyeceğiz; is_test ile işaretleyip raporların dışında tutacağız. Peki onun siparişleri ne olacak? Anti-join, bir tabloda olup diğerinde karşılığı olmayan…
+### 3.5 SQL patterns specific to data engineering
 
 **Code 3.5**
 
@@ -129,16 +118,12 @@ LEFT JOIN real_users AS u ON o.user_id = u.user_id
 WHERE u.user_id IS NULL;      -- no match = orphan order
 ```
 
-> 2. COUNT ve COUNT DISTINCT: Mükerrer var mı? Bir anahtarın tekil olup olmadığını anlamanın en hızlı yolu iki sayımı yan yana koymaktır:
-
 **Code 3.6**
 
 ```sql
 SELECT COUNT(*) AS row_count, COUNT(DISTINCT product_code) AS distinct_codes
 FROM raw.bz_products;
 ```
-
-> 3. UNION ALL ve denetim sütunu: Yıllara bölünmüş tabloları birleştirmek. Bazaarly siparişleri yıl yıl ayrı tablolarda ve 2025 tablosunda fazladan bir legacy_ref sütunu var. UNION ALL’u sütunları tek tek sayarak yazıyoruz ve her satıra nereden geldiğini…
 
 **Code 3.7**
 
@@ -152,8 +137,6 @@ SELECT order_id, user_id, order_date, channel_code, currency, order_total,
 FROM raw.bz_orders_2026;
 ```
 
-> 4. ROW_NUMBER: Aynı kaydın en son halini almak. Satın almadan sonra Bazaarly siparişleri günlük dosyalarla gelecek. Durumu değişen bir sipariş (ör. “kargoda” → “teslim edildi”) birkaç dosyada tekrar görünecek. En son hali yükleme zamanına göre buluruz:
-
 **Code 3.8**
 
 ```sql
@@ -164,8 +147,6 @@ QUALIFY ROW_NUMBER() OVER (
 ) = 1;
 ```
 
-> 5. EXCEPT: İki katman birbirini tutuyor mu? Bronze’daki her 2026 siparişi Silver’a ulaştı mı? EXCEPT, birinci sorguda olup ikincisinde olmayan satırları verir:
-
 **Code 3.9**
 
 ```sql
@@ -174,9 +155,7 @@ EXCEPT
 SELECT order_id FROM silver.bz_orders;
 ```
 
-### 3.6 Python’da tablo düşüncesi: şema ve DataFrame
-
-> Aynı soruyu dört araçla soralım: “Test kaydı hariç, sadakat üyeleri hangi eyalette yoğunlaşıyor?” Meridian’ın eski ERP’si sütun adlarını büyük harfle veriyor; kodda da öyle kalıyor.
+### 3.6 Thinking in tables in Python: schema and DataFrame
 
 **Code 3.10**
 
@@ -214,9 +193,7 @@ out = (df.filter(F.col("MEMBER_NO") != "999")
        .orderBy(F.desc("count")))
 ```
 
-### 3.7 Uygulama: Veri setini yükle, eski SQL’i AI ile analiz et
-
-> Adım 1: Veriyi üret ya da indir. Veri setini QR’daki klasörden indirebilir ya da depodaki üretim script’iyle kendiniz üretebilirsiniz. Aynı seed her seferinde birebir aynı dosyaları verir:
+### 3.7 Hands-on: load the data set, analyze the legacy SQL with AI
 
 **Code 3.11**
 
@@ -224,8 +201,6 @@ out = (df.filter(F.col("MEMBER_NO") != "999")
 python data/generate_data.py --size small --seed 2027 --out data/raw
 python ch03_toolkit/load_sample.py
 ```
-
-> Adım 4: Basit bir sayaç script’i. AI’a gitmeden önce küçük bir Python hücresiyle kaba bir resim çıkarın. Bu sayım kusursuz değil (yorum satırlarını da sayar) ama AI’ın vereceği rakamları kontrol etmek için bir çıpa olur:
 
 **Code 3.12**
 

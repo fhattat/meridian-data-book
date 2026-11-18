@@ -1,6 +1,6 @@
-# Ek E — E.15 Manşet kontrolü (Bölüm 19.5)
-# Kaynak: AI-Assisted Data Engineering, Ek E
+# Appendix E — E.15 Headline check (Chapter 19.5)
+# Source: AI-Assisted Data Engineering, Appendix E
 
-Görev: Bu haberdeki her iddiayı ayır.
-Çıktı: Tablo: iddia | konuşan ve ne sattığı | tarih veriyor mu | birincil kaynak.
-Kural: Birincil kaynağını bulamadığın iddiayı "kaynaksız" diye işaretle; tahmin yürütme.
+Task: Separate every claim in this news article.
+Output: Table: claim | who says it and what they sell | does it give a date | primary source.
+Rule: Mark a claim whose primary source you cannot find as "unsourced"; do not speculate.

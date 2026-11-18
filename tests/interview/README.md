@@ -1,41 +1,45 @@
-# Ek C — SQL alıştırmalarının çözümleri
+# Appendix C — solutions of the SQL exercises
 
-> Bu klasördeki bütün veriler, şirket adları ve dosyalar sentetiktir; hiçbir gerçek kişiye ait değildir.
 > All data, company names and files here are synthetic and belong to no real person.
 
-## Önce kendiniz çözün
+## Solve them yourself first
 
-Ek C'deki sekiz soruyu **AI'sız**, her biri için en fazla 15 dakikayla çözün. Sonra buradaki çözümle karşılaştırın. Mülakatta da AI olmayacak; burada kazandığınız şey hız değil, tuzağı görme alışkanlığı.
+Solve the eight questions of Appendix C **without AI**, at most 15 minutes each. Then compare with the
+solutions here. There is no AI in the interview either: what you gain here is not speed but the habit
+of seeing the trap.
 
-## Dosyalar
+## Files
 
-| Soru | Dosya | Tuzak |
+| Question | File | Trap |
 |---|---|---|
-| 1 | `solutions/q01_orders_without_items.sql` | `NOT IN` ve NULL; anti-join |
-| 2 | `solutions/q02_current_customer.sql` | SCD 2'de birden fazla satır |
-| 3 | `solutions/q03_net_sales_by_region_2026.sql` | Bazaarly Online bir bölgede değil (NULL) |
-| 4 | `solutions/q04_bazaarly_orders_march_2027.sql` | `COUNT(DISTINCT)`, iptal ve test siparişleri |
-| 5 | `solutions/q05_header_vs_lines.sql` | Kalemi olmayan sipariş, kuruş toleransı |
-| 6 | `solutions/q06_customers_in_both.sql` | E-posta normalizasyonu, test kayıtları |
-| 7 | `solutions/q07_top3_categories_per_store.sql` | `RANK` ve `ROW_NUMBER` farkı (eşitlik) |
-| 8 | `solutions/q08_bronze_vs_silver_pos.sql` | Boşluklu metin anahtarlar; test kayıtları silinmez, işaretlenir |
+| 1 | `solutions/q01_orders_without_items.sql` | `NOT IN` and NULL; anti-join |
+| 2 | `solutions/q02_current_customer.sql` | more than one row per customer in SCD 2 |
+| 3 | `solutions/q03_net_sales_by_region_2026.sql` | Bazaarly Online is in no region (NULL) |
+| 4 | `solutions/q04_bazaarly_orders_march_2027.sql` | `COUNT(DISTINCT)`, cancelled and test orders |
+| 5 | `solutions/q05_header_vs_lines.sql` | order without items, one-cent tolerance |
+| 6 | `solutions/q06_customers_in_both.sql` | e-mail normalization, test records |
+| 7 | `solutions/q07_top3_categories_per_store.sql` | `RANK` versus `ROW_NUMBER` (ties) |
+| 8 | `solutions/q08_bronze_vs_silver_pos.sql` | text keys with spaces; test records are flagged, not deleted |
 
-`fixture.sql` küçük bir test verisi kurar; her tuzak en az bir satırla temsil edilir. `test_interview_solutions.py` her çözümü bu veride çalıştırıp beklenen cevapla karşılaştırır.
+`fixture.sql` builds a small test data set; every trap has at least one row.
+`test_interview_solutions.py` runs every solution on it and compares with the expected answer.
 
-## Çalıştırma
+## Run
 
-Depo kökünden:
+From the repository root:
 
 ```bash
-pytest tests/interview -q
+python -m pytest tests/interview -q
 ```
 
-Testler DuckDB ile çalışır. DuckDB kurulu değilse Python'un yerleşik `sqlite3` modülüne geçer; çözümler bu yüzden DuckDB, Databricks SQL ve SQLite'ta aynı çalışan taşınabilir SQL ile yazıldı. `QUALIFY` gibi kısa yazımlar dosyalardaki yorumlarda.
+The tests use DuckDB. Without DuckDB they fall back to Python's built-in `sqlite3`; that is why the
+solutions are written in portable SQL that runs the same on DuckDB, Databricks SQL and SQLite. Shorter
+forms such as `QUALIFY` are in the comments of the files.
 
-Gerçek veride denemek için:
+To try them on the real data:
 
 ```bash
 duckdb data/meridian.duckdb < tests/interview/solutions/q03_net_sales_by_region_2026.sql
 ```
 
-Databricks'te tablo adlarının önüne katalog adını ekleyin (`meridian_dev.gold.fact_sales` gibi).
+On Databricks, prefix the table names with the catalog (e.g. `meridian.gold.fact_sales`).

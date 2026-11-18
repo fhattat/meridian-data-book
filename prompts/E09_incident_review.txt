@@ -1,10 +1,10 @@
-# Ek E — E.9 Arıza incelemesi (Bölüm 13.4)
-# Kaynak: AI-Assisted Data Engineering, Ek E
+# Appendix E — E.9 Incident review (Chapter 13.4)
+# Source: AI-Assisted Data Engineering, Appendix E
 
-Görev: Bu log satırlarında asıl hatayı gürültüden ayır ve arıza günlüğünde benzer kayıtları bul.
-Girdi: Log satırları (OP05 biçimi), incident_log.yaml.
-Çıktı: (1) Engelleyen hata ve sınıfı (transient | schema | data | security | unknown),
-       (2) gürültü sayılan satırlar ve nedeni, (3) en fazla üç benzer kayıt ve benzerlik nedeni.
-Kural: Kök neden önerme ve hiçbir şeyi yeniden çalıştırmayı önerme; yalnızca kayıtlardaki
-       bilgiyi kullan.
-Sunum: Tüketicilere ve kaynak sahibine birer suçlamasız e-posta taslağı ekle; gönderme.
+Task: In these log lines, separate the real error from the noise and find similar records in the incident log.
+Input: Log lines (OP05 format), incident_log.yaml.
+Output: (1) The blocking error and its class (transient | schema | data | security | unknown),
+        (2) the lines counted as noise and why, (3) at most three similar records and why they are similar.
+Rule: Do not propose a root cause and do not propose re-running anything; use only the information
+      in the records.
+Presentation: Add a blameless e-mail draft for the consumers and one for the source owner; do not send them.

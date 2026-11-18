@@ -1,14 +1,11 @@
-# Bölüm 16 — Script’ten agent ekibine
+# Chapter 16 — From scripts to an agent team
 
 ## Code from the book
 
-Every code block of this chapter, in book order, under the book's section headings (Turkish, as printed).
-Runnable files are in this folder; for scripts printed as "(shortened)" the full version is the file here.
-Bu dosya bölümdeki bütün kod bloklarını kitaptaki sırasıyla ve alt bölüm başlıklarıyla verir.
+Every code block of this chapter, in book order, under the book's section headings.
+Runnable files are in this folder; for scripts printed as "(shortened)" in the book, the full version is the file here.
 
-### 16.2 Script’leri araç yapmak: mcp_server.py ve yetkiler
-
-> Sunucu. Aşağıdaki iskelet MCP’nin Python SDK’sıyla yazıldı. Her araç iki satır: ilgili script’in run() fonksiyonunu çağırır ve sonucu döner. Aslı iş guarded() sarmalayıcısında.
+### 16.2 Turning scripts into tools: mcp_server.py and permissions
 
 **Code 16.1**
 
@@ -110,8 +107,6 @@ if __name__ == "__main__":
     mcp.run()
 ```
 
-> Sunucudaki WRITE_SCOPE tek başına bir şey korumaz; bir etikettir. Korumayı yapan, script’lerin yazarken kullandığı ortak kapı: lib/io.py’deki write_table(). Önceki bölümlerin kısaltılmış kodlarında bazı script’ler doğrudan to_parquet ya da con.execute ile…
-
 **Code 16.2**
 
 ```python
@@ -128,8 +123,6 @@ def write_table(df, target: str, **kw):
     ...
 ```
 
-> Fonksiyon çağırma alternatifi. MCP kullanmayan bir uygulamada aynı araçlar bir sözlük ve bir dağıtıcıyla sunulur:
-
 **Code 16.3**
 
 ```python
@@ -141,9 +134,7 @@ def call_tool(name: str, args: dict) -> dict:
     return TOOLS[name](**args)
 ```
 
-### 16.3 İlk agent: sabah 07:00 pipeline kontrol agent’ı
-
-> Runbook (skill). Bölüm 15.2’de runbooks/morning_check.md dosyasının ilk halini altı adımla yazmıştık; altıncı adım dört yasak eylemi sayıyordu: yeniden çalıştırma, silme, üretime alma, e-posta gönderme. Agent’ı kurarken o dosyayı yeniden tanımlamıyoruz;…
+### 16.3 The first agent: the 07:00 morning pipeline check agent
 
 **Code 16.4**
 
@@ -181,8 +172,6 @@ def call_tool(name: str, args: dict) -> dict:
 - For every critical finding that affects the dashboard, a separate short note to Marcus (he owns the dashboard).
 ```
 
-> Kod. Önce bir hazırlık: Bölüm 15’teki mini_agent.py’de modelle konuşan tek kapı ask_llm(messages, tools) idi. Bu bölümdeki bütün agent’lar aynı kapıyı kullanıyor. Onu lib/llm.py’ye taşıyıp üstüne iki küçük yardımcı ekliyoruz:
-
 **Code 16.5**
 
 ```python
@@ -200,8 +189,6 @@ def ask_text(prompt, system=""):
 def ask_json(prompt, system=""):
     return json.loads(ask_text(prompt + "\nReply with JSON only.", system))
 ```
-
-> morning_agent.py üç parçadan oluşuyor. Birinci parça sabit bir workflow: Eşiklere bakan kontroller kuraldır, yorum değil. İkinci parça küçük bir ReAct döngüsü: Model bulgulara bakıp runbook’taki ek kontrollerden birini seçer, sonucu okur, gerekirse bir…
 
 **Code 16.6**
 
@@ -314,9 +301,7 @@ def run(day: str | None = None) -> dict:
             "accepted": not problems, "sent": False}   # nothing was sent
 ```
 
-### 16.4 Fan-out: kaynak başına bir agent ile metadata
-
-> Tablo 16.4 — Fan-out: kaynak başına alt agent
+### 16.4 Fan-out: metadata with one agent per source
 
 **Code 16.7**
 
@@ -382,9 +367,7 @@ def find_conflicts(results: list[dict]) -> list[dict]:
     return out
 ```
 
-### 16.5 Yönetici agent ve insana sorma kuralları
-
-> Yönetici agent bir hedef alır (“bz_returns kaynağını platforma al”), hazır oyun planlarından (playbook) birini seçer, adımları alt agent’lara dağıtır ve her adımın sonucuna göre devam eder ya da durur. Kendisi hiçbir aracı doğrudan çağırmaz; işi alt…
+### 16.5 The manager agent and the rules for asking a human
 
 **Code 16.8**
 
@@ -457,9 +440,7 @@ def needs_human(step: str, result: dict) -> bool:
     return False
 ```
 
-### 16.6 Mühendislik araç kiti ve veri ürünü vitrini
-
-> Altı sayfanın beşi zaten var olan dosyalardan kural tabanlı üretiliyor. AI yalnızca iki yerde devrede: Her sayfanın başına “bu sayfa ne anlatıyor” diye iki cümlelik bir giriş yazıyor ve call graph’te fonksiyonların docstring’i yoksa bir satırlık açıklama…
+### 16.6 The engineering toolkit and the data product showcase
 
 **Code 16.9**
 

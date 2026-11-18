@@ -1,16 +1,13 @@
-# Ek D — Hata günlüğü
+# Appendix D — Error log
 
 ## Code from the book
 
-Every code block of this chapter, in book order, under the book's section headings (Turkish, as printed).
-Runnable files are in this folder; for scripts printed as "(shortened)" the full version is the file here.
-Bu dosya bölümdeki bütün kod bloklarını kitaptaki sırasıyla ve alt bölüm başlıklarıyla verir.
+Every code block of this chapter, in book order, under the book's section headings.
+Runnable files are in this folder; for scripts printed as "(shortened)" in the book, the full version is the file here.
 
-### Kendi hata günlüğünüz için şablon
+### A template for your own error log
 
-> Bölüm 13’teki alanları kendi ekibinizde de kullanabilirsiniz. Kök nedeni ve kalıcı çözümü her zaman bir insan doldurur; check_pipeline_logs.py yalnızca açık bir kayıt ekler.
-
-**Code Ek D.1**
+**Code D.1**
 
 ```yaml
 - id: INC-YYYYMMDD-NN          # date + running number in the log (check_pipeline_logs.py: len(incidents) + 1)

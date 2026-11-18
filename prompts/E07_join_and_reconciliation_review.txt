@@ -1,8 +1,8 @@
-# Ek E — E.7 JOIN ve mutabakat incelemesi (Bölüm 10.4, 11)
-# Kaynak: AI-Assisted Data Engineering, Ek E
+# Appendix E — E.7 JOIN and reconciliation review (Chapters 10.4, 11)
+# Source: AI-Assisted Data Engineering, Appendix E
 
-Görev: Bu SQL'deki her JOIN için beklenen kardinaliteyi ve satır sayısına etkisini yaz.
-Girdi: SQL dosyası, ilgili tabloların anahtarları.
-Çıktı: Tablo: JOIN | sol anahtar | sağ anahtar | beklenen kardinalite | risk.
-Kural: Sağ tarafın tekil olduğunu varsayma; tekil değilse fan-out riski olarak yaz.
-Sunum: Mutabakat için çalıştırılması gereken iki kontrol sorgusunu ekle.
+Task: For every JOIN in this SQL, write the expected cardinality and its effect on the row count.
+Input: The SQL file, the keys of the tables involved.
+Output: Table: JOIN | left key | right key | expected cardinality | risk.
+Rule: Do not assume the right side is unique; if it is not, write it down as a fan-out risk.
+Presentation: Add two check queries to run for reconciliation.

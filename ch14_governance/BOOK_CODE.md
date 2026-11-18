@@ -1,14 +1,11 @@
-# Bölüm 14 — Metadata, katalog, lineage ve güvenlik
+# Chapter 14 — Metadata, catalog, lineage and security
 
 ## Code from the book
 
-Every code block of this chapter, in book order, under the book's section headings (Turkish, as printed).
-Runnable files are in this folder; for scripts printed as "(shortened)" the full version is the file here.
-Bu dosya bölümdeki bütün kod bloklarını kitaptaki sırasıyla ve alt bölüm başlıklarıyla verir.
+Every code block of this chapter, in book order, under the book's section headings.
+Runnable files are in this folder; for scripts printed as "(shortened)" in the book, the full version is the file here.
 
-### 14.2 Metadata üretmek: teknik bilgi veriden, açıklama dokümandan, bilinmeyen boş
-
-> extract_metadata.py. Script her tablo için teknik alanları DuckDB’nin SUMMARIZE komutuyla veriden ölçer. Açıklamaları Bölüm 7’de başlattığımız ref/source_guide.yaml dosyasından, sahip ve steward bilgisini 14.1’deki rol tablosunun dosya hali olan…
+### 14.2 Producing metadata: technical facts from the data, descriptions from documents, unknowns empty
 
 **Code 14.1**
 
@@ -82,8 +79,6 @@ def describe(con, schema, table, guide, owners):
     }
 ```
 
-> Script’in geri kalanı (tabloları dolaşan run() ve lineage) 14.3 ve 14.6’da. silver.customers için üretilen dosyanın bir parçası şöyle görünüyor (sayılar küçük sürümden yaklaşık):
-
 **Code 14.2**
 
 ```yaml
@@ -113,9 +108,7 @@ columns:
     description_source: null
 ```
 
-### 14.3 Katalog ve lineage: Unity Catalog ve açık alternatifler
-
-> Databricks’te. Unity Catalog üç düzeyli bir ad alanı kullanır: katalog.şema.tablo, bizde meridian.silver.customers. Açıklamalar yorum (comment), sınıflandırma ise etiket (tag) olarak tutulur. extract_metadata.py’nin ürettiği YAML’dan bu komutları üretmek…
+### 14.3 Catalog and lineage: Unity Catalog and open alternatives
 
 **Code 14.3**
 
@@ -129,8 +122,6 @@ ALTER TABLE meridian.silver.customers ALTER COLUMN email_norm
 ALTER TABLE meridian.silver.customers SET TAGS ('domain' = 'customer', 'owner' = 'crm_director');
 ALTER TABLE meridian.silver.customers ALTER COLUMN email_norm SET TAGS ('pii' = 'direct');
 ```
-
-> Ücretsiz araçlarla: Kendi küçük kataloğunuzu iki dosyayla kurabilirsiniz: metadata YAML’larından üretilen bir HTML sayfası ve SQL dosyalarından çıkarılan bir Mermaid lineage diyagramı. Aşağıdaki fonksiyonlar extract_metadata.py’nin devamı.
 
 **Code 14.4**
 
@@ -184,8 +175,6 @@ def catalog_html(metas):
             + "".join(rows) + "</table></body></html>")
 ```
 
-> gold.fact_sales için çıkan diyagramın kısaltılmış hali:
-
 **Code 14.5**
 
 ```mermaid
@@ -199,9 +188,7 @@ flowchart LR
   gold_fact_sales["gold.fact_sales"] --> gold_v_daily_sales["gold.v_daily_sales"]
 ```
 
-### 14.4 Data dictionary ve business glossary ayrımı
-
-> CRM direktörü ile CRM analisti bir toplantıda tanımı yazıyor, Deniz glossary.yaml dosyasına işliyor:
+### 14.4 Data dictionary versus business glossary
 
 **Code 14.6**
 
@@ -234,9 +221,7 @@ terms:
     owner: Commercial director
 ```
 
-### 14.5 Güvenlik: en az yetki, RBAC, maskeleme, KVKK
-
-> Unity Catalog’da roller grup olarak tanımlanır ve yetkiler katalog, şema ya da tablo düzeyinde verilir:
+### 14.5 Security: least privilege, RBAC, masking, privacy law
 
 **Code 14.7**
 
@@ -247,8 +232,6 @@ GRANT USE SCHEMA ON SCHEMA meridian.gold TO `ai_assistant_sp`;
 GRANT SELECT ON TABLE meridian.gold.rag_chunks TO `ai_assistant_sp`;
 ```
 
-> Etikete göre maskeleme. Her sütun için tek tek maske yazmak yerine kuralı etikete bağlarız: direct etiketli sütunlar maskelenir, indirect etiketliler genelleştirilir (doğum tarihi yerine doğum yılı, ZIP yerine ilk üç hane), free_text sütunlar AI indeksine…
-
 **Code 14.8**
 
 ```sql
@@ -258,8 +241,6 @@ CREATE OR REPLACE FUNCTION meridian.silver.mask_email(email STRING)
 
 ALTER TABLE meridian.silver.customers ALTER COLUMN email_norm SET MASK meridian.silver.mask_email;
 ```
-
-> Ücretsiz araçlarla: DuckDB’de sütun maskesi yok; aynı etkiyi view’la sağlarız. Kullanıcılar ham tabloya değil maskeli view’a erişir. View’ları elle yazmak yerine metadata YAML’ındaki pii alanından üretmek, yeni bir kişisel veri sütunu eklendiğinde maskenin…
 
 **Code 14.9**
 
@@ -273,8 +254,6 @@ SELECT customer_id,
 FROM silver.customers
 WHERE NOT is_test;
 ```
-
-> Satır düzeyinde güvenlik. Bölüm 11’de gold.v_fact_sales_secure view’ını kurmuş ve her bölge müdürünün yalnızca kendi bölgesini görmesini sağlamıştık. Güvenlik kuralının bir kez kurulup unutulması ise risklidir: Yeni bir müdür eklenir, bir bölge yeniden…
 
 **Code 14.10**
 
@@ -303,9 +282,7 @@ if __name__ == "__main__":
     print(run())
 ```
 
-### 14.6 Script → araç: extract_metadata.py → katalog aracı
-
-> 14.2 ve 14.3’teki fonksiyonları tek bir run() altında topluyoruz. Fonksiyon bir şemadaki tabloları dolaşır, her biri için metadata YAML’ı yazar, lineage diyagramını ve katalog sayfasını üretir ve agent’ın okuyabileceği kısa bir özet döner. İlk…
+### 14.6 Script → tool: extract_metadata.py → the katalog tool
 
 **Code 14.11**
 
@@ -347,8 +324,6 @@ if __name__ == "__main__":
     a = p.parse_args()
     print(json.dumps(run(schema=a.schema, tables=a.tables, env=a.env), indent=2))
 ```
-
-> Tablo 14.6 — Araç tanımı: katalog
 
 **Code 14.12**
 

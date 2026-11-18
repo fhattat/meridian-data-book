@@ -1,6 +1,6 @@
--- Ek C SQL alıştırmaları için küçük test verisi (sentetik).
--- Kanonik şemanın yalnızca alıştırmaların kullandığı sütunları var.
--- Her tuzak en az bir satırla temsil ediliyor; beklenen cevaplar test_interview_solutions.py'de.
+-- Small test data for the Appendix C SQL exercises (synthetic).
+-- Only the columns of the canonical schema that the exercises use.
+-- Every trap has at least one row; the expected answers are in test_interview_solutions.py.
 
 CREATE TABLE silver.bz_orders (
     order_id VARCHAR, customer_id VARCHAR, order_local_date DATE, status_code VARCHAR,
@@ -9,11 +9,11 @@ CREATE TABLE silver.bz_orders (
 INSERT INTO silver.bz_orders VALUES
     ('O1', 'BZ-U-1', '2027-03-02', 'delivered', 'USD', 30.00, FALSE, 'BZ'),
     ('O2', 'BZ-U-2', '2027-03-15', 'cancelled', 'USD', 20.00, FALSE, 'BZ'),
-    ('O3', 'BZ-U-1', '2027-03-20', 'delivered', 'EUR', 50.00, FALSE, 'BZ'),  -- başlık 50, kalemler 45
+    ('O3', 'BZ-U-1', '2027-03-20', 'delivered', 'EUR', 50.00, FALSE, 'BZ'),  -- header 50, items 45
     ('O4', 'BZ-U-3', '2027-03-31', 'shipped',   'USD', 10.00, FALSE, 'BZ'),  -- kalemi yok
-    ('O5', 'BZ-U-2', '2027-04-01', 'delivered', 'USD', 15.00, FALSE, 'BZ'),  -- Mart dışı
+    ('O5', 'BZ-U-2', '2027-04-01', 'delivered', 'USD', 15.00, FALSE, 'BZ'),  -- outside March
     ('O6', 'BZ-U-9', '2027-03-10', 'delivered', 'USD',  5.00, TRUE,  'BZ'),  -- test, kalemi yok
-    ('O7', 'BZ-U-3', '2027-03-12', 'delivered', 'USD', 12.00, FALSE, 'BZ');  -- kuruş farkı (tolerans içinde)
+    ('O7', 'BZ-U-3', '2027-03-12', 'delivered', 'USD', 12.00, FALSE, 'BZ');  -- one-cent difference (within tolerance)
 
 CREATE TABLE silver.bz_order_items (
     order_item_id VARCHAR, order_id VARCHAR, qty INTEGER, amount_original DECIMAL(12,2), is_test BOOLEAN
@@ -61,7 +61,7 @@ INSERT INTO gold.fact_sales VALUES
     ('L4',  20260620, 'P4', 'S1',  'R2', 'MM',  1,  10.00),
     ('L5',  20260620, 'P1', 'S1',  'R3', 'MM', -1, -20.00),  -- iade
     ('L6',  20260115, 'P2', 'S2',  'R4', 'MM',  1,  80.00),
-    ('L7',  20260115, 'P1', 'S2',  'R4', 'MM',  1,  80.00),  -- S2'de eşitlik
+    ('L7',  20260115, 'P1', 'S2',  'R4', 'MM',  1,  80.00),  -- tie in S2
     ('L8',  20260620, 'P3', 'S2',  'R5', 'MM',  1,   5.00),
     ('L9',  20260620, 'P1', 'S99', 'O1', 'BZ',  1,  40.00),
     ('L10', 20270110, 'P4', 'S1',  'R6', 'MM',  1, 999.00);  -- 2027, Soru 3'e girmez
@@ -99,4 +99,4 @@ INSERT INTO bronze.mm_pos_named VALUES
 CREATE TABLE silver.pos_lines (receipt_no VARCHAR, line_no INTEGER, is_test BOOLEAN);
 INSERT INTO silver.pos_lines VALUES
     ('R1', 1, FALSE), ('R1', 2, FALSE),
-    ('R3', 1, TRUE);  -- test fişi: işaretli, silinmemiş
+    ('R3', 1, TRUE);  -- test receipt: flagged, not deleted

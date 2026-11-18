@@ -1,14 +1,11 @@
-# Bölüm 13 — Orkestrasyon, izleme ve arıza yönetimi
+# Chapter 13 — Orchestration, monitoring and incident management
 
 ## Code from the book
 
-Every code block of this chapter, in book order, under the book's section headings (Turkish, as printed).
-Runnable files are in this folder; for scripts printed as "(shortened)" the full version is the file here.
-Bu dosya bölümdeki bütün kod bloklarını kitaptaki sırasıyla ve alt bölüm başlıklarıyla verir.
+Every code block of this chapter, in book order, under the book's section headings.
+Runnable files are in this folder; for scripts printed as "(shortened)" in the book, the full version is the file here.
 
-### 13.1 Cron’dan orkestratöre: Databricks Jobs, Airflow ve Dagster
-
-> Databricks’te. Databricks’in kendi orkestratörü Jobs; veri mühendisliği araçları Lakeflow adı altında toplandı. Bir job, görevlerden ve aralarındaki bağımlılıklardan oluşur. Tanımı arayüzden yapılabilir ama biz Git’te tutulan bir YAML dosyasını tercih…
+### 13.1 From cron to an orchestrator: Databricks Jobs, Airflow and Dagster
 
 **Code 13.1**
 
@@ -38,8 +35,6 @@ tasks:
     depends_on: [build_gold]
 ```
 
-> Ücretsiz araçlarla: Aynı DAG Airflow ya da Dagster ile kurulur. Airflow en yaygın olanı; Dagster ise görevler yerine “varlıklar” (tablolar) üzerinden düşünmeyi önerir. Küçük bir Airflow örneği:
-
 **Code 13.2**
 
 ```python
@@ -58,9 +53,7 @@ with DAG("nightly_meridian", schedule="0 2 * * *",
     ingest >> silver >> gate >> gold >> checks
 ```
 
-### 13.2 Config tabanlı pipeline; Git, CI ve ortamlar
-
-> Daha iyi yol, pipeline’ı bir kez yazmak ve neyi işleyeceğini bir yapılandırma dosyasına bırakmak. Buna config tabanlı (ya da metadata tabanlı) pipeline denir. Yeni kaynak yeni bir script değil, yeni bir config satırıdır.
+### 13.2 Config-driven pipelines; Git, CI and environments
 
 **Code 13.3**
 
@@ -100,9 +93,7 @@ sources:
     freshness_hours: 72      # no rates on weekends
 ```
 
-### 13.3 İş izleme ve veri izleme; SLI, SLO, SLA ve eyleme dönük uyarı
-
-> Eyleme dönük uyarı. Bir uyarıyı okuyan kişi “Ne yapmalıyım?” sorusunun cevabını bulamazsa o uyarı gürültüdür. Gürültülü kanallar zamanla kimsenin okumadığı kanallara dönüşür. Meridian’ın uyarı şablonu dört satır:
+### 13.3 Job monitoring and data monitoring; SLI, SLO, SLA and actionable alerts
 
 **Code 13.4**
 
@@ -113,9 +104,7 @@ Owner: data-platform (on call: Deniz)
 First step: runbooks/freshness.md · last run: nightly_meridian, 2027-04-16 03:12
 ```
 
-### 13.4 Arıza incelemesi: nerede, neden, daha önce görüldü mü?
-
-> 15 Nisan gecesinin log’u. OP05’teki pipeline_logs/2027-04-15.log dosyasından ilgili satırlar:
+### 13.4 Incident review: where, why, seen before?
 
 **Code 13.5**
 
@@ -129,8 +118,6 @@ First step: runbooks/freshness.md · last run: nightly_meridian, 2027-04-16 03:1
 2027-04-16T07:12:05Z INFO  step=quality_gate msg="skipped: upstream failed"
 2027-04-16T07:12:05Z INFO  step=build_gold msg="skipped: upstream failed"
 ```
-
-> Script: check_pipeline_logs.py. Bu yedi sorunun ilk dördünü her sabah elle sormak yerine bir script’e bırakıyoruz. Script log’u tarar, satırları sınıflar, geçici hataları ayırır, arıza günlüğünde benzerini arar ve bir taslak rapor üretir. Kök neden ve…
 
 **Code 13.6**
 
@@ -207,28 +194,24 @@ if __name__ == "__main__":
     print(json.dumps(run(p.parse_args().log_path), indent=2))
 ```
 
-> Bu kısa sürüm raporu JSON olarak yazıyor. Depodaki tam sürüm aynı özeti bir HTML sayfasına da döküyor ve iki e-posta taslağı ekliyor. Taslakları şablonla, içeriği rapordan dolduruyoruz:
-
 **Code 13.7**
 
 ```text
-Kime: Marcus, finans raporlama ekibi
-Konu: Yönetim paneli bu sabah 20 dakika gecikti, rakamlar güncel
-Özet: 15 Nisan'ın Bazaarly siparişleri gece işlenemedi. 07:50 itibarıyla pano
-15 Nisan dahil güncel. Rakamlarda bir değişiklik yok; yalnızca saat gecikti.
-Neden: Kaynak sistemde bir sütunun adı değişti. Bir sonraki gecede aynı durumun
-panoyu durdurmaması için kontrolü genişletiyoruz.
+To: Marcus, finance reporting team
+Subject: The management dashboard was 20 minutes late this morning; the figures are current
+Summary: Bazaarly orders of April 15 could not be processed overnight. As of 07:50 the dashboard
+is current, April 15 included. No figure changed; only the time was late.
+Why: A column was renamed in the source system. We are extending the check so that the same
+situation does not stop the dashboard on another night.
 
-Kime: Bazaarly uygulama ekibi (bz_orders sahibi)
-Konu: bz_orders günlük dosyasında 'status_code' → 'status' değişikliği
-15 Nisan dosyasından itibaren sütun adı değişmiş. Veri sözleşmesinde (contracts/bz_orders.yaml)
-bu sütun 'status_code' olarak tanımlı. Değişiklik kalıcı mı? Kalıcıysa sözleşmeyi
-güncelleyelim. Bundan sonraki değişiklikler için iki haftalık bildirim süresi öneriyoruz.
+To: Bazaarly application team (owner of bz_orders)
+Subject: 'status_code' -> 'status' change in the bz_orders daily file
+From the April 15 file on, the column name has changed. In the data contract (contracts/bz_orders.yaml)
+this column is defined as 'status_code'. Is the change permanent? If so, let's update the contract.
+For future changes we propose a two-week notice period.
 ```
 
-### 13.5 Bilgi katmanı: arıza günlüğü
-
-> Meridian’da günlük bir veritabanı tablosu değil, Git’teki bir YAML dosyası: ch13_operations/incident_log.yaml. Nedeni: İnsan rahat okur, değişiklikleri Git’te görünür, script ve agent kolayca okur. Nisan ortasında dosyada OP06’dan gelen altı kayıt vardı.…
+### 13.5 The knowledge layer: the incident log
 
 **Code 13.8**
 
@@ -290,9 +273,7 @@ güncelleyelim. Bundan sonraki değişiklikler için iki haftalık bildirim sür
   status: closed
 ```
 
-### 13.6 Büyük inceleme: kullanılmayan tablolar, yavaş sorgular, maliyet
-
-> Tablo başına maliyet ne?
+### 13.6 The big review: unused tables, slow queries, cost
 
 **Code 13.9**
 
@@ -350,9 +331,7 @@ if __name__ == "__main__":
     print(json.dumps(run(), indent=2, default=str))
 ```
 
-### 13.8 Script → araç: ariza ve inceleme
-
-> Araç adları Türkçe; agent’a verilen şema İngilizce, çünkü modeller parametre adlarını koddaki adlarla birebir eşleştirir:
+### 13.8 Script → tool: ariza and inceleme
 
 **Code 13.10**
 
@@ -371,8 +350,6 @@ if __name__ == "__main__":
   "returns": "JSON: status, noise_count, blocking[] with class and similar incidents"
 }
 ```
-
-> Araç adları Türkçe; agent’a verilen şema İngilizce, çünkü modeller parametre adlarını koddaki adlarla birebir eşleştirir:
 
 **Code 13.11**
 

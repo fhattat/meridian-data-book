@@ -1,19 +1,18 @@
-# Bölüm 17 — Agent’ları güvenli ve güvenilir kullanmak
-### Chapter 17 — Using agents safely and reliably
+# Chapter 17 — Using agents safely and reliably
 
-QR-17 · Kitabın deposu / book repository: https://github.com/fhattat/meridian-data-book
+QR-17 · book repository: https://github.com/fhattat/meridian-data-book
 
-**[BOOK_CODE.md](BOOK_CODE.md)**: bölümdeki bütün kodlar, kitaptaki sırası ve alt bölüm başlıklarıyla / every code block of the chapter in book order.
+**[BOOK_CODE.md](BOOK_CODE.md)**: every code block of the chapter, in book order, under the book's section headings.
 
-## Çalıştırma / Run
+## Run
 
-Depo kökünden, `export PYTHONPATH=.` ile (Makefile bunu kendisi yapar) / from the repository root:
+From the repository root, with `export PYTHONPATH=.` (the Makefile sets it for you):
 
 ```bash
-python ch17_agent_safety/agent_eval.py   # needs an agent runner
+python ch17_agent_safety/agent_eval.py   # needs an agent runner, see guardrails.py
 ```
 
-## Dosyalar / Files
+## Files
 
 - [RULES_abridged.md](RULES_abridged.md)
 - [agent_audit_table.sql](agent_audit_table.sql)
@@ -24,4 +23,4 @@ python ch17_agent_safety/agent_eval.py   # needs an agent runner
 - [support_assistant_system_prompt.txt](support_assistant_system_prompt.txt)
 - [tickets/injection_T-18842.jsonl](tickets/injection_T-18842.jsonl)
 
-Veri sentetiktir / all data is synthetic (see the main README).
+All data is synthetic (see the main README).

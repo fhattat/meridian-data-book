@@ -1,7 +1,7 @@
--- Soru 6: Hem Meridian üyesi hem Bazaarly kullanıcısı olan kaç kişi var?
--- Tuzak: E-postada büyük-küçük harf ve boşluk farkı; test kayıtları.
--- Çözüm: silver.customer_xref zaten normalize e-posta (email_norm) üzerinden kurulmuştur.
--- Test kayıtlarını NOT EXISTS ile dışarıda bırakıyoruz (NOT IN, NULL yüzünden boş dönebilir).
+-- Question 6: how many people are both Meridian members and Bazaarly users?
+-- Trap: upper/lower case and spaces in e-mails; test records.
+-- Solution: silver.customer_xref is already built on the normalized e-mail (email_norm).
+-- Test records are left out with NOT EXISTS (NOT IN can return nothing because of NULL).
 SELECT COUNT(DISTINCT x.email_norm) AS people_in_both
 FROM silver.customer_xref AS x
 WHERE x.mm_member_id IS NOT NULL
@@ -13,7 +13,7 @@ WHERE x.mm_member_id IS NOT NULL
           AND c.is_test = TRUE
   );
 
--- xref tablosu yoksa aynı soru silver.customers'tan:
+-- Without the xref table, the same question from silver.customers:
 -- SELECT COUNT(*) FROM (
 --     SELECT lower(trim(email_norm)) AS e
 --     FROM silver.customers

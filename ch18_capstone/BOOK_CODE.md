@@ -1,14 +1,11 @@
-# Bölüm 18 — Uçtan uca proje: Meridian Market’in veri ve AI platformu
+# Chapter 18 — End-to-end project: Meridian Market's data and AI platform
 
 ## Code from the book
 
-Every code block of this chapter, in book order, under the book's section headings (Turkish, as printed).
-Runnable files are in this folder; for scripts printed as "(shortened)" the full version is the file here.
-Bu dosya bölümdeki bütün kod bloklarını kitaptaki sırasıyla ve alt bölüm başlıklarıyla verir.
+Every code block of this chapter, in book order, under the book's section headings.
+Runnable files are in this folder; for scripts printed as "(shortened)" in the book, the full version is the file here.
 
-### 18.1 Gereksinimden mimariye
-
-> Bu beş cümle, kitabın bütün mimarisini belirledi. Aşağıdaki diyagram, Meridian Market ve Bazaarly platformunun Eylül 2027’deki son hâlini gösteriyor: soldan sağa kaynaklar, katmanlar, tüketiciler ve agent’lar.
+### 18.1 From requirements to architecture
 
 **Code 18.1**
 
@@ -58,9 +55,7 @@ flowchart LR
   GO --> PA
 ```
 
-### 18.2 Bronze’dan gold’a: tek komutla bir gece
-
-> Bit’in önerisi, bölümler boyunca yazdığımız script’leri tek bir ince çalıştırıcıyla (runner) sıraya koymak. Her script zaten aynı sözleşmeye uyuyor: --env local|databricks ve --size small parametrelerini alıyor, run(**kwargs) -> dict döndürüyor, kritik…
+### 18.2 From bronze to gold: one night in one command
 
 **Code 18.2**
 
@@ -142,9 +137,7 @@ if __name__ == "__main__":
     main()
 ```
 
-#### Databricks’te: Asset Bundle
-
-> Databricks tarafında aynı sırayı Bölüm 13’teki jobs/nightly_meridian.yml zaten tanımlıyor. Bitirme projesinde onu bir Asset Bundle (varlık paketi) içine alıyoruz. Böylece dev, test ve prod ortamlarına aynı tanımı tek komutla dağıtabiliyorsunuz.…
+#### On Databricks: Asset Bundle
 
 **Code 18.3**
 
@@ -173,9 +166,7 @@ targets:
       service_principal_name: pipeline_sp
 ```
 
-### 18.3 RAG kolu: destek asistanını temiz bir indeksle kurmak
-
-> Haklı. Bölüm 12’de kurduğumuz ilk indekse, T-18842 numaralı destek talebinin içine gizlenmiş bir talimat fark edilmeden girmişti. Bölüm 17’de bu talimatın destek asistanına izinsiz bir sql_sorgu çağrısı yaptırmaya çalıştığını yakaladık (INC-20270812-01).…
+### 18.3 The RAG arm: building the support assistant on a clean index
 
 **Code 18.4**
 
@@ -222,26 +213,22 @@ def run(env: str = "local", size: str = "small", **kwargs) -> dict:
     return {"chunks": len(chunks), "indexed": len(clean), "quarantined": len(held)}
 ```
 
-#### Destek asistanı bir soruyu cevaplıyor
-
-> Sam yeni indeksle bir deneme yapıyor. Asistanın sınırları Bölüm 17’deki guardrails.py politikasından geliyor: yalnızca belge_ara, en fazla 6 adım, en fazla 20.000 token, aynı çağrı üçüncü kez tekrarlanırsa dur. Denemenin izi, denetim tablosuna düşen…
+#### The support assistant answers a question
 
 **Code 18.5**
 
 ```text
-Soru   : Siparişim üç gündür "hazırlanıyor" görünüyor. Ne yapmalıyım?
-Adım 1 : belge_ara(query="sipariş durumu hazırlanıyor gecikme", k=4)
-         -> 4 parça, hepsi yardım belgelerinden, karantinadan parça yok
-Adım 2 : cevap yazıldı, iki kaynak parça anıldı
-Audit  : agent=support_assistant tool=belge_ara result_status=ok
-Toplam : 2 adım / 6, limit aşılmadı
+Question: My order has shown "preparing" for three days. What should I do?
+Step 1  : belge_ara(query="order status preparing delay", k=4)
+          -> 4 chunks, all from help documents, no chunk from quarantine
+Step 2  : answer written, two source chunks cited
+Audit   : agent=support_assistant tool=belge_ara result_status=ok
+Total   : 2 steps / 6, limit not exceeded
 ```
 
-### 18.4 Agent ekibini bağlamak ve zamanlamak
+### 18.4 Connecting and scheduling the agent team
 
-#### Saatler
-
-> Sabah agent’ının zamanlaması, gece job’uyla aynı bundle’a ikinci bir job olarak ekleniyor:
+#### Schedule
 
 **Code 18.6**
 
@@ -262,11 +249,9 @@ resources:
             parameters: ["--env", "databricks"]
 ```
 
-### 18.5 Bölüm 11’deki deneyi tekrarlamak: AI, verdiğiniz veri kadar akıllıdır
+### 18.5 Repeating the Chapter 11 experiment: AI is as smart as the data you give it
 
-#### Deneyin düzeni
-
-> Bu kez üç koşul deneyin:
+#### Experiment setup
 
 **Code 18.7**
 
@@ -281,11 +266,9 @@ python ch11_modeling/text_to_sql_eval.py --env local --layer bronze --guide ref/
 python ch11_modeling/text_to_sql_eval.py --env local --layer gold
 ```
 
-### 18.6 Portföye koymak
+### 18.6 Putting it in your portfolio
 
-#### README şablonu
-
-> Depo İngilizce olduğu için README de İngilizce. Aşağıdaki şablonu kendi sonuçlarınızla doldurun; köşeli parantez içindeki yerler sizin.
+#### README template
 
 **Code 18.8**
 
@@ -329,11 +312,9 @@ DuckDB / Databricks, Python, SQL, Polars, MCP, [your LLM]
 [one honest paragraph]
 ```
 
-### Kurul günü: soruya platformdan cevap
+### Board day: answering the question from the platform
 
-#### Cevabı veren sorgu
-
-> Cevabı veren sorgu
+#### The query that gives the answer
 
 **Code 18.9**
 
@@ -348,9 +329,7 @@ GROUP BY ROLLUP (f.source_company)
 ORDER BY company;
 ```
 
-#### Rakamın mutabakatı
-
-> Raporun üçüncü satırı, rakamın kontrol toplamlarıyla karşılaştırması. control_totals.json veri üretilirken, tuzaklar eklenmeden önce yazıldığı için platformun bulması gereken doğru rakamı tutuyor:
+#### Reconciling the figure
 
 **Code 18.10**
 

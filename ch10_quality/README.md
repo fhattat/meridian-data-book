@@ -1,21 +1,20 @@
-# Bölüm 10 — Veri kalitesi ve güvenilir pipeline
-### Chapter 10 — Data quality and reliable pipelines
+# Chapter 10 — Data quality and reliable pipelines
 
-QR-10 · Kitabın deposu / book repository: https://github.com/fhattat/meridian-data-book
+QR-10 · book repository: https://github.com/fhattat/meridian-data-book
 
-**[BOOK_CODE.md](BOOK_CODE.md)**: bölümdeki bütün kodlar, kitaptaki sırası ve alt bölüm başlıklarıyla / every code block of the chapter in book order.
+**[BOOK_CODE.md](BOOK_CODE.md)**: every code block of the chapter, in book order, under the book's section headings.
 
-## Çalıştırma / Run
+## Run
 
-Depo kökünden, `export PYTHONPATH=.` ile (Makefile bunu kendisi yapar) / from the repository root:
+From the repository root, with `export PYTHONPATH=.` (the Makefile sets it for you):
 
 ```bash
 python ch10_quality/quality_checks.py --env local   # exit 1 on a critical failure
 ```
 
-## Dosyalar / Files
+## Files
 
 - [quality_checks.py](quality_checks.py)
 - [rules.yaml](rules.yaml)
 
-Veri sentetiktir / all data is synthetic (see the main README).
+All data is synthetic (see the main README).

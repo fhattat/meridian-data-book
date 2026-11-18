@@ -1,14 +1,11 @@
-# Bölüm 6 — Platform ve araç seçimi
+# Chapter 6 — Choosing a platform and tools
 
 ## Code from the book
 
-Every code block of this chapter, in book order, under the book's section headings (Turkish, as printed).
-Runnable files are in this folder; for scripts printed as "(shortened)" the full version is the file here.
-Bu dosya bölümdeki bütün kod bloklarını kitaptaki sırasıyla ve alt bölüm başlıklarıyla verir.
+Every code block of this chapter, in book order, under the book's section headings.
+Runnable files are in this folder; for scripts printed as "(shortened)" in the book, the full version is the file here.
 
-### 6.7 Ücretsiz ve açık kaynak alternatifler: aynı işi DuckDB, Polars ve Colab ile yapmak
-
-> benchmark_engines.py. Aşağıdaki kısa script aynı sorguyu (mağaza ve ay bazında satış toplamı) pandas, Polars ve DuckDB ile çalıştırıp en iyi süreyi yazar. Ham POS dosyaları ; ayraçlı ve iki kayıt tipli olduğu için karşılaştırmayı Bölüm 9’un silver çıktısı…
+### 6.7 Free and open-source alternatives: the same job with DuckDB, Polars and Colab
 
 **Code 6.1**
 
@@ -101,8 +98,6 @@ def main() -> None:
 if __name__ == "__main__":
     main()
 ```
-
-> Databricks’te aynı sorgu. Büyük veri sürümüyle Databricks’te PySpark karşılığını çalıştırın ve üç tek makine motoruyla karşılaştırın. Küçük sürümde Spark’ın daha yavaş kalması şaşırtıcı değil; işi dağıtmanın bir başlangıç maliyeti var.
 
 **Code 6.2**
 

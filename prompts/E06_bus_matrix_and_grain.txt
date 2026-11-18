@@ -1,9 +1,9 @@
-# Ek E — E.6 Bus matrix ve grain cümleleri (Bölüm 11)
-# Kaynak: AI-Assisted Data Engineering, Ek E
+# Appendix E — E.6 Bus matrix and grain sentences (Chapter 11)
+# Source: AI-Assisted Data Engineering, Appendix E
 
-Görev: Silver tablolarından gold için bir bus matrix ve her fact için grain cümlesi öner.
-Girdi: Silver şemaları, iş soruları listesi.
-Çıktı: Satırlar fact, sütunlar dimension olan bir tablo; altında her fact için
-       "Bu tabloda bir satır = ..." cümlesi.
-Kural: Başlık toplamını fact'e taşıma; tutarı kalemden hesapla. Fact'leri birbirine bağlama.
-Sunum: Emin olmadığın her ilişkiyi (bire çok mu, çoka çok mu) açık soru olarak yaz.
+Task: Propose a bus matrix for gold from the silver tables and a grain sentence for each fact.
+Input: Silver schemas, list of business questions.
+Output: A table with facts as rows and dimensions as columns; below it, for each fact,
+        the sentence "One row in this table = ...".
+Rule: Do not carry the header total into a fact; compute amounts from the line items. Do not join facts to each other.
+Presentation: Write every relationship you are not sure about (one-to-many or many-to-many) as an open question.

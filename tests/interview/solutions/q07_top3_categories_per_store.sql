@@ -1,8 +1,8 @@
--- Soru 7: Her mağaza için en çok satan üç kategori hangileri?
--- Tuzak: Eşit satışlarda sıralama. RANK eşitlere aynı sırayı verir ve bir sonraki sırayı atlar
--- (1, 1, 3); ROW_NUMBER eşitlerden birini keyfî olarak eler; DENSE_RANK atlamaz (1, 1, 2).
--- Bu çözüm RANK kullanır: eşit olanların hepsi listede kalır, bu yüzden bir mağazada 3'ten
--- fazla satır çıkabilir. Hangisini seçtiğinizi mülakatta söyleyin.
+-- Question 7: which three categories sell best in each store?
+-- Trap: ranking ties. RANK gives ties the same rank and skips the next one
+-- (1, 1, 3); ROW_NUMBER drops one of the ties arbitrarily; DENSE_RANK does not skip (1, 1, 2).
+-- This solution uses RANK: all ties stay in the list, so a store can return more than
+-- 3 rows. Say in the interview which one you chose.
 SELECT store_name, category, net_sales_usd, sales_rank
 FROM (
     SELECT
@@ -17,4 +17,4 @@ FROM (
 ) ranked
 WHERE sales_rank <= 3
 ORDER BY store_name, sales_rank, category;
--- DuckDB / Databricks SQL'de alt sorgu yerine: ... GROUP BY ... QUALIFY sales_rank <= 3
+-- Instead of the subquery in DuckDB / Databricks SQL: ... GROUP BY ... QUALIFY sales_rank <= 3

@@ -1,14 +1,11 @@
-# Bölüm 8 — Veri alımı: ETL, ELT ve gerçek hayat
+# Chapter 8 — Ingestion: ETL, ELT and real life
 
 ## Code from the book
 
-Every code block of this chapter, in book order, under the book's section headings (Turkish, as printed).
-Runnable files are in this folder; for scripts printed as "(shortened)" the full version is the file here.
-Bu dosya bölümdeki bütün kod bloklarını kitaptaki sırasıyla ve alt bölüm başlıklarıyla verir.
+Every code block of this chapter, in book order, under the book's section headings.
+Runnable files are in this folder; for scripts printed as "(shortened)" in the book, the full version is the file here.
 
-### 8.3 API’den, dosyadan ve veritabanından veri çekmek
-
-> Script’in kısaltılmış hali (tam sürümü QR’daki depoda, ch08_ingestion/ klasöründe):
+### 8.3 Pulling data from an API, files and a database
 
 **Code 8.1**
 
@@ -82,9 +79,7 @@ def read_fx(day: str) -> pd.DataFrame:
     )
 ```
 
-### 8.4 Güvenilir alım: idempotency, backfill, geç gelen veri, dead-letter queue
-
-> Script’in bu dört kuralı uygulayan ikinci yarısı:
+### 8.4 Reliable ingestion: idempotency, backfill, late data, dead-letter queue
 
 **Code 8.2**
 
@@ -181,9 +176,7 @@ if __name__ == "__main__":
     print(json.dumps(run(a.source, a.since, a.until), indent=2, ensure_ascii=False))
 ```
 
-### 8.5 Akış verisi: mesaj kuyrukları, Kafka, teslimat garantileri; batch ile başla
-
-> Deniz akışı denemek için gerçek bir Kafka kurmuyor. stream_simulator.py, Bazaarly’nin günlük olay dosyalarını bir akış gibi oynatıyor: Olayların sırasını biraz karıştırıyor (ağ gecikmesi gibi) ve küçük paketler (micro-batch) halinde bronze’a yazıyor:
+### 8.5 Streaming data: message queues, Kafka, delivery guarantees; start with batch
 
 **Code 8.3**
 
@@ -246,9 +239,7 @@ if __name__ == "__main__":
     print(json.dumps(consume(), indent=2))
 ```
 
-### 8.6 AI ile alım kodu ve script → “yukleme” aracı
-
-> Parametrelerin JSON şeması:
+### 8.6 Ingestion code with AI, and script → the “yukleme” tool
 
 **Code 8.4**
 

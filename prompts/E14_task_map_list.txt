@@ -1,8 +1,8 @@
-# Ek E — E.14 Görev haritası için liste çıkarma (Bölüm 19.3)
-# Kaynak: AI-Assisted Data Engineering, Ek E
+# Appendix E — E.14 Listing tasks for the task map (Chapter 19.3)
+# Source: AI-Assisted Data Engineering, Appendix E
 
-Görev: Bu takvim ve ticket kayıtlarından yaptığım görevlerin listesini çıkar.
-Girdi: Son dört haftanın takvim başlıkları ve ticket özetleri (kişisel veri çıkarılmış).
-Çıktı: Tablo: task | hours_per_week (tahmini).
-Kural: İşaret verme; "yalnız AI / AI ile ben / AI değil" işaretlerini ben vereceğim.
-Sunum: Benzer görevleri birleştir ve birleştirdiklerini belirt.
+Task: From these calendar and ticket records, list the tasks I did.
+Input: Calendar titles and ticket summaries of the last four weeks (personal data removed).
+Output: Table: task | hours_per_week (estimated).
+Rule: Do not mark them; I will give the marks "AI alone / me with AI / not AI".
+Presentation: Merge similar tasks and say which ones you merged.

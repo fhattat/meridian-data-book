@@ -1,14 +1,11 @@
-# Bölüm 2 — AI ile çalışmanın temelleri
+# Chapter 2 — Basics of working with AI
 
 ## Code from the book
 
-Every code block of this chapter, in book order, under the book's section headings (Turkish, as printed).
-Runnable files are in this folder; for scripts printed as "(shortened)" the full version is the file here.
-Bu dosya bölümdeki bütün kod bloklarını kitaptaki sırasıyla ve alt bölüm başlıklarıyla verir.
+Every code block of this chapter, in book order, under the book's section headings.
+Runnable files are in this folder; for scripts printed as "(shortened)" in the book, the full version is the file here.
 
-### 2.3 İyi prompt ve bağlam: proje dosyası, örnekler, kurallar
-
-> Proje bağlam dosyası. Her sohbette aynı şeyleri tekrar anlatmak yerine, projenin köküne kısa bir “işe alışma belgesi” koyun. Kod asistanları bu dosyayı her oturumun başında okur. Araçtan araca adı değişir (CLAUDE.md, AGENTS.md ya da aracın proje…
+### 2.3 Good prompts and context: project file, examples, rules
 
 **Code 2.1**
 

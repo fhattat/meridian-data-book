@@ -1,10 +1,10 @@
-# Ek E — E.12 Kod incelemesi (Bölüm 17.5)
-# Kaynak: AI-Assisted Data Engineering, Ek E
+# Appendix E — E.12 Code review (Chapter 17.5)
+# Source: AI-Assisted Data Engineering, Appendix E
 
-Görev: Bu değişikliği (diff) bir kıdemli veri mühendisi gibi incele.
-Girdi: Diff, kurallar dosyası, ilgili testler.
-Çıktı: Bulgular listesi: dosya, satır, sorun, ciddiyet.
-Kural: Özellikle şunları ara: fazladan dosya, kopya fonksiyon, sessiz davranış değişikliği,
-       susturulmuş hata, değiştirilmiş test ya da gevşetilmiş eşik, silen ya da para harcatan kod.
-       Düzeltilmiş kodu yazma; yalnızca bulguları söyle.
-Sunum: Bulgu yoksa "bulgu yok" de ve hangi kontrolleri yaptığını listele.
+Task: Review this change (diff) like a senior data engineer.
+Input: Diff, rules file, related tests.
+Output: List of findings: file, line, problem, severity.
+Rule: Look especially for: extra files, duplicate functions, silent behaviour changes,
+      swallowed errors, changed tests or loosened thresholds, code that deletes data or spends money.
+      Do not write the corrected code; only state the findings.
+Presentation: If there are no findings, say "no findings" and list the checks you made.

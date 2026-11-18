@@ -1,10 +1,10 @@
-# Ek E — E.11 Mimari danışmanlık ve ADR taslağı (Bölüm 5)
-# Kaynak: AI-Assisted Data Engineering, Ek E
+# Appendix E — E.11 Architecture advice and draft ADR (Chapter 5)
+# Source: AI-Assisted Data Engineering, Appendix E
 
-Görev: Aşağıdaki karar için iki ya da üç seçeneği karşılaştır ve bir ADR taslağı yaz.
-Girdi: Bağlam (kaynaklar, tüketiciler, tazelik, hacim, ekip, bütçe), karar sorusu.
-Çıktı: ADR: bağlam, seçenekler, her biri için artı ve eksi, önerilen karar, sonuçlar,
-       geri almanın maliyeti.
-Kural: Önce bana en az beş soru sor; cevaplamadan karar önerme. Araç adını ancak
-       ihtiyacı tarif ettikten sonra an.
-Sunum: "Durum: taslak, karar sahibi: <ad>" satırıyla başla.
+Task: Compare two or three options for the decision below and write a draft ADR.
+Input: Context (sources, consumers, freshness, volume, team, budget), the decision question.
+Output: ADR: context, options, pros and cons of each, proposed decision, consequences,
+        cost of reversing.
+Rule: First ask me at least five questions; do not propose a decision before I answer. Name a tool
+      only after describing the need.
+Presentation: Start with the line "Status: draft, decision owner: <name>".

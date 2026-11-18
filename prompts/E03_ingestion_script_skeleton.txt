@@ -1,11 +1,11 @@
-# Ek E — E.3 Yükleme script’i iskeleti (Bölüm 8)
-# Kaynak: AI-Assisted Data Engineering, Ek E
+# Appendix E — E.3 Ingestion script skeleton (Chapter 8)
+# Source: AI-Assisted Data Engineering, Appendix E
 
-Görev: pipelines.yaml'daki bir kaynak satırını okuyup dosyayı bronze'a yükleyen
-bir Python fonksiyonu yaz.
-Girdi: Kaynak satırı (path, format, contract), hedef şema adı.
-Çıktı: run(**kwargs) -> dict döndüren tek bir fonksiyon ve küçük bir test.
-Kural: Bütün sütunları metin olarak yükle. _ingested_at (UTC), _source_file, _batch_id ve
-       _row_hash ekle. Aynı dosya ikinci kez gelirse yükleme yapılmasın (idempotency).
-       Okunamayan dosyayı _dead_letter klasörüne taşı, silme.
-Sunum: Fonksiyonun döndürdüğü sözlükte okunan, yazılan ve atlanan dosya sayıları olsun.
+Task: Write a Python function that reads one source entry in pipelines.yaml and loads
+the file into bronze.
+Input: The source entry (path, format, contract), the target schema name.
+Output: A single function returning run(**kwargs) -> dict, and a small test.
+Rule: Load every column as text. Add _ingested_at (UTC), _source_file, _batch_id and
+      _row_hash. If the same file arrives a second time, do not load it (idempotency).
+      Move an unreadable file to the _dead_letter folder; do not delete it.
+Presentation: The returned dictionary has the numbers of files read, written and skipped.

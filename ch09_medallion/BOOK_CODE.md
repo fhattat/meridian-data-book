@@ -1,14 +1,11 @@
-# Bölüm 9 — Depolama ve Medallion ile dönüşüm
+# Chapter 9 — Storage and transformation with Medallion
 
 ## Code from the book
 
-Every code block of this chapter, in book order, under the book's section headings (Turkish, as printed).
-Runnable files are in this folder; for scripts printed as "(shortened)" the full version is the file here.
-Bu dosya bölümdeki bütün kod bloklarını kitaptaki sırasıyla ve alt bölüm başlıklarıyla verir.
+Every code block of this chapter, in book order, under the book's section headings.
+Runnable files are in this folder; for scripts printed as "(shortened)" in the book, the full version is the file here.
 
-### 9.1 Dosya formatları: CSV, JSON, Parquet; satır ve sütun tabanlı düşünce
-
-> Ücretsiz araçlarla: DuckDB bir Parquet dosyasını indirip belleğe yüklemeden doğrudan sorgular; yalnızca gereken sütunları okur.
+### 9.1 File formats: CSV, JSON, Parquet; row-based and column-based thinking
 
 **Code 9.1**
 
@@ -18,9 +15,7 @@ FROM 'data/layers/silver/pos_lines.parquet'
 GROUP BY source_company;
 ```
 
-### 9.2 Nesne depolama, Delta ve Iceberg, partitioning
-
-> Partitioning: dosyaları klasörlere ayırmak. Büyük bir tabloyu sık filtrelenen bir sütuna göre klasörlere bölmek, sorgunun yalnızca ilgili klasörleri okumasını sağlar. Meridian’ın soruları çoğunlukla ay bazında olduğu için silver.pos_lines tablosunu ay…
+### 9.2 Object storage, Delta and Iceberg, partitioning
 
 **Code 9.2**
 
@@ -45,8 +40,6 @@ USING DELTA
 PARTITIONED BY (receipt_month);
 ```
 
-> Bir yükleme yanlış gittiğinde zamanda yolculuk işe yarar:
-
 **Code 9.3**
 
 ```sql
@@ -54,9 +47,7 @@ DESCRIBE HISTORY meridian.silver.pos_lines;
 SELECT COUNT(*) FROM meridian.silver.pos_lines VERSION AS OF 12;
 ```
 
-### 9.3 Bronze: dokunma, arşivle, işaretle
-
-> Bronze’un sağlıklı olduğunu doğrulamak için iki kısa sorgu yeter. Birincisi, aynı içeriğin iki farklı dosyadan gelip gelmediğini kontrol eder. Bölüm 8’deki yükleme, Black Friday dosyasının tekrarını _row_hash ile yakalamış ve ikinci kez yazmamıştı; bu…
+### 9.3 Bronze: don't touch, archive, mark
 
 **Code 9.4**
 
@@ -67,8 +58,6 @@ GROUP BY _row_hash
 HAVING COUNT(DISTINCT _source_file) > 1;
 ```
 
-> İkincisi, her yüklemenin kaç satır getirdiğini gösterir ve eksik günleri görünür kılar:
-
 **Code 9.5**
 
 ```sql
@@ -78,11 +67,9 @@ GROUP BY _source_file, _batch_id
 ORDER BY _source_file;
 ```
 
-### 9.4 Silver temizliği: kurallar önce, kod sonra
+### 9.4 Silver cleaning: rules first, code second
 
-#### Kod düzeni
-
-> Kurallar SQL dosyalarına, sıralama ve kontrol Python’a gidiyor. Kitapta DuckDB sürümünü gösteriyoruz; Databricks karşılıkları depoda sql/silver/databricks/ klasöründe ve farklar Tablo 9.5’te.
+#### Code layout
 
 **Code 9.6**
 
@@ -100,9 +87,7 @@ ch09_medallion/
     └── 70_xref.sql
 ```
 
-#### Yardımcılar
-
-> Yardımcılar
+#### Helpers
 
 **Code 9.7**
 
@@ -130,9 +115,7 @@ SELECT CAST(clean_text(date) AS DATE)                   AS rate_date,
 FROM bronze.ref_fx_rates;
 ```
 
-#### Mağazalar ve kasa fişleri
-
-> Mağazalar ve kasa fişleri
+#### Stores and receipts
 
 **Code 9.8**
 
@@ -152,8 +135,6 @@ SELECT
   'MM'                                       AS source_company
 FROM bronze.mm_stores;
 ```
-
-> Mağazalar ve kasa fişleri
 
 **Code 9.9**
 
@@ -220,9 +201,7 @@ LEFT JOIN silver.pos_receipts h ON h.receipt_no = clean_text(l.RECEIPT_NO)
 WHERE l.rec_type = 'L';
 ```
 
-#### Ürünler, stok ve kampanyalar
-
-> Ürünler, stok ve kampanyalar
+#### Products, inventory and campaigns
 
 **Code 9.10**
 
@@ -243,8 +222,6 @@ SELECT
   'MM'                                         AS source_company
 FROM bronze.mm_products;
 ```
-
-> Ürünler, stok ve kampanyalar
 
 **Code 9.11**
 
@@ -278,9 +255,7 @@ FROM exploded
 WHERE TRIM(code) <> '';
 ```
 
-#### Bazaarly siparişleri ve para birimi
-
-> Bazaarly siparişleri ve para birimi
+#### Bazaarly orders and currency
 
 **Code 9.12**
 
@@ -319,9 +294,7 @@ ASOF LEFT JOIN silver.fx_rates fx
   ON t.currency = fx.currency AND t.order_local_date >= fx.rate_date;
 ```
 
-#### Müşteri ve ürün eşlemesi
-
-> Müşteri ve ürün eşlemesi
+#### Customer and product matching
 
 **Code 9.13**
 
@@ -370,8 +343,6 @@ FROM read_csv('data/raw/security_user_region.csv', all_varchar = true);
 ```
 
 #### clean_silver.py
-
-> clean_silver.py
 
 **Code 9.14**
 
@@ -450,9 +421,7 @@ if __name__ == "__main__":
     print(json.dumps(run(env=args.env, size=args.size), indent=2, ensure_ascii=False))
 ```
 
-### 9.5 ROW_NUMBER ile son kaydı bulmak, LEAD/LAG ile tarihçe
-
-> Şu anki hal: ROW_NUMBER. Her anahtar için kayıtları yükleme zamanına göre yeniden eskiye sıralayıp ilkini almak, ambar ve lakehouse projelerinin en klasik sorgusudur. 30_customers.sql dosyasının ilk adımı bu:
+### 9.5 Latest record with ROW_NUMBER, history with LEAD/LAG
 
 **Code 9.15**
 
@@ -467,8 +436,6 @@ WITH bz_users_current AS (
 )
 SELECT COUNT(*) FROM bz_users_current;
 ```
-
-> Değişimin tarihçesi: LAG ve LEAD. Marcus şunu soruyor: “Kablosuz kulaklığın fiyatı Black Friday’den önce ne kadardı?” Bunu cevaplamak için her ürünün fiyatının hangi tarihten hangi tarihe geçerli olduğunu bilmemiz gerekiyor. LAG bir önceki satırı, LEAD bir…
 
 **Code 9.16**
 
@@ -493,9 +460,7 @@ FROM changes
 WHERE prev_price IS NULL OR list_price_usd <> prev_price;
 ```
 
-### 9.7 Uygulama: Aynı silver temizliğini AI ile dört dilde yazdırmak
-
-> pandas
+### 9.7 Hands-on: having AI write the same silver cleaning in four languages
 
 **Code 9.17**
 
@@ -521,8 +486,6 @@ h["receipt_total_usd"] = pd.to_numeric(
     h["RECEIPT_TOTAL"].str.replace(r"[$,]", "", regex=True).str.strip(), errors="coerce").round(2)
 receipts_pd = h.rename(columns={"RECEIPT_NO": "receipt_no"})[["receipt_no", "receipt_ts_utc", "receipt_total_usd"]]
 ```
-
-> Polars
 
 **Code 9.18**
 
@@ -558,8 +521,6 @@ receipts_pl = (pl.concat(parts)
                .select(pl.col("RECEIPT_NO").alias("receipt_no"), "receipt_ts_utc", "receipt_total_usd"))
 ```
 
-> PySpark (Databricks)
-
 **Code 9.19**
 
 ```python
@@ -580,9 +541,7 @@ receipts_spark = (
 )
 ```
 
-#### Doğrulama: dört çıktı, tek parmak izi
-
-> Doğrulama: dört çıktı, tek parmak izi
+#### Verification: four outputs, one fingerprint
 
 **Code 9.20**
 
@@ -611,9 +570,7 @@ def compare(outputs: dict[str, pd.DataFrame], reference: str = "duckdb") -> pd.D
 # print(compare(outputs))
 ```
 
-### 9.8 Script → araç: clean_silver.py → “temizlik” aracı
-
-> Agent’ın okuduğu tanım:
+### 9.8 Script → tool: clean_silver.py → the “temizlik” tool
 
 **Code 9.21**
 
@@ -632,8 +589,6 @@ def compare(outputs: dict[str, pd.DataFrame], reference: str = "duckdb") -> pd.D
 }
 ```
 
-> Dönüş değerinin biçimi (sayılar çalıştırmaya göre değişir):
-
 **Code 9.22**
 
 ```json
@@ -646,8 +601,6 @@ def compare(outputs: dict[str, pd.DataFrame], reference: str = "duckdb") -> pd.D
   "warnings": ["inventory_monthly: 3 rows did not match a product"]
 }
 ```
-
-> Yetkiyi kodda da sınırlamak. Tanımdaki “yalnızca silver’a yazar” cümlesi agent için bir bilgi, ama bir güvence değil. Güvenceyi iki katmanda kuruyoruz. Birincisi script’in kendisinde: Her SQL cümlesi çalışmadan önce hedef şemasına bakılır.
 
 **Code 9.23**
 

@@ -1,7 +1,7 @@
--- Soru 5: Başlık toplamı kalemlerinin toplamını tutmayan siparişleri listeleyin.
--- Tuzak: Kuruş yuvarlaması; kalemi hiç olmayan siparişin toplamı NULL değil 0'dır.
--- Çözüm: Kalemleri önce sipariş düzeyinde toplayın, sonra başlıkla karşılaştırın.
--- Aynı para biriminde karşılaştırıyoruz (original), kur farkı karışmasın (Bölüm 10 kuralı).
+-- Question 5: list the orders whose header total does not match the sum of their items.
+-- Trap: cent rounding; the item total of an order without items is 0, not NULL.
+-- Solution: first sum the items per order, then compare with the header.
+-- Compare in the same currency (original) so FX does not interfere (Chapter 10 rule).
 WITH lines AS (
     SELECT order_id, SUM(amount_original) AS lines_total
     FROM silver.bz_order_items
@@ -18,4 +18,4 @@ LEFT JOIN lines AS l
 WHERE o.is_test = FALSE
   AND ABS(o.order_total_original - COALESCE(l.lines_total, 0)) > 0.01
 ORDER BY ABS(o.order_total_original - COALESCE(l.lines_total, 0)) DESC;
--- Yanlış: başlığı kalemlere JOIN edip SUM(order_total_original) almak; her başlık kalem sayısı kadar tekrar toplanır.
+-- Wrong: joining the header to the items and taking SUM(order_total_original); each header is added once per item.

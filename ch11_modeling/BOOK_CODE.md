@@ -1,14 +1,11 @@
-# Bölüm 11 — Veri modelleme: star schema ve ötesi
+# Chapter 11 — Data modeling: star schema and beyond
 
 ## Code from the book
 
-Every code block of this chapter, in book order, under the book's section headings (Turkish, as printed).
-Runnable files are in this folder; for scripts printed as "(shortened)" the full version is the file here.
-Bu dosya bölümdeki bütün kod bloklarını kitaptaki sırasıyla ve alt bölüm başlıklarıyla verir.
+Every code block of this chapter, in book order, under the book's section headings.
+Runnable files are in this folder; for scripts printed as "(shortened)" in the book, the full version is the file here.
 
-### 11.2 Fact ve dimension, kardinalite, filtre yönü; star, snowflake, galaxy
-
-> SQL ile kontrol. Bir dimension’ın anahtarı gerçekten tekil mi? Bu sorgu her Gold yüklemesinden önce çalışır:
+### 11.2 Facts and dimensions, cardinality, filter direction; star, snowflake, galaxy
 
 **Code 11.1**
 
@@ -26,9 +23,7 @@ LEFT JOIN gold.dim_product p ON f.product_key = p.product_key
 WHERE p.product_key IS NULL;
 ```
 
-### 11.3 Grain: “Her satır neyi temsil ediyor?”
-
-> İlk tuzak: sayma. fact_sales’te sipariş sayısını COUNT(order_id) ile sayarsanız kalem sayısını bulursunuz. Üç kalemli bir sipariş üç kez sayılır. Doğrusu tekil sayımdır:
+### 11.3 Grain: “What does each row represent?”
 
 **Code 11.2**
 
@@ -40,8 +35,6 @@ SELECT
 FROM gold.fact_sales
 WHERE source_company = 'BZ';
 ```
-
-> Farklı grain’li fact’leri karşılaştırmanın adı drill-across’tur: Önce her fact ortak seviyeye toplanır, sonra özetler paylaşılan dimension anahtarıyla birleştirilir.
 
 **Code 11.3**
 
@@ -67,9 +60,7 @@ FULL OUTER JOIN targets ta
 JOIN gold.dim_store s ON s.store_key = COALESCE(sa.store_key, ta.store_key);
 ```
 
-### 11.4 Özel boyutlar ve fact türleri
-
-> Junk dimension. Kanal, sipariş durumu ve ödeme türü (payment_type) birbiriyle ilgisiz, düşük kardinaliteli bayraklardır. Her birine ayrı bir dimension açmak fact’in çevresini tek sütunlu tablolarla doldurur. Bunun yerine hepsi tek bir küçük tabloda…
+### 11.4 Special dimensions and fact types
 
 **Code 11.4**
 
@@ -94,8 +85,6 @@ FROM (
 ) flags;
 ```
 
-> Role-playing dimension. Aynı dimension bir fact’e birden fazla rolle bağlanır. Bazaarly siparişinin teslimat ve fatura şehri aynı dim_geo tablosunu gösterir; fact_order_process’teki beş tarih de aynı dim_date’i. SQL’de bunun için ayrı bir özellik gerekmez,…
-
 **Code 11.5**
 
 ```sql
@@ -108,9 +97,7 @@ WHERE f.source_company = 'BZ'
 GROUP BY ship.state_code, bill.state_code;
 ```
 
-### 11.5 SCD: Değişen boyutları tarihçelemek
-
-> Databricks’te Delta tablolarıyla iki adımlı bir desen kullanılır: Önce değişen satırlar kapatılır, sonra yeni sürümler eklenir.
+### 11.5 SCD: keeping the history of changing dimensions
 
 **Code 11.6**
 
@@ -133,9 +120,7 @@ LEFT JOIN gold.dim_customer d
 WHERE d.customer_id IS NULL;
 ```
 
-### 11.6 Domain başına model ve satır düzeyinde güvenlik
-
-> Databricks’te. Unity Catalog’da satır filtresi, satır başına true ya da false dönen bir SQL fonksiyonudur ve tabloya bağlanır. Fonksiyon, sorguyu çalıştıran kullanıcının e-postasını eşleme tablosunda arar:
+### 11.6 A model per domain and row-level security
 
 **Code 11.7**
 
@@ -156,9 +141,7 @@ JOIN gold.dim_store st ON f.store_key = st.store_key
 WHERE gold.region_filter(st.region);
 ```
 
-### 11.7 Meridian ve Bazaarly verisinden temiz modele
-
-> 2. Dimension’lar: önce ürün. İki şirketin ürünleri farklı kodlarla geliyor (PRD-00001 ve 1). Bölüm 9’da bunları silver.product_xref tablosunda eşledik: Her kaynak ürün bir master_product_id’ye bağlı, is_survivor ise ikiz kayıtlardan hangisinin kalacağını…
+### 11.7 From Meridian and Bazaarly data to a clean model
 
 **Code 11.8**
 
@@ -192,8 +175,6 @@ JOIN codes c ON c.master_product_id = m.master_product_id
 WHERE m.pick = 1;
 ```
 
-> 3. Fact’ler: rakamın zıpladığı an. fact_sales, Meridian fiş satırları ile Bazaarly sipariş satırlarının alt alta eklenmesiyle kuruluyor. Meridian satırları ürüne kodla bağlı, sorun yok. Bazaarly’nin sipariş satırları ise ürüne adla bağlı. Deniz…
-
 **Code 11.9**
 
 ```python
@@ -211,8 +192,6 @@ items = safe_left_join(
     step="bz_items x product by name",
 )
 ```
-
-> Accumulating snapshot’ta ikinci tuzak. fact_order_process sipariş omurgasına sevkiyat, fatura ve ödeme tarihlerini ekliyor. Ama bazı siparişler iki parça halinde gönderilmiş. Sevkiyatları doğrudan JOIN ederseniz o siparişler iki satıra bölünür ve grain…
 
 **Code 11.10**
 
@@ -232,8 +211,6 @@ LEFT JOIN ship s ON s.order_id = o.order_id
 WHERE NOT o.is_test;
 ```
 
-> 4. Cila ve mutabakat. Son adımda isim standardı (fact_ ve dim_ önekleri, _key ve _id sonekleri, snake_case) kontrol edilir ve Gold’daki rakamlar referansla karşılaştırılır:
-
 **Code 11.11**
 
 ```python
@@ -248,9 +225,7 @@ report = reconcile(
 assert report["status"] == "pass", report["diffs"]
 ```
 
-### 11.8 Deney: Aynı soruyu AI’a ham ve modellenmiş veriyle sormak
-
-> Model her soru için bir SQL sorgusu yazar. Script sorguyu DuckDB’de çalıştırır ve sonucu control_totals.json’dan üretilen cevap anahtarıyla karşılaştırır. Sorular, bu bölümde gördüğümüz tuzakları bilerek içerir.
+### 11.8 Experiment: asking AI the same question on raw and modeled data
 
 **Code 11.12**
 
@@ -288,8 +263,6 @@ assert report["status"] == "pass", report["diffs"]
   question: "How many products were put in a campaign but never sold?"
   traps: [list in one cell, factless fact, anti-join]
 ```
-
-> Script iskeleti. LLM çağrısı tek bir ask_llm() fonksiyonunun arkasında duruyor; Claude, ChatGPT ya da başka bir modelin API’siyle doldurabilirsiniz. Deneyin geri kalanı araçtan bağımsız.
 
 **Code 11.13**
 
@@ -356,9 +329,7 @@ if __name__ == "__main__":
     print(json.dumps({k: v for k, v in out.items() if k != "results"}, ensure_ascii=False))
 ```
 
-### 11.9 Script → araç: model_checks.py ve modelleme aracı
-
-> İskeletin çekirdeği run() fonksiyonu. Komut satırından da, agent’tan da aynı fonksiyon çağrılıyor ve JSON’a çevrilebilir bir özet dönüyor:
+### 11.9 Script → tool: model_checks.py and the modelleme tool
 
 **Code 11.14**
 
@@ -421,8 +392,6 @@ if __name__ == "__main__":
     ap.add_argument("--env", default="local", choices=["local", "databricks"])
     print(json.dumps(run(env=ap.parse_args().env), indent=2, ensure_ascii=False))
 ```
-
-> Araç tanımı. Bir agent’ın bu script’i kullanabilmesi için ne yaptığını, hangi parametreleri aldığını ve neye yetkili olduğunu bilmesi gerekir:
 
 **Code 11.15**
 

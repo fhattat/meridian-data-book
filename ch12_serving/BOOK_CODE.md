@@ -1,14 +1,11 @@
-# Bölüm 12 — Veriyi sunmak: BI, ML ve AI tüketicileri
+# Chapter 12 — Serving data: BI, ML and AI consumers
 
 ## Code from the book
 
-Every code block of this chapter, in book order, under the book's section headings (Turkish, as printed).
-Runnable files are in this folder; for scripts printed as "(shortened)" the full version is the file here.
-Bu dosya bölümdeki bütün kod bloklarını kitaptaki sırasıyla ve alt bölüm başlıklarıyla verir.
+Every code block of this chapter, in book order, under the book's section headings.
+Runnable files are in this folder; for scripts printed as "(shortened)" in the book, the full version is the file here.
 
-### 12.1 Gold’dan tüketime: view, CTAS, semantik katman
-
-> View (görünüm). Kaydedilmiş bir sorgudur; veri tutmaz, her çağrıldığında yeniden çalışır. Avantajı her zaman güncel olması, dezavantajı her seferinde hesap yapmasıdır.
+### 12.1 From gold to consumption: view, CTAS, semantic layer
 
 **Code 12.1**
 
@@ -30,16 +27,12 @@ LEFT JOIN gold.dim_store s ON f.store_key = s.store_key   -- defensive LEFT JOIN
 GROUP BY d.date, s.region, p.category, f.source_company;
 ```
 
-> CTAS (Create Table As Select). Aynı sorgunun sonucunu bir tabloya yazar. Pano her açıldığında 25 milyon satır taranacaksa, gece bir kez hesaplayıp sonucu saklamak daha ucuz ve hızlıdır:
-
 **Code 12.2**
 
 ```sql
 CREATE OR REPLACE TABLE gold.agg_sales_daily AS
 SELECT * FROM gold.v_daily_sales;
 ```
-
-> Semantik katman. Üçüncü araç bir tablo değil, bir tanımlar dosyasıdır. “Net satış” ne demek? İadeler düşülüyor mu? Kargo ücreti dahil mi? Euro ile yapılan satış hangi kurla çevriliyor? Bu soruların cevabı her panoda, her notebook’ta ayrı ayrı yazılırsa üç…
 
 **Code 12.3**
 
@@ -54,9 +47,7 @@ currency_rule: Rate of the order date (silver.fx_rates); for weekends, the last 
 owner: Marcus (finans)
 ```
 
-### 12.3 ML tüketicisi: Lena’nın fraud modeli için feature tablosu
-
-> En önemli kelime: “önceki”. amt_to_user_mean hesaplanırken kullanıcının bütün işlemlerinin ortalaması alınırsa, model eğitim sırasında geleceği görür. Bu hataya sızıntı (leakage) denir: Model testte harika görünür, gerçek hayatta çöker. Doğrusu, her satır…
+### 12.3 The ML consumer: a feature table for Lena's fraud model
 
 **Code 12.4**
 
@@ -103,9 +94,7 @@ if __name__ == "__main__":
     print(run())
 ```
 
-### 12.4 Dördüncü tüketici, AI: RAG pipeline’ı = veri pipeline’ı
-
-> Adım 3: Embedding ve indeks. Her parça bir embedding modeliyle sayı dizisine (vektöre) çevrilir. Benzer anlamlı metinlerin vektörleri birbirine yakın düşer. Arama, sorunun vektörüne en yakın parçaları bulmaktır. Embedding modeli ve vektör veritabanı hızla…
+### 12.4 The fourth consumer, AI: a RAG pipeline is a data pipeline
 
 **Code 12.5**
 
@@ -166,8 +155,6 @@ def build(docs: list[dict], embedder: Embedder, store: VectorStore) -> dict:
     return {"documents": len(docs), "chunks": len(rows)}
 ```
 
-> Script → araç: belge_ara. Sam’in asistanı indeksi doğrudan okumaz; bir araç çağırır. Aynı dosyaya küçük bir run() fonksiyonu ekliyoruz:
-
 **Code 12.6**
 
 ```python
@@ -178,26 +165,22 @@ def run(query: str, top_k: int = 5, source: str = "all") -> dict:
     return {"query": query, "hits": [{k: h[k] for k in ("doc_id", "source", "version", "chunk_no", "text", "score")} for h in hits]}
 ```
 
-### 12.5 Doğal dille soru (text-to-SQL) ve neden modellenmiş veri şart
-
-> Doğrulanmış birkaç örnek soru ve sorgusu.
+### 12.5 Questions in natural language (text-to-SQL) and why modeled data is a must
 
 **Code 12.7**
 
 ```text
-Sen Meridian Market'in veri asistanısın. Yalnızca aşağıdaki gold tablolarını ve
-metrik tanımlarını kullan. Bir metrik tanımda yoksa uydurma; "tanımlı değil" de.
-Sorguyu salt okunur çalıştır, sonucu bir cümleyle anlat ve kullandığın SQL'i,
-tabloları ve metrik tanımının adını cevabın altına yaz.
+You are Meridian Market's data assistant. Use only the gold tables and metric
+definitions below. If a metric is not in the definitions, do not invent it; say "not defined".
+Run the query read-only, explain the result in one sentence, and list the SQL you used,
+the tables and the name of the metric definition under your answer.
 
-[gold şeması ve sütun açıklamaları]
+[gold schema and column descriptions]
 [metrics/sales.yaml]
-[örnek soru ve sorgular]
+[example questions and queries]
 
-Soru: Mart 2027'de online kanalın net satışlardaki payı ne kadardı?
+Question: What was the online channel's share of net sales in March 2027?
 ```
-
-> İyi bir cevabın altında şöyle bir sorgu durur:
 
 **Code 12.8**
 

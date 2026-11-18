@@ -1,14 +1,11 @@
-# Bölüm 5 — Mimariyi tasarlamak ve çizmek
+# Chapter 5 — Designing and drawing the architecture
 
 ## Code from the book
 
-Every code block of this chapter, in book order, under the book's section headings (Turkish, as printed).
-Runnable files are in this folder; for scripts printed as "(shortened)" the full version is the file here.
-Bu dosya bölümdeki bütün kod bloklarını kitaptaki sırasıyla ve alt bölüm başlıklarıyla verir.
+Every code block of this chapter, in book order, under the book's section headings.
+Runnable files are in this folder; for scripts printed as "(shortened)" in the book, the full version is the file here.
 
-### 5.5 Mimari karar kaydı (ADR)
-
-> Şablon ve Meridian’dan bir örnek:
+### 5.5 Architecture decision record (ADR)
 
 **Code 5.1**
 
@@ -47,9 +44,7 @@ Option 3.
 - When a business unit shows, with a concrete example, that an hour of delay loses money.
 ```
 
-### 5.6 Uygulama: AI ile mimari danışmanlık ve kodla çizilen diyagram
-
-> Adım 1: Mimariyi metne dökün. Dosyada üç liste ve bir ok listesi var: kaynaklar, platform katmanları, tüketiciler ve aralarındaki akışlar. Kaynakların yanındaki MM, BZ ve OP kodları kitabın veri seti kataloğundaki kimlikler (QR’daki depo). Log, sorgu…
+### 5.6 Hands-on: architecture advice with AI and a diagram drawn with code
 
 **Code 5.2**
 
@@ -92,8 +87,6 @@ flows:
   - {from: vector, to: assistant, mode: RAG, schedule: "on query", owner: Sam}
   - {from: gold, to: assistant, mode: SQL, schedule: "on query", owner: Sam}
 ```
-
-> Adım 2: Metni diyagrama çevirin. Script, dosyayı okuyup Mermaid söz dizimiyle bir akış diyagramı yazıyor. Mermaid, metinden diyagram çizen açık kaynaklı bir dil; GitHub, birçok wiki ve not aracı onu doğrudan gösterir. Script ayrıca 5.4’teki “okları say”…
 
 **Code 5.3**
 
@@ -150,8 +143,6 @@ if __name__ == "__main__":
     for problem in missing_contracts(arch):
         print(f"WARNING: {problem}", file=sys.stderr)
 ```
-
-> Script çalışınca ekrana tek bir uyarı düşüyor: WARNING: bz_docs -> bronze: missing schedule. Gerçekten de destek dokümanlarının ne zaman geleceğini henüz kimse söylemedi. Priya bu soruyu Bazaarly destek ekibine iletiyor. Diyagram dosyasının ilk satırları…
 
 **Code 5.4**
 

@@ -1,14 +1,11 @@
-# Bölüm 10 — Veri kalitesi ve güvenilir pipeline
+# Chapter 10 — Data quality and reliable pipelines
 
 ## Code from the book
 
-Every code block of this chapter, in book order, under the book's section headings (Turkish, as printed).
-Runnable files are in this folder; for scripts printed as "(shortened)" the full version is the file here.
-Bu dosya bölümdeki bütün kod bloklarını kitaptaki sırasıyla ve alt bölüm başlıklarıyla verir.
+Every code block of this chapter, in book order, under the book's section headings.
+Runnable files are in this folder; for scripts printed as "(shortened)" in the book, the full version is the file here.
 
-### 10.1 Kalite boyutları ve kural şablonu: kural, eşik, önem, sahip, aksiyon
-
-> Kuralları kodun içine dağıtmak yerine tek bir dosyada topluyoruz: ch10_quality/rules.yaml. Dosyayı herkes okuyabilir; bir kuralın eşiğini değiştirmek için kodu açmak gerekmez.
+### 10.1 Quality dimensions and the rule template: rule, threshold, severity, owner, action
 
 **Code 10.1**
 
@@ -125,9 +122,7 @@ rules:
     action: report
 ```
 
-### 10.2 Kalite SQL’leri: COUNT, mükerrer kontrolü, anti-join, EXCEPT
-
-> 1. Satır sayısı ve günlük hacim. En basit ve en çok işe yarayan kontrol. Eksik gün ve iki kez yüklenen gün burada hemen görünür.
+### 10.2 Quality SQL: COUNT, duplicate checks, anti-join, EXCEPT
 
 **Code 10.2**
 
@@ -138,8 +133,6 @@ GROUP BY receipt_local_date
 ORDER BY receipt_local_date DESC
 LIMIT 14;
 ```
-
-> 2. Mükerrer anahtar. COUNT(*) ile COUNT(DISTINCT ...) farkı hızlı bir ölçüdür; QUALIFY ise sorunlu satırların kendisini getirir.
 
 **Code 10.3**
 
@@ -154,8 +147,6 @@ FROM silver.products
 QUALIFY COUNT(*) OVER (PARTITION BY product_id) > 1;
 ```
 
-> Bu sorgu Bazaarly’nin ikiz ürünlerini bulmaz, çünkü onların kodları farklı. İkizler adın normalleştirilmiş halinde aynıdır. Bu yüzden aynı kontrolü bir de ad üzerinden yapıyoruz:
-
 **Code 10.4**
 
 ```sql
@@ -168,8 +159,6 @@ GROUP BY name_key
 HAVING COUNT(*) > 1;
 ```
 
-> 3. Anti-join: yetim satırlar ve eşlenmemiş kodlar. Sol tabloda olup sağ tabloda karşılığı olmayan satırları bulur. Referans bütünlüğünün temel aracı.
-
 **Code 10.5**
 
 ```sql
@@ -181,8 +170,6 @@ WHERE o.channel_code IS NOT NULL
   AND c.channel_code IS NULL
 GROUP BY o.channel_code;
 ```
-
-> 4. Başlık = satır toplamı. Sipariş başlığındaki toplam, satırların toplamına eşit olmalı. Tutmayan siparişler ya kaynakta hesaplama hatasıdır ya da sonradan değişmiş bir sipariştir.
 
 **Code 10.6**
 
@@ -200,8 +187,6 @@ WHERE abs(o.order_total_original - l.lines_total) > 0.01
 ORDER BY abs(diff) DESC;
 ```
 
-> 5. EXCEPT: katmanlar arası eksik. Bronze’da olan bir sipariş silver’a ulaşmadıysa nerede kayboldu?
-
 **Code 10.7**
 
 ```sql
@@ -209,8 +194,6 @@ SELECT order_id FROM bronze.bz_orders_2026
 EXCEPT
 SELECT order_id FROM silver.bz_orders;
 ```
-
-> “Hangi yıl?” Deniz bu sorguyu rules.yaml’a kural olarak eklemeden önce taslak YAML satırını Bit’e verdi. Bit kuralı yazmadan önce bir soru sordu: “Bronze’da üç sipariş tablosu var: 2025, 2026 ve 2027. Bu sorgu yalnızca birine bakıyor. Bu yılın bir siparişi…
 
 **Code 10.8**
 
@@ -228,9 +211,7 @@ EXCEPT
 SELECT order_id FROM silver.bz_orders;
 ```
 
-### 10.3 Schema drift ve “kapı” (gate): sorunlu kayıt bronze’da kalsın
-
-> Sözleşme dosyası Bölüm 7’deki profil aracının ürettiği taslaktır; Deniz onu gözden geçirip zorunlu alanları işaretledi:
+### 10.3 Schema drift and the gate: problem records stay in bronze
 
 **Code 10.9**
 
@@ -248,8 +229,6 @@ columns:
   - {name: order_total,  type: decimal, required: true}
   - {name: notes,        type: string,  required: false}
 ```
-
-> Kapının kendisi birkaç satır:
 
 **Code 10.10**
 
@@ -271,9 +250,7 @@ def schema_gate(batch_columns: list[str], contract: dict) -> dict:
     return {"decision": decision, "missing": missing, "unexpected": unexpected}
 ```
 
-### 10.4 Karantina ve mutabakat: “rakamı koru”
-
-> Karantina bir tablodur: quality.quarantine. Her satırın hangi tablodan geldiği, hangi kurala takıldığı, satırın kendisi (JSON olarak) ve ne zaman ayrıldığı yazılıdır. Karantinadaki satır gold’a girmez ama kaybolmaz. Sorun çözülünce (sözleşme güncellenir,…
+### 10.4 Quarantine and reconciliation: “keep the number”
 
 **Code 10.11**
 
@@ -285,8 +262,6 @@ CREATE TABLE IF NOT EXISTS quality.quarantine (
   quarantined_at TIMESTAMP
 );
 ```
-
-> Kitabın veri setinde bu “gerçek toplam” hazır: generate_data.py, tuzakları eklemeden önce her şirketin aylık net satışını data/raw/control_totals.json dosyasına yazdı. Gerçek bir şirkette bu dosyanın karşılığı finansın kapanış rakamı, kaynak sistemin kendi…
 
 **Code 10.12**
 
@@ -354,9 +329,7 @@ def reconcile(df, control_totals_path, step, company=None,
             "periods": periods, "diffs": diffs}
 ```
 
-### 10.6 Script → araç: quality_checks.py → “kalite” aracı
-
-> Script. Aşağıdaki sürüm DuckDB üzerinde çalışır. Databricks’te aynı SQL’ler spark.sql() ile çalışır, tablo adlarının önüne meridian. gelir; deponun Databricks sürümü yalnızca bağlantı satırlarında farklıdır.
+### 10.6 Script → tool: quality_checks.py → the “kalite” tool
 
 **Code 10.13**
 

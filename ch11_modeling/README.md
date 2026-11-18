@@ -1,13 +1,12 @@
-# Bölüm 11 — Veri modelleme: star schema ve ötesi
-### Chapter 11 — Data modeling: star schema and beyond
+# Chapter 11 — Data modeling: star schema and beyond
 
-QR-11 · Kitabın deposu / book repository: https://github.com/fhattat/meridian-data-book
+QR-11 · book repository: https://github.com/fhattat/meridian-data-book
 
-**[BOOK_CODE.md](BOOK_CODE.md)**: bölümdeki bütün kodlar, kitaptaki sırası ve alt bölüm başlıklarıyla / every code block of the chapter in book order.
+**[BOOK_CODE.md](BOOK_CODE.md)**: every code block of the chapter, in book order, under the book's section headings.
 
-## Çalıştırma / Run
+## Run
 
-Depo kökünden, `export PYTHONPATH=.` ile (Makefile bunu kendisi yapar) / from the repository root:
+From the repository root, with `export PYTHONPATH=.` (the Makefile sets it for you):
 
 ```bash
 python ch11_modeling/build_gold.py --env local
@@ -15,7 +14,7 @@ python ch11_modeling/model_checks.py --env local
 python ch11_modeling/text_to_sql_eval.py --env local --layer gold   # needs ask_llm()
 ```
 
-## Dosyalar / Files
+## Files
 
 - [build_gold.py](build_gold.py)
 - [gold_grain.md](gold_grain.md)
@@ -35,4 +34,4 @@ python ch11_modeling/text_to_sql_eval.py --env local --layer gold   # needs ask_
 - [text_to_sql_eval.py](text_to_sql_eval.py)
 - [tool_modeling.json](tool_modeling.json)
 
-Veri sentetiktir / all data is synthetic (see the main README).
+All data is synthetic (see the main README).

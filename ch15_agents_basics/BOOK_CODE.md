@@ -1,14 +1,11 @@
-# Bölüm 15 — AI agent’ları anlamak
+# Chapter 15 — Understanding AI agents
 
 ## Code from the book
 
-Every code block of this chapter, in book order, under the book's section headings (Turkish, as printed).
-Runnable files are in this folder; for scripts printed as "(shortened)" the full version is the file here.
-Bu dosya bölümdeki bütün kod bloklarını kitaptaki sırasıyla ve alt bölüm başlıklarıyla verir.
+Every code block of this chapter, in book order, under the book's section headings.
+Runnable files are in this folder; for scripts printed as "(shortened)" in the book, the full version is the file here.
 
-### 15.2 Agent anatomisi: model, araçlar, bağlantı, skill, hafıza ve döngü
-
-> Skill ve runbook. Araç “ne yapabilir” sorusunu cevaplar; skill “ne zaman, hangi sırayla, hangi eşikle” sorusunu. Bir skill, yeni gelen bir meslektaşınıza kararınızı nasıl verdiğinizi anlatan bir notun modelin okuyabileceği biçimidir. Çoğu zaman yanında…
+### 15.2 Anatomy of an agent: model, tools, connection, skills, memory and loop
 
 **Code 15.1**
 
@@ -23,9 +20,7 @@ Bu dosya bölümdeki bütün kod bloklarını kitaptaki sırasıyla ve alt böl�
 6. Never: re-run, delete, publish to production, send email. Write a draft and leave it to a human.
 ```
 
-### 15.6 Uygulama: mini_agent.py ile iki araçlı ilk agent
-
-> Kavramları bir kez çalışırken görmek için olabilecek en küçük agent’ı kuralım. İki aracı var: Bölüm 7’deki profil ve DuckDB’de satır sayan row_count. Model çağrısı ask_llm() fonksiyonunun arkasında; kullandığınız asistanın API’sini oraya bağlarsınız. Döngü…
+### 15.6 Hands-on: a first agent with two tools, mini_agent.py
 
 **Code 15.2**
 

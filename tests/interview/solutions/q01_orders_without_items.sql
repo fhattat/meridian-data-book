@@ -1,7 +1,7 @@
--- Soru 1: silver.bz_orders tablosunda kalemi olmayan siparişler hangileri?
--- Tuzak: INNER JOIN bu siparişleri sessizce kaybeder.
--- Çözüm: anti-join (LEFT JOIN + sağ anahtar IS NULL).
--- Test siparişlerini silmiyoruz; is_test sütunuyla gösteriyoruz ki ayrı ayrı incelenebilsin.
+-- Question 1: which orders in silver.bz_orders have no items?
+-- Trap: an INNER JOIN silently loses these orders.
+-- Solution: anti-join (LEFT JOIN + right key IS NULL).
+-- Test orders are not removed; is_test is shown so they can be reviewed separately.
 SELECT
     o.order_id,
     o.order_local_date,
@@ -13,7 +13,7 @@ LEFT JOIN silver.bz_order_items AS i
 WHERE i.order_id IS NULL
 ORDER BY o.order_id;
 
--- Kısa yol (DuckDB / Databricks SQL): NOT EXISTS ile aynı sonuç
+-- Shorter (DuckDB / Databricks SQL): the same result with NOT EXISTS
 -- SELECT o.order_id FROM silver.bz_orders o
 -- WHERE NOT EXISTS (SELECT 1 FROM silver.bz_order_items i WHERE i.order_id = o.order_id);
--- NOT IN kullanmayın: alt sorguda tek bir NULL order_id varsa sonuç boş döner.
+-- Do not use NOT IN: a single NULL order_id in the subquery makes the result empty.

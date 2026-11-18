@@ -1,8 +1,8 @@
--- Soru 3: 2026'da her Census bölgesinin net satışı ne kadar?
--- Tuzak: Bazaarly'nin tek "Bazaarly Online" mağazası bir Census bölgesine ait değildir.
--- Net satış = SUM(gold.fact_sales.amount_usd): test ve iptaller zaten fact'te yok,
--- iadeler eksi satır olarak toplamı azaltır (kanonik tanım, Ek F ve metrics/sales.yaml).
--- Savunmacı LEFT JOIN: mağaza anahtarı eksik satır kaybolmasın.
+-- Question 3: what were the net sales of each Census region in 2026?
+-- Trap: Bazaarly's single "Bazaarly Online" store belongs to no Census region.
+-- Net sales = SUM(gold.fact_sales.amount_usd): test records and cancellations are not in the fact,
+-- returns reduce the total as negative lines (canonical definition, Appendix F and metrics/sales.yaml).
+-- Defensive LEFT JOIN: rows with a missing store key are not lost.
 SELECT
     COALESCE(s.region, 'Online (Bazaarly)') AS region,
     ROUND(SUM(f.amount_usd), 2)             AS net_sales_usd_2026
@@ -14,4 +14,4 @@ LEFT JOIN gold.dim_store AS s
 WHERE d.year = 2026
 GROUP BY COALESCE(s.region, 'Online (Bazaarly)')
 ORDER BY net_sales_usd_2026 DESC;
--- Kontrol: Bu sorgunun toplamı, control_totals.json'daki 2026 MM + BZ toplamına eşit olmalı.
+-- Check: the total of this query must equal the 2026 MM + BZ total in control_totals.json.

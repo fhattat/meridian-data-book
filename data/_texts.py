@@ -403,15 +403,7 @@ def write_legacy_sql(folder: Path) -> None:
         (folder / f"{n:02d}_{name.format(n=n)}.sql").write_text(body.format(n=n, r=regions[n % 5]), encoding="utf-8")
 
 
-SYNTHETIC_NOTE = """## Sentetik veri uyarısı
-
-Bu depodaki bütün veri setleri, "AI-Assisted Data Engineering" kitabı için
-generate_data.py script'iyle sentetik olarak üretilmiştir. Meridian Market ve
-Bazaarly kurgusal şirketlerdir. Verilerdeki adlar, e-posta adresleri, telefon
-numaraları, adresler ve işlemler hiçbir gerçek kişiye veya şirkete ait değildir.
-Gerçek bir kişi ya da kuruluşla herhangi bir benzerlik tesadüfidir.
-
-## Synthetic data notice
+SYNTHETIC_NOTE = """## Synthetic data notice
 
 All datasets in this repository were synthetically generated with
 generate_data.py for the book "AI-Assisted Data Engineering". Meridian Market

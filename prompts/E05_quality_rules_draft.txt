@@ -1,9 +1,9 @@
-# Ek E — E.5 Kalite kuralları taslağı (Bölüm 10)
-# Kaynak: AI-Assisted Data Engineering, Ek E
+# Appendix E — E.5 Draft quality rules (Chapter 10)
+# Source: AI-Assisted Data Engineering, Appendix E
 
-Görev: Bu silver tablosu için rules.yaml biçiminde kalite kuralları öner.
-Girdi: Tablo şeması, profil raporu, veri sözleşmesi.
-Çıktı: YAML: name, table, type, column(s), max_bad_rows, severity, owner, action.
-Kural: severity ve owner alanlarını "öneri" diye işaretle; son kararı kural sahibi verir.
-       Var olan kuralları değiştirme, yalnızca yenilerini ekle.
-Sunum: Her kuralın neyi koruyacağını bir cümleyle yaz.
+Task: Propose quality rules for this silver table in rules.yaml format.
+Input: Table schema, profile report, data contract.
+Output: YAML: name, table, type, column(s), max_bad_rows, severity, owner, action.
+Rule: Mark severity and owner as "proposal"; the rule owner makes the final decision.
+      Do not change existing rules; only add new ones.
+Presentation: Write in one sentence what each rule protects.

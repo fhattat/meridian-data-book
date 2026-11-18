@@ -1,14 +1,11 @@
-# Bölüm 7 — Kaynak sistemleri tanımak ve veri profilleme
+# Chapter 7 — Knowing the source systems and data profiling
 
 ## Code from the book
 
-Every code block of this chapter, in book order, under the book's section headings (Turkish, as printed).
-Runnable files are in this folder; for scripts printed as "(shortened)" the full version is the file here.
-Bu dosya bölümdeki bütün kod bloklarını kitaptaki sırasıyla ve alt bölüm başlıklarıyla verir.
+Every code block of this chapter, in book order, under the book's section headings.
+Runnable files are in this folder; for scripts printed as "(shortened)" in the book, the full version is the file here.
 
-### 7.2 Veri profilleme: neye bakılır
-
-> Elle ilk profil. Script’e geçmeden önce Deniz, Bazaarly’nin ürün tablosuna birkaç sorguyla bakıyor. DuckDB’de bir dosyayı yüklemeden sorgulayabilirsiniz; her sütunu metin olarak okumak, tip tahmininin hataları gizlemesini önler:
+### 7.2 Data profiling: what to look at
 
 **Code 7.1**
 
@@ -35,9 +32,7 @@ GROUP BY 1
 HAVING COUNT(*) > 1;
 ```
 
-### 7.4 Veri sözleşmesi: kaynakla anlaşmak
-
-> İlk taslak profilden çıkar. Sözleşmeyi boş sayfadan yazmaya gerek yok. Profil zaten şemayı, tipleri, doluluğu ve aday anahtarları çıkarıyor. profile_source.py bunları bir YAML taslağına döker; Deniz açıklamaları kaynak sistem kılavuzundan ekler,…
+### 7.4 Data contract: an agreement with the source
 
 **Code 7.2**
 
@@ -79,9 +74,7 @@ quality:
 change_policy: "Column renames and removals are announced at least 10 business days in advance"
 ```
 
-### 7.6 Script → araç: profile_source.py ve profil aracı
-
-> 7.2’deki sorguları her tablo için elle yazmak, yirmi küsur tabloda bir gün sürer. Aynı bakışı bir script’e dökmenin zamanı geldi. Deniz iskeleti Bit’e yazdırıyor, sonra satır satır okuyup sadeleştiriyor. Ortaya çıkan sürüm 120 satırın biraz üzerinde ve…
+### 7.6 Script → tool: profile_source.py and the profil tool
 
 **Code 7.3**
 
@@ -210,8 +203,6 @@ if __name__ == "__main__":
     path = a.path if a.env == "local" else f"/Volumes/meridian/raw/landing/{a.path}"
     print(json.dumps(run(path, a.table, a.guide, a.out), indent=2, ensure_ascii=False))
 ```
-
-> Tablo 7.6 — Araç tanımı: profil
 
 **Code 7.4**
 

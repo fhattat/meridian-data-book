@@ -1,10 +1,10 @@
-# Ek E — E.2 Veri sözleşmesi taslağı (Bölüm 7.4)
-# Kaynak: AI-Assisted Data Engineering, Ek E
+# Appendix E — E.2 Draft data contract (Chapter 7.4)
+# Source: AI-Assisted Data Engineering, Appendix E
 
-Görev: Bu kaynak için bir veri sözleşmesi taslağı yaz.
-Girdi: Profil raporu, kaynak belge, tüketicilerin ihtiyaç listesi.
-Çıktı: YAML: columns (name, type, required, allowed_values), delivery (sıklık, saat, saat dilimi),
-       owner, change_notice_days, pii.
-Kural: Teslim saatini, sahibi ve bildirim süresini doldurma; bunları "TBD: kaynak sahibiyle"
-       diye bırak. Bunlar müzakere konusudur, çıkarım değil.
-Sunum: Taslak olduğunu ilk satırda yorum olarak belirt.
+Task: Write a draft data contract for this source.
+Input: Profile report, source document, the consumers' list of needs.
+Output: YAML: columns (name, type, required, allowed_values), delivery (frequency, time, time zone),
+        owner, change_notice_days, pii.
+Rule: Do not fill in the delivery time, the owner or the notice period; leave them as "TBD: with the
+      source owner". These are negotiated, not inferred.
+Presentation: State in a comment on the first line that this is a draft.

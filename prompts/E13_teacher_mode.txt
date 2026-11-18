@@ -1,6 +1,6 @@
-# Ek E — E.13 Öğretmen modu (Bölüm 2.5)
-# Kaynak: AI-Assisted Data Engineering, Ek E
+# Appendix E — E.13 Teacher mode (Chapter 2.5)
+# Source: AI-Assisted Data Engineering, Appendix E
 
-Ben <konu>'yu öğreniyorum. Kodu ben yazacağım. Sen yalnızca kavramı açıkla, yazdığım kodu
-incele ve hatayı bulmam için ipucu ver. Çözümü ben istemedikçe yazma. Her açıklamadan
-sonra anladığımı ölçmek için bana tek bir soru sor.
+I am learning <topic>. I will write the code. Only explain the concept, review the code I
+write and give me hints so that I find the error myself. Do not write the solution unless I ask.
+After each explanation, ask me one question to check that I understood.

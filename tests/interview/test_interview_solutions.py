@@ -1,11 +1,11 @@
-"""Ek C SQL alıştırmalarının çözümlerini küçük bir test verisiyle doğrular.
+"""Checks the solutions of the Appendix C SQL exercises on a small test data set.
 
-Çalıştırma (depo kökünden):
+Run (from the repository root):
     pytest tests/interview -q
 
-Varsayılan olarak DuckDB kullanılır (kitabın yerel motoru). DuckDB kurulu değilse
-aynı testler Python'un yerleşik sqlite3 modülüyle çalışır; çözümler bu yüzden
-DuckDB, Databricks SQL ve SQLite'ta aynı çalışan taşınabilir SQL ile yazıldı.
+DuckDB is used by default (the book's local engine). If DuckDB is not installed
+the same tests run with Python's built-in sqlite3 module; that is why the solutions
+are written in portable SQL that runs the same on DuckDB, Databricks SQL and SQLite.
 """
 from pathlib import Path
 import re
@@ -18,7 +18,7 @@ SCHEMAS = ["bronze", "silver", "gold"]
 
 
 def _statement(path: Path) -> str:
-    """Dosyadaki ilk SQL ifadesini döner; yorum satırlarını atar."""
+    """Returns the first SQL statement of the file; drops comment lines."""
     text = re.sub(r"--[^\n]*", "", path.read_text(encoding="utf-8"))
     return text.split(";")[0].strip()
 
@@ -80,11 +80,11 @@ def test_q04_bazaarly_orders_march_2027(db):
 
 def test_q05_header_vs_lines(db):
     rows = [(r[0], round(float(r[3]), 2)) for r in run(db, "q05_header_vs_lines.sql")]
-    assert rows == [("O4", 10.00), ("O3", 5.00)]  # O7'nin 0,01'lik farkı tolerans içinde
+    assert rows == [("O4", 10.00), ("O3", 5.00)]  # O7's 0.01 difference is within the tolerance
 
 
 def test_q06_customers_in_both(db):
-    assert [int(r[0]) for r in run(db, "q06_customers_in_both.sql")] == [2]  # ayla, dora; test hariç
+    assert [int(r[0]) for r in run(db, "q06_customers_in_both.sql")] == [2]  # ayla, dora; test record excluded
 
 
 def test_q07_top3_categories_per_store(db):
@@ -102,4 +102,4 @@ def test_q07_top3_categories_per_store(db):
 
 def test_q08_bronze_vs_silver_pos(db):
     rows = [(r[0], int(r[1])) for r in run(db, "q08_bronze_vs_silver_pos.sql")]
-    assert rows == [("R2", 1)]  # R3 test fişi silver'da işaretli, kayıp değil
+    assert rows == [("R2", 1)]  # R3 is a test receipt: flagged in silver, not lost

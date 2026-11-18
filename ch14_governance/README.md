@@ -1,20 +1,19 @@
-# Bölüm 14 — Metadata, katalog, lineage ve güvenlik
-### Chapter 14 — Metadata, catalog, lineage and security
+# Chapter 14 — Metadata, catalog, lineage and security
 
-QR-14 · Kitabın deposu / book repository: https://github.com/fhattat/meridian-data-book
+QR-14 · book repository: https://github.com/fhattat/meridian-data-book
 
-**[BOOK_CODE.md](BOOK_CODE.md)**: bölümdeki bütün kodlar, kitaptaki sırası ve alt bölüm başlıklarıyla / every code block of the chapter in book order.
+**[BOOK_CODE.md](BOOK_CODE.md)**: every code block of the chapter, in book order, under the book's section headings.
 
-## Çalıştırma / Run
+## Run
 
-Depo kökünden, `export PYTHONPATH=.` ile (Makefile bunu kendisi yapar) / from the repository root:
+From the repository root, with `export PYTHONPATH=.` (the Makefile sets it for you):
 
 ```bash
 python ch14_governance/extract_metadata.py --env local --schema gold
 python ch14_governance/rls_test.py
 ```
 
-## Dosyalar / Files
+## Files
 
 - [extract_metadata.py](extract_metadata.py)
 - [grants_and_masking_databricks.sql](grants_and_masking_databricks.sql)
@@ -25,4 +24,4 @@ python ch14_governance/rls_test.py
 - [tool_catalog.json](tool_catalog.json)
 - [unity_catalog_comments.sql](unity_catalog_comments.sql)
 
-Veri sentetiktir / all data is synthetic (see the main README).
+All data is synthetic (see the main README).

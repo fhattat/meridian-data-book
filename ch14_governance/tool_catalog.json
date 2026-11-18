@@ -1,5 +1,5 @@
 {
-  "name": "katalog",
+  "name": "catalog",
   "description": "Extracts technical metadata for the tables in a schema directly from the data, takes descriptions only from the source guide, and writes YAML files, a lineage diagram and a catalog page to the metadata/ folder. Never invents descriptions; unknown fields stay empty.",
   "input_schema": {
     "type": "object",

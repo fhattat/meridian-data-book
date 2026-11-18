@@ -4,16 +4,16 @@ import uuid
 from pathlib import Path
 
 from lib.llm import ask_json
-from mcp_server import profil, yukleme, temizlik, kalite, katalog, ariza
+from mcp_server import profile, ingest, clean, quality, catalog, incident
 
 PLAYBOOKS = {
-    "new_source": ["profil", "approve:contract", "yukleme", "temizlik", "kalite", "katalog",
+    "new_source": ["profile", "approve:contract", "ingest", "clean", "quality", "catalog",
                    "approve:publish"],
-    "health_check": ["kalite", "ariza"],
-    "metadata_refresh": ["katalog"],
+    "health_check": ["quality", "incident"],
+    "metadata_refresh": ["catalog"],
 }
-SUB_AGENTS = {"profil": profil, "yukleme": yukleme, "temizlik": temizlik,
-              "kalite": kalite, "katalog": katalog, "ariza": ariza}
+SUB_AGENTS = {"profile": profile, "ingest": ingest, "clean": clean,
+              "quality": quality, "catalog": catalog, "incident": incident}
 APPROVALS = Path("reports/approvals")
 AGENT_NAME = "pipeline_agent"      # Chapter 17: at most 30 steps, 200,000 tokens
 MAX_STEPS = 30
@@ -59,9 +59,9 @@ def needs_human(step: str, result: dict) -> bool:
     """The table below, as code. The rules live here, not in the model."""
     if result.get("status") in ("fail", "hold"):
         return True
-    if step == "profil" and (result.get("pii_columns") or result.get("open_questions")):
+    if step == "profile" and (result.get("pii_columns") or result.get("open_questions")):
         return True
-    if step == "kalite" and not result.get("publish_allowed", True):   # a critical rule failed
+    if step == "quality" and not result.get("publish_allowed", True):   # a critical rule failed
         return True
     return False
 

@@ -1,5 +1,5 @@
 {
-  "name": "yukleme",
+  "name": "ingest",
   "description": "Loads one source into the bronze layer without changing data. Skips duplicate files and rows, reports missing days and unreadable files.",
   "parameters": {
     "type": "object",

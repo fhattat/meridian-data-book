@@ -282,14 +282,14 @@ if __name__ == "__main__":
     print(run())
 ```
 
-### 14.6 Script → tool: extract_metadata.py → the katalog tool
+### 14.6 Script → tool: extract_metadata.py → the catalog tool
 
 **Code 14.11**
 
 ```python
 def run(schema="silver", tables=None, env="local", out_dir="metadata"):
     if Path(out_dir).resolve() != OUT.resolve():
-        raise PermissionError("the katalog tool writes only to the metadata/ folder")
+        raise PermissionError("the catalog tool writes only to the metadata/ folder")
     con = duckdb.connect(DB, read_only=True)          # read-only connection to the data
     guide, owners = load_yaml(GUIDE), load_yaml(OWNERS)
     if not tables:
@@ -329,7 +329,7 @@ if __name__ == "__main__":
 
 ```json
 {
-  "name": "katalog",
+  "name": "catalog",
   "description": "Extracts technical metadata for the tables in a schema directly from the data, takes descriptions only from the source guide, and writes YAML files, a lineage diagram and a catalog page to the metadata/ folder. Never invents descriptions; unknown fields stay empty.",
   "input_schema": {
     "type": "object",

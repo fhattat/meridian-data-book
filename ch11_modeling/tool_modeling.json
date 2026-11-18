@@ -1,5 +1,5 @@
 {
-  "name": "modelleme",
+  "name": "modeling",
   "description": "Checks the health of the gold model: grain, key uniqueness, fact-to-fact joins, naming standard and reconciliation with control totals.",
   "parameters": {
     "type": "object",

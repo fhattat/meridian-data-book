@@ -50,8 +50,8 @@ exactly the same files.
 - **AI calls:** the book leaves `ask_llm()` in `lib/llm.py` empty on purpose; you connect your own
   assistant. Optional ready-made adapter: `pip install anthropic`, `MERIDIAN_LLM=anthropic`. Scripts that
   need a model (agents, the text-to-SQL experiment) stop with a clear message until it is connected.
-- **Agent tool names** (`profil`, `yukleme`, `temizlik`, `kalite`, `modelleme`, `ariza`, `katalog`,
-  `inceleme`, `belge_ara`) are the identifiers used in the book's code.
+- **Agent tool names** (`profile`, `ingest`, `clean`, `quality`, `modeling`, `incident`, `catalog`,
+  `review`, `search_docs`) are the identifiers used in the book's code.
 - **Differences from the book:** scripts printed as "(shortened)" in the book are complete here. Lines
   added for the repository are marked with a `repo:` comment.
 - **CI:** on every push GitHub Actions runs the whole pipeline and the tests (`.github/workflows/ci.yml`).

@@ -331,13 +331,13 @@ if __name__ == "__main__":
     print(json.dumps(run(), indent=2, default=str))
 ```
 
-### 13.8 Script → tool: ariza and inceleme
+### 13.8 Script → tool: incident and review
 
 **Code 13.10**
 
 ```json
 {
-  "name": "ariza",
+  "name": "incident",
   "description": "Reads one nightly pipeline log, separates healed transient errors from blocking errors, finds similar past incidents in incident_log.yaml and returns a draft incident report. Never fixes or reruns anything.",
   "parameters": {
     "type": "object",
@@ -355,7 +355,7 @@ if __name__ == "__main__":
 
 ```json
 {
-  "name": "inceleme",
+  "name": "review",
   "description": "Analyses query history for the last N days: tables never queried, most expensive queries, slow repeated queries and cost by table. Returns suggestions only.",
   "parameters": {
     "type": "object",

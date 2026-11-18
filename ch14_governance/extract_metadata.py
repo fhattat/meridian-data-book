@@ -116,7 +116,7 @@ def catalog_html(metas):
 
 def run(schema="silver", tables=None, env="local", out_dir="metadata"):
     if Path(out_dir).resolve() != OUT.resolve():
-        raise PermissionError("the katalog tool writes only to the metadata/ folder")
+        raise PermissionError("the catalog tool writes only to the metadata/ folder")
     con = duckdb.connect(DB, read_only=True)          # read-only connection to the data
     guide, owners = load_yaml(GUIDE), load_yaml(OWNERS)
     if not tables:

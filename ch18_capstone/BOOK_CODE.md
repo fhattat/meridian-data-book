@@ -73,12 +73,12 @@ from pathlib import Path
 
 # Book order: Chapter 7 -> 11
 STEPS = [
-    ("profil",    "ch07_profiling/profile_source.py"),
-    ("yukleme",   "ch08_ingestion/ingest_to_bronze.py"),
-    ("temizlik",  "ch09_medallion/clean_silver.py"),
-    ("kalite",    "ch10_quality/quality_checks.py"),   # exit 1 on a critical failure
+    ("profile",    "ch07_profiling/profile_source.py"),
+    ("ingest",   "ch08_ingestion/ingest_to_bronze.py"),
+    ("clean",  "ch09_medallion/clean_silver.py"),
+    ("quality",    "ch10_quality/quality_checks.py"),   # exit 1 on a critical failure
     ("gold",      "ch11_modeling/build_gold.py"),
-    ("modelleme", "ch11_modeling/model_checks.py"),
+    ("modeling", "ch11_modeling/model_checks.py"),
 ]
 
 MONTHLY_SQL = """
@@ -219,10 +219,10 @@ def run(env: str = "local", size: str = "small", **kwargs) -> dict:
 
 ```text
 Question: My order has shown "preparing" for three days. What should I do?
-Step 1  : belge_ara(query="order status preparing delay", k=4)
+Step 1  : search_docs(query="order status preparing delay", k=4)
           -> 4 chunks, all from help documents, no chunk from quarantine
 Step 2  : answer written, two source chunks cited
-Audit   : agent=support_assistant tool=belge_ara result_status=ok
+Audit   : agent=support_assistant tool=search_docs result_status=ok
 Total   : 2 steps / 6, limit not exceeded
 ```
 

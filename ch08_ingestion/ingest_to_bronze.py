@@ -164,7 +164,7 @@ def read_excel_as_text(path: Path) -> pd.DataFrame:
 
 
 def run(source: str = "mm_pos", since: str = "2025-01-01", until: str = "2027-06-30") -> dict:
-    """Called by the agent tool 'yukleme'. Writes to bronze only."""
+    """Called by the agent tool 'ingest'. Writes to bronze only."""
     BRONZE.mkdir(parents=True, exist_ok=True)
     batch_id = uuid.uuid4().hex[:12]
     summary = {"batch_id": batch_id, "source": source, "tables": [], "skipped_files": [],

@@ -1,5 +1,5 @@
 {
-  "name": "profil",
+  "name": "profile",
   "description": "Profiles a source file before ingestion. Read-only; returns suspects and open questions.",
   "parameters": {
     "type": "object",

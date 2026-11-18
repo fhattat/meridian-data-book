@@ -113,7 +113,7 @@ def missing_pos_days(since: str, until: str) -> list[str]:
 
 
 def run(source: str = "mm_pos", since: str = "2025-01-01", until: str = "2027-06-30") -> dict:
-    """Called by the agent tool 'yukleme'. Writes to bronze only."""
+    """Called by the agent tool 'ingest'. Writes to bronze only."""
     batch_id = uuid.uuid4().hex[:12]
     summary = {"batch_id": batch_id, "source": source, "tables": [], "skipped_files": [],
                "dead_letter": [], "missing_days": []}
@@ -239,13 +239,13 @@ if __name__ == "__main__":
     print(json.dumps(consume(), indent=2))
 ```
 
-### 8.6 Ingestion code with AI, and script → the “yukleme” tool
+### 8.6 Ingestion code with AI, and script → the “ingest” tool
 
 **Code 8.4**
 
 ```json
 {
-  "name": "yukleme",
+  "name": "ingest",
   "description": "Loads one source into the bronze layer without changing data. Skips duplicate files and rows, reports missing days and unreadable files.",
   "parameters": {
     "type": "object",

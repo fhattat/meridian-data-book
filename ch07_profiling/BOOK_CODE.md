@@ -74,7 +74,7 @@ quality:
 change_policy: "Column renames and removals are announced at least 10 business days in advance"
 ```
 
-### 7.6 Script → tool: profile_source.py and the profil tool
+### 7.6 Script → tool: profile_source.py and the profile tool
 
 **Code 7.3**
 
@@ -154,7 +154,7 @@ def profile_column(df, col, guide):
 
 
 def run(path, table=None, guide=None, out_dir="."):
-    """Called by the agent tool 'profil'. Read-only; writes only reports."""
+    """Called by the agent tool 'profile'. Read-only; writes only reports."""
     table = table or Path(path).stem
     guide = (yaml.safe_load(Path(guide).read_text()) or {}).get("tables", {}).get(table, {}).get("columns", {}) if guide else {}
     encoding, delimiter = sniff(path)
@@ -208,7 +208,7 @@ if __name__ == "__main__":
 
 ```json
 {
-  "name": "profil",
+  "name": "profile",
   "description": "Profiles a source file before ingestion. Read-only; returns suspects and open questions.",
   "parameters": {
     "type": "object",

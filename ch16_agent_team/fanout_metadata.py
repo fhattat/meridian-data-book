@@ -6,7 +6,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import yaml
 
 from lib.llm import ask_json
-from mcp_server import katalog
+from mcp_server import catalog
 
 GROUPS = yaml.safe_load(open("governance/source_groups.yaml"))   # the table above
 MAX_WORKERS = 4                    # at most four sub-agents at once (Chapter 17 limit: 6)
@@ -19,7 +19,7 @@ Never change the technical fields (type, null rate, distinct count)."""
 
 
 def sub_agent(group: str, tables: list[str], guide_text: str) -> dict:
-    meta = katalog(tables=tables)                       # rule-based metadata first
+    meta = catalog(tables=tables)                       # rule-based metadata first
     empty = [c for t in meta["tables"]                  # column details live in the YAML under metadata/
              for c in yaml.safe_load(open(f"metadata/{t['table']}.yaml"))["columns"]
              if not c["description"]]

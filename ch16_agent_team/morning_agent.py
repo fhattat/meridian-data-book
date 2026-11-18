@@ -10,7 +10,7 @@ from pathlib import Path
 
 from lib.llm import ask_json          # thin wrapper over ask_llm() from Chapter 15
 from lib.io import read_sql           # read-only query
-from mcp_server import ariza, kalite  # the tools from 16.2
+from mcp_server import incident, quality  # the tools from 16.2
 
 RUNBOOK = Path("runbooks/morning_check.md").read_text()
 MAX_TURNS = 3
@@ -23,7 +23,7 @@ EXTRA_CHECKS = {
         SELECT source_company, channel_code, COUNT(*) AS orders
         FROM silver.bz_orders WHERE order_local_date = ?
         GROUP BY ALL ORDER BY orders DESC""",
-    "incident_lookup": None,         # calls the ariza tool
+    "incident_lookup": None,         # calls the incident tool
     "late_step": """
         SELECT step, MAX(ts) AS finished_at FROM ops.pipeline_log
         WHERE run_date = ? GROUP BY step ORDER BY finished_at DESC LIMIT 3""",
@@ -33,7 +33,7 @@ EXTRA_CHECKS = {
 def fixed_checks(day: date) -> list[dict]:
     """Workflow part: threshold checks are done by rules; the model stays out."""
     findings = []
-    for r in kalite()["problems"]:                  # also updates quality.check_results
+    for r in quality()["problems"]:                  # also updates quality.check_results
         findings.append({"check": r["check"], "domain": "summary",
                          "level": "critical" if r["status"] == "fail" else "warning",
                          "observed": r["observed"], "expected": r["expected"]})
@@ -54,7 +54,7 @@ def run_extra(name: str, day: date) -> dict:
     if name not in EXTRA_CHECKS:                    # requests outside the runbook are refused
         return {"error": f"check not allowed: {name}"}
     if name == "incident_lookup":
-        return ariza(log_date=day.isoformat())
+        return incident(log_date=day.isoformat())
     return {"rows": read_sql(EXTRA_CHECKS[name], [day]).to_dict("records")}
 
 

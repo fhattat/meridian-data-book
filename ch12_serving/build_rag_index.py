@@ -212,8 +212,8 @@ def run(env: str = "local", size: str = "small", **kwargs) -> dict:
     return {"chunks": len(chunks), "indexed": len(clean), "quarantined": len(held)}
 
 
-# --------------------------------------------------------------------------- the belge_ara tool (Chapter 12.4)
-def belge_ara(query: str, top_k: int = 5, source: str = "all") -> dict:
+# --------------------------------------------------------------------------- the search_docs tool (Chapter 12.4)
+def search_docs(query: str, top_k: int = 5, source: str = "all") -> dict:
     """Finds the most relevant chunks in the index. Read-only."""
     vector = get_embedder().embed([mask_pii(query)])[0]
     hits = get_store().search(vector, top_k=top_k, source=source)
@@ -224,10 +224,10 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser()
     p.add_argument("--env", default="local", choices=["local", "databricks"])
     p.add_argument("--size", default="small")
-    p.add_argument("--query", help="search the index instead of building it (belge_ara)")
+    p.add_argument("--query", help="search the index instead of building it (search_docs)")
     a = p.parse_args()
     if a.query:
-        print(json.dumps(belge_ara(a.query), indent=2, ensure_ascii=False))
+        print(json.dumps(search_docs(a.query), indent=2, ensure_ascii=False))
     else:
         result = run(a.env, a.size)
         print(json.dumps(result, indent=2))

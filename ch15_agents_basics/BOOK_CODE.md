@@ -11,9 +11,9 @@ Runnable files are in this folder; for scripts printed as "(shortened)" in the b
 
 ```markdown
 # runbooks/morning_check.md
-1. Read the status of the nightly job (ariza: log scan). If it has not finished, stop and tell a human.
-2. Compare each bronze table's row count with yesterday (kalite: volume rules).
-   A drop of more than 20%: critical. Profile the source (profil).
+1. Read the status of the nightly job (incident: log scan). If it has not finished, stop and tell a human.
+2. Compare each bronze table's row count with yesterday (quality: volume rules).
+   A drop of more than 20%: critical. Profile the source (profile).
 3. For sources with a contract, read the schema gate result. 'hold' is critical.
 4. Collect the quality results; if anything is critical, look for its cause in incident_log.yaml.
 5. Write the report: an evidence query and a proposed next step for every critical finding.
@@ -27,7 +27,7 @@ Runnable files are in this folder; for scripts printed as "(shortened)" in the b
 ```python
 """mini_agent.py - the smallest ReAct agent, with two tools (Chapter 15).
 
-Tools: profil (Chapter 7, profile_source.run) and row_count (row count in DuckDB).
+Tools: profile (Chapter 7, profile_source.run) and row_count (row count in DuckDB).
 The model call sits behind ask_llm(); connect it to your own assistant.
 """
 import json, logging, re, sys
@@ -46,7 +46,7 @@ logging.basicConfig(filename=ROOT / "reports" / "mini_agent.log", level=logging.
                     format="%(asctime)s %(message)s")
 
 TOOLS = {
-    "profil": {
+    "profile": {
         "description": "Profiles a source file before ingestion. Read-only.",
         "parameters": {"type": "object",
                        "properties": {"path": {"type": "string", "description": "Source file path"}},
@@ -79,7 +79,7 @@ def row_count(table, load_date=None):
 
 
 def call_tool(name, args):
-    if name == "profil":
+    if name == "profile":
         s = profile_run(**args)
         keep = ("table", "rows", "empty_columns", "pii_columns", "twin_name_suspects", "open_questions")
         return {k: s[k] for k in keep}        # context engineering: a summary, not the whole report
@@ -126,7 +126,7 @@ if __name__ == "__main__":
     fake = ScriptedLLM([
         {"thought": "Let me count yesterday's POS load.", "action": "row_count",
          "args": {"table": "bronze.mm_pos_raw", "load_date": "2027-07-12"}},
-        {"thought": "The count is lower than expected; let me profile the source file.", "action": "profil",
+        {"thought": "The count is lower than expected; let me profile the source file.", "action": "profile",
          "args": {"path": "data/raw/meridian/pos/pos_20270712.csv"}},
         {"thought": "I have the evidence.", "final": "POS load checked; details are in the log."},
     ])

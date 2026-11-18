@@ -11,12 +11,12 @@ from pathlib import Path
 
 # Book order: Chapter 7 -> 11
 STEPS = [
-    ("profil",    "ch07_profiling/profile_source.py"),
-    ("yukleme",   "ch08_ingestion/ingest_to_bronze.py"),
-    ("temizlik",  "ch09_medallion/clean_silver.py"),
-    ("kalite",    "ch10_quality/quality_checks.py"),   # exit 1 on a critical failure
+    ("profile",    "ch07_profiling/profile_source.py"),
+    ("ingest",   "ch08_ingestion/ingest_to_bronze.py"),
+    ("clean",  "ch09_medallion/clean_silver.py"),
+    ("quality",    "ch10_quality/quality_checks.py"),   # exit 1 on a critical failure
     ("gold",      "ch11_modeling/build_gold.py"),
-    ("modelleme", "ch11_modeling/model_checks.py"),
+    ("modeling", "ch11_modeling/model_checks.py"),
 ]
 
 MONTHLY_SQL = """

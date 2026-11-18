@@ -6,7 +6,7 @@ the first step when the freshness alert fires.
 
 ## Steps (in order)
 1. Read the nightly job status: which task failed or is still running? (Databricks Jobs UI or reports/run_<date>.json)
-2. Scan the night's log with the ariza tool: `python ch13_operations/check_pipeline_logs.py <log>`.
+2. Scan the night's log with the incident tool: `python ch13_operations/check_pipeline_logs.py <log>`.
 3. If the cause is transient (timeout fixed on retry): re-run only the failed task, after approval.
 4. If the cause is schema or data: do not re-run; open an incident (incident_log.yaml) and tell the source owner.
 5. Tell Marcus (dashboard owner) what is late, why, and when to expect it (template: ch13_operations/stakeholder_email_template.txt).

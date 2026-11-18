@@ -329,7 +329,7 @@ def reconcile(df, control_totals_path, step, company=None,
             "periods": periods, "diffs": diffs}
 ```
 
-### 10.6 Script → tool: quality_checks.py → the “kalite” tool
+### 10.6 Script → tool: quality_checks.py → the “quality” tool
 
 **Code 10.13**
 

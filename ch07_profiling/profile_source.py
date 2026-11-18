@@ -73,7 +73,7 @@ def profile_column(df, col, guide):
 
 
 def run(path, table=None, guide=None, out_dir="."):
-    """Called by the agent tool 'profil'. Read-only; writes only reports."""
+    """Called by the agent tool 'profile'. Read-only; writes only reports."""
     table = table or Path(path).stem
     guide = (yaml.safe_load(Path(guide).read_text()) or {}).get("tables", {}).get(table, {}).get("columns", {}) if guide else {}
     encoding, delimiter = sniff(path)
@@ -111,7 +111,7 @@ def run(path, table=None, guide=None, out_dir="."):
     return summary
 
 
-DEFAULT_SOURCES = [  # repo: profiled when no path is given (run_pipeline.py step "profil")
+DEFAULT_SOURCES = [  # repo: profiled when no path is given (run_pipeline.py step "profile")
     "data/raw/meridian/mm_products.csv", "data/raw/meridian/mm_loyalty_members.csv",
     "data/raw/bazaarly/csv/bz_products.csv", "data/raw/bazaarly/csv/bz_users.csv",
     "data/raw/bazaarly/csv/bz_cities.csv", "data/raw/bazaarly/csv/dim_order.csv",

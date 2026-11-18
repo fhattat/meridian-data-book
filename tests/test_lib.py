@@ -46,7 +46,7 @@ def test_reconcile_reports_a_difference(tmp_path):
 
 def test_write_scope_blocks_other_layers(monkeypatch):
     monkeypatch.setenv("MERIDIAN_WRITE_SCOPE", "silver")
-    monkeypatch.setenv("MERIDIAN_TOOL", "temizlik")
+    monkeypatch.setenv("MERIDIAN_TOOL", "clean")
     _check_scope("silver.pos_lines")
     with pytest.raises(PermissionError):
         _check_scope("gold.fact_sales")

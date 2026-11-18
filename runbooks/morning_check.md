@@ -1,9 +1,9 @@
 # runbooks/morning_check.md
 
 ## Steps
-1. Read the status of the nightly job (ariza: log scan). If it has not finished, stop and tell a human.
-2. Compare each bronze table's row count with yesterday (kalite: volume rules).
-   A drop of more than 20%: critical. Profile the source (profil).
+1. Read the status of the nightly job (incident: log scan). If it has not finished, stop and tell a human.
+2. Compare each bronze table's row count with yesterday (quality: volume rules).
+   A drop of more than 20%: critical. Profile the source (profile).
 3. For sources with a contract, read the schema gate result. 'hold' is critical.
 4. Collect the quality results; if anything is critical, look for its cause in incident_log.yaml.
 5. Write the report: an evidence query and a proposed next step for every critical finding.
@@ -21,7 +21,7 @@
 
 ## Extra check options (these only)
 - channel_breakdown: on a volume drop, break down by channel and source company
-- incident_lookup: on a critical log error, run the ariza tool with that day's date
+- incident_lookup: on a critical log error, run the incident tool with that day's date
 - late_step: on a freshness breach, find in the log which step finished late
 
 ## Acceptance criteria (before the report goes to a human)

@@ -1,5 +1,5 @@
 {
-  "name": "inceleme",
+  "name": "review",
   "description": "Analyses query history for the last N days: tables never queried, most expensive queries, slow repeated queries and cost by table. Returns suggestions only.",
   "parameters": {
     "type": "object",

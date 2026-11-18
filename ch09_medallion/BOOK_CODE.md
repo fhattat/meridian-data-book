@@ -570,13 +570,13 @@ def compare(outputs: dict[str, pd.DataFrame], reference: str = "duckdb") -> pd.D
 # print(compare(outputs))
 ```
 
-### 9.8 Script → tool: clean_silver.py → the “temizlik” tool
+### 9.8 Script → tool: clean_silver.py → the “clean” tool
 
 **Code 9.21**
 
 ```json
 {
-  "name": "temizlik",
+  "name": "clean",
   "description": "Rebuilds the silver tables from bronze and returns step durations, row counts and warnings. Writes only to the silver schema. If the warnings list is not empty, always report it to the user.",
   "parameters": {
     "type": "object",
@@ -613,7 +613,7 @@ WRITE_TARGET = re.compile(r"CREATE\s+OR\s+REPLACE\s+TABLE\s+([a-z_]+)\.", re.IGN
 def assert_silver_only(statement: str) -> None:
     for schema in WRITE_TARGET.findall(statement):
         if schema.lower() != "silver":
-            raise PermissionError(f"the temizlik tool writes only to silver, target: {schema}")
+            raise PermissionError(f"the clean tool writes only to silver, target: {schema}")
 
 # inside run(), right before con.execute(statement):
 # assert_silver_only(statement)

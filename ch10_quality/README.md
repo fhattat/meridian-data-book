@@ -16,5 +16,6 @@ python ch10_quality/quality_checks.py --env local   # exit 1 on a critical failu
 
 - [quality_checks.py](quality_checks.py)
 - [rules.yaml](rules.yaml)
+- [tool_quality.json](tool_quality.json)
 
 All data is synthetic (see the main README).

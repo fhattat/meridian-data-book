@@ -1,0 +1,15 @@
+{
+  "name": "search_docs",
+  "description": "Returns the text chunks most relevant to a question from the index of support tickets and product documents, with their sources.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "query":  {"type": "string"},
+      "top_k":  {"type": "integer", "default": 5, "maximum": 20},
+      "source": {"type": "string", "enum": ["tickets", "docs", "all"], "default": "all"}
+    },
+    "required": ["query"]
+  },
+  "returns": "List of chunks: doc_id, source, version, chunk_no, text, score",
+  "permissions": "Read-only; cannot write to or delete from the index."
+}

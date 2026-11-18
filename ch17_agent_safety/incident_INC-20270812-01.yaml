@@ -9,7 +9,7 @@
   root_cause: build_rag_index.py did not scan the text content; the ticket entered the index in Chapter 12
   temp_fix: The ticket's chunks were removed from the index and the ticket was moved to quality.quarantine
   permanent_fix: scan_for_instructions() + split_suspicious(); INJ scenarios added to the eval set
-  keywords: [prompt_injection, rag, belge_ara, guardrails]
+  keywords: [prompt_injection, rag, search_docs, guardrails]
   related: []
   impact: No data leaked; the customer got a normal answer
   status: closed

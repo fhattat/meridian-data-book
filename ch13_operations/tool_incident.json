@@ -1,5 +1,5 @@
 {
-  "name": "ariza",
+  "name": "incident",
   "description": "Reads one nightly pipeline log, separates healed transient errors from blocking errors, finds similar past incidents in incident_log.yaml and returns a draft incident report. Never fixes or reruns anything.",
   "parameters": {
     "type": "object",

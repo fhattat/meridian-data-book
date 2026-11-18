@@ -1,0 +1,13 @@
+{
+  "name": "quality",
+  "description": "Runs the quality rules on the silver tables; returns whether publishing is allowed and the failing rules.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "only": {"type": "array", "items": {"type": "string"},
+               "description": "Run only these rules (all if empty)"}
+    }
+  },
+  "returns": "run_id, checked, failed, warned, publish_allowed, problems (check, table, status, observed, expected, owner)",
+  "permissions": "Reads silver; writes only to quality.check_results and quality.quarantine. Cannot change the rules file."
+}

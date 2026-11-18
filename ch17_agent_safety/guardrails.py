@@ -3,16 +3,16 @@ import json, uuid, datetime as dt
 import duckdb
 
 POLICY = {
-    "pipeline_agent": {"allowed": {"profil", "yukleme", "temizlik", "kalite", "modelleme",
-                                    "ariza", "katalog", "inceleme"},
+    "pipeline_agent": {"allowed": {"profile", "ingest", "clean", "quality", "modeling",
+                                    "incident", "catalog", "review"},
                        "max_steps": 30, "max_tokens": 200_000},
-    "support_assistant": {"allowed": {"belge_ara"}, "max_steps": 6, "max_tokens": 20_000},
+    "support_assistant": {"allowed": {"search_docs"}, "max_steps": 6, "max_tokens": 20_000},
 }
 # (tool, action) -> needs human approval
-REQUIRE_APPROVAL = {("yukleme", "full_reload"), ("yukleme", "backfill_long"),
-                    ("temizlik", "rebuild"), ("kalite", "release_quarantine"),
-                    ("ariza", "close_incident"), ("ariza", "send_email"),
-                    ("katalog", "approve_description"), ("inceleme", "drop_table")}
+REQUIRE_APPROVAL = {("ingest", "full_reload"), ("ingest", "backfill_long"),
+                    ("clean", "rebuild"), ("quality", "release_quarantine"),
+                    ("incident", "close_incident"), ("incident", "send_email"),
+                    ("catalog", "approve_description"), ("review", "drop_table")}
 
 class GuardrailError(Exception):
     pass

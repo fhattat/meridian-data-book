@@ -329,7 +329,7 @@ if __name__ == "__main__":
     print(json.dumps({k: v for k, v in out.items() if k != "results"}, ensure_ascii=False))
 ```
 
-### 11.9 Script → tool: model_checks.py and the modelleme tool
+### 11.9 Script → tool: model_checks.py and the modeling tool
 
 **Code 11.14**
 
@@ -397,7 +397,7 @@ if __name__ == "__main__":
 
 ```json
 {
-  "name": "modelleme",
+  "name": "modeling",
   "description": "Checks the health of the gold model: grain, key uniqueness, fact-to-fact joins, naming standard and reconciliation with control totals.",
   "parameters": {
     "type": "object",

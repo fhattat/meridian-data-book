@@ -29,13 +29,13 @@ import ch13_operations.check_pipeline_logs as check_pipeline_logs
 import ch14_governance.extract_metadata as extract_metadata
 
 WRITE_SCOPE = {            # tool name -> where it may write
-    "profil":    ["reports/", "contracts/"],
-    "yukleme":   ["bronze"],
-    "temizlik":  ["silver"],
-    "kalite":    ["quality"],
-    "modelleme": [],
-    "ariza":     ["ch13_operations/incident_log.yaml"],
-    "katalog":   ["metadata/"],
+    "profile":    ["reports/", "contracts/"],
+    "ingest":   ["bronze"],
+    "clean":  ["silver"],
+    "quality":    ["quality"],
+    "modeling": [],
+    "incident":     ["ch13_operations/incident_log.yaml"],
+    "catalog":   ["metadata/"],
 }
 
 mcp = FastMCP("meridian-tools")
@@ -54,52 +54,52 @@ def guarded(tool):
 
 
 @mcp.tool()
-def profil(path: str, table: str = "", guide: str = "ref/source_guide.yaml") -> dict:
+def profile(path: str, table: str = "", guide: str = "ref/source_guide.yaml") -> dict:
     """Profiles a source file before ingestion. Read-only."""
-    with guarded("profil"):
+    with guarded("profile"):
         return profile_source.run(path, table or None, guide)
 
 
 @mcp.tool()
-def yukleme(source: str, since: str = "", until: str = "") -> dict:
+def ingest(source: str, since: str = "", until: str = "") -> dict:
     """Loads one source into bronze (source: mm_pos | bazaarly_dump | bz_tickets | fx). Writes only to bronze."""
     dates = {k: v for k, v in {"since": since, "until": until}.items() if v}
-    with guarded("yukleme"):
+    with guarded("ingest"):
         return ingest_to_bronze.run(source=source, **dates)
 
 
 @mcp.tool()
-def temizlik(size: str = "small") -> dict:
+def clean(size: str = "small") -> dict:
     """Rebuilds silver tables from bronze (size: small | large). Writes only to silver."""
-    with guarded("temizlik"):
+    with guarded("clean"):
         return clean_silver.run(size=size)
 
 
 @mcp.tool()
-def kalite(rules: str = "ch10_quality/rules.yaml") -> dict:
+def quality(rules: str = "ch10_quality/rules.yaml") -> dict:
     """Runs data quality rules. Writes only to the quality schema."""
-    with guarded("kalite"):
+    with guarded("quality"):
         return quality_checks.run(rules_path=rules)
 
 
 @mcp.tool()
-def modelleme() -> dict:
+def modeling() -> dict:
     """Tests grain, keys and cardinality of the gold model. Read-only."""
-    with guarded("modelleme"):
+    with guarded("modeling"):
         return model_checks.run()
 
 
 @mcp.tool()
-def ariza(log_date: str) -> dict:
+def incident(log_date: str) -> dict:
     """Scans pipeline logs for a date (YYYY-MM-DD) and drafts an incident. Appends to incident log only."""
-    with guarded("ariza"):
+    with guarded("incident"):
         return check_pipeline_logs.run(f"data/raw/ops/pipeline_logs/{log_date}.log")
 
 
 @mcp.tool()
-def katalog(tables: list[str]) -> dict:
+def catalog(tables: list[str]) -> dict:
     """Extracts metadata for tables. Writes only under metadata/."""
-    with guarded("katalog"):
+    with guarded("catalog"):
         return extract_metadata.run(tables=tables)
 
 
@@ -126,7 +126,7 @@ def write_table(df, target: str, **kw):
 **Code 16.3**
 
 ```python
-TOOLS = {"kalite": kalite, "ariza": ariza, "katalog": katalog}   # the functions above
+TOOLS = {"quality": quality, "incident": incident, "catalog": catalog}   # the functions above
 
 def call_tool(name: str, args: dict) -> dict:
     if name not in TOOLS:
@@ -152,7 +152,7 @@ def call_tool(name: str, args: dict) -> dict:
 
 ## Extra check options (these only)
 - channel_breakdown: on a volume drop, break down by channel and source company
-- incident_lookup: on a critical log error, run the ariza tool with that day's date
+- incident_lookup: on a critical log error, run the incident tool with that day's date
 - late_step: on a freshness breach, find in the log which step finished late
 
 ## Acceptance criteria (before the report goes to a human)
@@ -205,7 +205,7 @@ from pathlib import Path
 
 from lib.llm import ask_json          # thin wrapper over ask_llm() from Chapter 15
 from lib.io import read_sql           # read-only query
-from mcp_server import ariza, kalite  # the tools from 16.2
+from mcp_server import incident, quality  # the tools from 16.2
 
 RUNBOOK = Path("runbooks/morning_check.md").read_text()
 MAX_TURNS = 3
@@ -218,7 +218,7 @@ EXTRA_CHECKS = {
         SELECT source_company, channel_code, COUNT(*) AS orders
         FROM silver.bz_orders WHERE order_local_date = ?
         GROUP BY ALL ORDER BY orders DESC""",
-    "incident_lookup": None,         # calls the ariza tool
+    "incident_lookup": None,         # calls the incident tool
     "late_step": """
         SELECT step, MAX(ts) AS finished_at FROM ops.pipeline_log
         WHERE run_date = ? GROUP BY step ORDER BY finished_at DESC LIMIT 3""",
@@ -228,7 +228,7 @@ EXTRA_CHECKS = {
 def fixed_checks(day: date) -> list[dict]:
     """Workflow part: threshold checks are done by rules; the model stays out."""
     findings = []
-    for r in kalite()["problems"]:                  # also updates quality.check_results
+    for r in quality()["problems"]:                  # also updates quality.check_results
         findings.append({"check": r["check"], "domain": "summary",
                          "level": "critical" if r["status"] == "fail" else "warning",
                          "observed": r["observed"], "expected": r["expected"]})
@@ -249,7 +249,7 @@ def run_extra(name: str, day: date) -> dict:
     if name not in EXTRA_CHECKS:                    # requests outside the runbook are refused
         return {"error": f"check not allowed: {name}"}
     if name == "incident_lookup":
-        return ariza(log_date=day.isoformat())
+        return incident(log_date=day.isoformat())
     return {"rows": read_sql(EXTRA_CHECKS[name], [day]).to_dict("records")}
 
 
@@ -313,7 +313,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 import yaml
 
 from lib.llm import ask_json
-from mcp_server import katalog
+from mcp_server import catalog
 
 GROUPS = yaml.safe_load(open("governance/source_groups.yaml"))   # the table above
 MAX_WORKERS = 4                    # at most four sub-agents at once (Chapter 17 limit: 6)
@@ -326,7 +326,7 @@ Never change the technical fields (type, null rate, distinct count)."""
 
 
 def sub_agent(group: str, tables: list[str], guide_text: str) -> dict:
-    meta = katalog(tables=tables)                       # rule-based metadata first
+    meta = catalog(tables=tables)                       # rule-based metadata first
     empty = [c for t in meta["tables"]                  # column details live in the YAML under metadata/
              for c in yaml.safe_load(open(f"metadata/{t['table']}.yaml"))["columns"]
              if not c["description"]]
@@ -378,16 +378,16 @@ import uuid
 from pathlib import Path
 
 from lib.llm import ask_json
-from mcp_server import profil, yukleme, temizlik, kalite, katalog, ariza
+from mcp_server import profile, ingest, clean, quality, catalog, incident
 
 PLAYBOOKS = {
-    "new_source": ["profil", "approve:contract", "yukleme", "temizlik", "kalite", "katalog",
+    "new_source": ["profile", "approve:contract", "ingest", "clean", "quality", "catalog",
                    "approve:publish"],
-    "health_check": ["kalite", "ariza"],
-    "metadata_refresh": ["katalog"],
+    "health_check": ["quality", "incident"],
+    "metadata_refresh": ["catalog"],
 }
-SUB_AGENTS = {"profil": profil, "yukleme": yukleme, "temizlik": temizlik,
-              "kalite": kalite, "katalog": katalog, "ariza": ariza}
+SUB_AGENTS = {"profile": profile, "ingest": ingest, "clean": clean,
+              "quality": quality, "catalog": catalog, "incident": incident}
 APPROVALS = Path("reports/approvals")
 AGENT_NAME = "pipeline_agent"      # Chapter 17: at most 30 steps, 200,000 tokens
 MAX_STEPS = 30
@@ -433,9 +433,9 @@ def needs_human(step: str, result: dict) -> bool:
     """The table below, as code. The rules live here, not in the model."""
     if result.get("status") in ("fail", "hold"):
         return True
-    if step == "profil" and (result.get("pii_columns") or result.get("open_questions")):
+    if step == "profile" and (result.get("pii_columns") or result.get("open_questions")):
         return True
-    if step == "kalite" and not result.get("publish_allowed", True):   # a critical rule failed
+    if step == "quality" and not result.get("publish_allowed", True):   # a critical rule failed
         return True
     return False
 ```

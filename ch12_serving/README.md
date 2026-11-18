@@ -19,5 +19,6 @@ python ch12_serving/build_rag_index.py --query "order still preparing"
 - [build_rag_index.py](build_rag_index.py)
 - [data_assistant_system_prompt.txt](data_assistant_system_prompt.txt)
 - [export_features.py](export_features.py)
+- [tool_search_docs.json](tool_search_docs.json)
 
 All data is synthetic (see the main README).

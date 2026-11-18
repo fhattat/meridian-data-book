@@ -378,7 +378,7 @@ def run(env: str = "local", size: str = "small") -> dict:
     if env != "local":
         raise NotImplementedError("On Databricks use sql/silver/databricks/ with the same run().")
     import duckdb
-    from duckdb.typing import VARCHAR
+    from duckdb.sqltypes import VARCHAR  # DuckDB < 1.4: duckdb.typing
 
     con = duckdb.connect("data/meridian.duckdb")
     con.create_function("fix_text", fix_text, [VARCHAR], VARCHAR)

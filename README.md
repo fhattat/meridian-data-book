@@ -3,6 +3,17 @@
 Code and data repository of the book *AI-Assisted Data Engineering* by Dr. Fatih Hattatoglu: every
 code block of the book, 32 synthetic data sets, the scripts, prompts and templates.
 
+<p align="center">
+  <img src="assets/cover.jpg" alt="Cover of AI-Assisted Data Engineering: Build a Modern Data Platform by AI, by Dr. Fatih Hattatoglu" width="320">
+</p>
+
+## Get the book
+
+*AI-Assisted Data Engineering: Build a Modern Data Platform by AI* is available on Amazon:
+
+- **Paperback** (full color, 7 × 10 in, 555 pages): [amazon.com/dp/B0HS7S1H8Q](https://www.amazon.com/dp/B0HS7S1H8Q)
+- **Kindle eBook**: [amazon.com/dp/B0HS6Q65P2](https://www.amazon.com/dp/B0HS6Q65P2)
+
 > **Synthetic data notice:** All datasets in this repository were synthetically generated with
 > `data/generate_data.py`. Meridian Market and Bazaarly are fictional companies. Names, email
 > addresses, phone numbers, addresses and transactions in the data do not belong to any real person
